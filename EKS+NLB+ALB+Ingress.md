@@ -12,7 +12,7 @@
 
 # <mark>Using AWS Services For UAT Env.</mark>
 
-EKS CLuster Name  : tcl-it-fld-eks-dev
+- EKS CLuster Name  : ClusterName
 
 VPC ID : vpc-02069091fada4620a
 
@@ -20,7 +20,7 @@ Subnet ID : subnet-07ba3a32267329ee6, subnet-02e7ae24f25be0e77, subnet-0f0c0e25e
 
 Region : ap-south-1
 
-EC2 Remote Server name : tcl-it-fld-dev-01
+EC2 Remote Server name : LocalMachineVmServerName
 
 ### <mark>Install kubectl binary with curl on Linux[]</mark>
 
@@ -76,14 +76,14 @@ eksctl version
 ### Create EKS and Configured it with all suitable user access for accessing k8s api object.
 
 ```
-eksctl create iamidentitymapping --cluster tcl-it-fld-eks-dev --region=ap-south-1 \
+eksctl create iamidentitymapping --cluster ClusterName --region=ap-south-1 \
  --arn arn:aws:iam::868909427937:role/AWSReservedSSO_Deloitte-App-Admin_55cdac5ba3f9bd94 --username accesstocluster --group system:masters \
  --no-duplicate-arns
 ```
 
 ### configure OIDC Provider entities in IAM that supports the OpenID Connect (OIDC) standard to CLuster
 
-eksctl utils associate-iam-oidc-provider --region ap-south-1 --cluster tcl-it-fld-eks-dev --approve 
+eksctl utils associate-iam-oidc-provider --region ap-south-1 --cluster ClusterName --approve 
 
 ### Download and configure AWS IAM policy for AWS load balancer for communication with k8s cluster. For this we require IAM admin access Role in AWS
 
@@ -357,13 +357,13 @@ Obseravation:
 ### K8S Service Account Name that need to be bound to newly created IAM Role
 
 ```
-eksctl create iamserviceaccount --cluster=tcl-it-fld-eks-dev --region ap-south-1 --namespace=kube-system --name=aws-load-balancer-controller --attach-policy-arn=arn:aws:iam::868909427937:policy/AWSLoadBalancerControllerIAMPolicy --override-existing-serviceaccounts --approve
+eksctl create iamserviceaccount --cluster=ClusterName --region ap-south-1 --namespace=kube-system --name=aws-load-balancer-controller --attach-policy-arn=arn:aws:iam::868909427937:policy/AWSLoadBalancerControllerIAMPolicy --override-existing-serviceaccounts --approve
 ```
 
 ### Get IAM Service Account Connect to Cluster
 
 ```
-eksctl get iamserviceaccount --cluster tcl-it-fld-eks-dev
+eksctl get iamserviceaccount --cluster ClusterName
 ```
 
 ## Verify again service account in k8s
@@ -410,7 +410,7 @@ ap-south-1        602401143452.dkr.ecr.ap-south-1.amazonaws.com
 ```
 helm install aws-load-balancer-controller eks/aws-load-balancer-controller \
   -n kube-system \
-  --set clusterName=tcl-it-fld-eks-dev \
+  --set clusterName=ClusterName \
   --set serviceAccount.create=false \
   --set serviceAccount.name=aws-load-balancer-controller \
   --set region=ap-south-1 \
