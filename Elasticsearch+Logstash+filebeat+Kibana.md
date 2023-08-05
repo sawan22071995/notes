@@ -1,3 +1,5 @@
+# ![ELK Stack Architecture](https://www.softwaretestinghelp.com/wp-content/qa/uploads/2021/07/1ELK-Stack-Architecture.png)
+
 # <mark>Data Storing - ELASTICSEARCH </mark>
 
 ## Setting up Elasticsearch and Kibana on macOS and Linux
