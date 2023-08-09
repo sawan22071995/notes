@@ -59,6 +59,7 @@ EC2 Remote Server name : LocalMachineVmServerName
 
 ```console
 curl -fsSL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3
+#Curl without ssl check certificate use [ -k or --insecure ] 
 chmod 700 get_helm.sh
 ./get_helm.sh
 ```
