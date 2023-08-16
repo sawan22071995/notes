@@ -1,5 +1,3 @@
-
-
 # Download git
 
 ### Linux:
@@ -176,15 +174,19 @@ git mergetool (GUI interface for check conflict in flies)
 > #So the first commit in this branch will be the root of this branch without having any history.
 > 
 > #It can be accomplished by using the Git checkout command with the ––orphan option.
+> 
 > git checkout --orphan poc-test
 > 
 > #remove the cached git repository data
+> 
 > git rm --cached -r .
 > 
 > #git commit the empty branch
+> 
 > git commit -m "Empty branch" --allow-empty
 > 
 > #push the branch to git
+> 
 > git push origin pos-test
 
 ### check logged in git user with git configuration
