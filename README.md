@@ -8,6 +8,5 @@
 6. [Windows+Command+Notes](Windows+Command+Notes.md)
 7. [Git](Git.md)
 8. [K8s_Comman_Issues](k8s_comman_issues.md)
-9. [Linux Directory Structure.md](Linux+Directory+Structure.md)
+9. [Linux Directory Structure](Linux+Directory+Structure.md)
 10. [CICD+Jenkins+Ansible+k8s](cicd+Jenkins+Ansible+k8s.md)
-11. 
