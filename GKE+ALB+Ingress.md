@@ -1,6 +1,6 @@
-![quickNotes: Handling Ingress in GKE | by Pavan kumar Bijjala | Medium](https://miro.medium.com/v2/resize:fit:1400/1*UU6uQlkf8iE_Rlrft2cM-Q.png)
+# GKE + Application Load Balancer + Ingress Route
 
-## <mark>Pre-Requiste</mark>
+### <mark>Pre-Requiste</mark>
 
 1. Google Kubernetes Engine
 
@@ -27,8 +27,6 @@
 - IAM
 
 - Google Compute Engine
-
-
 
 ## <mark>Steps to Follow </mark>
 
@@ -68,7 +66,7 @@ spec:
             initialDelaySeconds: 10
             periodSeconds: 15
             timeoutSeconds: 5
-        
+
 ---
 kind: Service
 apiVersion: v1
@@ -84,8 +82,6 @@ spec:
     protocol: TCP
   selector:
     app: poc-nodeport-com
-
-
 ```
 
 ### deploy application with readiness probe for health check
@@ -149,7 +145,7 @@ annotations:
 
     # Static IP for Ingress Service
     kubernetes.io/ingress.global-static-ip-name: "gke-ingress-extip1"
-   
+
     # Pre-shared certificate resources  
     ingress.gcp.kubernetes.io/pre-shared-cert: "app1-ingress"
 ```
@@ -174,7 +170,7 @@ metadata:
 
     # Static IP for Ingress Service
     kubernetes.io/ingress.global-static-ip-name: "gke-ingress-extip1"
-   
+
     # Pre-shared certificate resources  
     ingress.gcp.kubernetes.io/pre-shared-cert: "app1-ingress"
 spec:
@@ -189,7 +185,6 @@ spec:
               name: poc-nodeport-com
               port:
                 number: 8080
-                      
 ```
 
 ## Deploy ingress-route.yaml

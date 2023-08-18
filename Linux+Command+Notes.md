@@ -1,3 +1,5 @@
+### Linux Command List
+
 ### Memeory usage by process
 
 ```
@@ -948,7 +950,6 @@ Output :
 os2.c
 os3.c
 os4.c
-
 ```
 
 ### This command extracts files from Archives
@@ -960,8 +961,6 @@ os2.c
 os3.c
 os4.c
 ```
-
-
 
 ### "Top" command is used to show the Linux processes. It provides a dynamic real-time view of the running system
 
@@ -1121,8 +1120,6 @@ lsof -i -P -n | grep LISTEN
 
 ---
 
-
-
 ### VMSTAT COMMAND
 
 - vmstat as a command with no parameters, it will show you a set of values. 
@@ -1179,8 +1176,6 @@ vmstat -n 10 400 > vmstat_POS_19Aug_linux.txt &
 
 ---
 
-
-
 ### change timezone in centos7
 
 - to check current timezone
@@ -1210,12 +1205,11 @@ CATALINA_OPTS="-Djava.awt.headless=true -Xms1024 -Xmx4096M -server -Duser.timezo
 ### password less aunthentication using ssh in linux server
 
 - login to source server
+
 - generate SSH keys in source server using these commands
   **ssh-keygen -t rsa**
   
   ![](C:\Users\sawchouksey\AppData\Roaming\marktext\images\2023-08-09-20-07-33-image.png)
-
-
 
 - **cd /root/.ssh/**
 - **ls**
@@ -1225,8 +1219,6 @@ CATALINA_OPTS="-Djava.awt.headless=true -Xms1024 -Xmx4096M -server -Duser.timezo
 - to check login in target server by command it will login automatically with authorization key
   **ssh TargetServerUser@TargetServerURL**
 
-
-
 ### To find out where disk space is being used:
 
 ```
@@ -1235,7 +1227,6 @@ cd into one of the big directories.
 Run ls -l to see which files are using a lot of space. Delete any you don’t need.
 Repeat steps 2 to 5.et to the root of your machine by running cd /
 Run sudo du -h --max-depth=
-
 ```
 
 ### properties changes by command through script in application.properties file in Java Spring boot application
