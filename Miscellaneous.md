@@ -15,5 +15,3 @@
 ![](C:\Users\sawchouksey\AppData\Roaming\marktext\images\2023-08-18-10-28-04-IMG_20221102_205343.jpg)
 
 # 
-
-
