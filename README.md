@@ -10,4 +10,4 @@
 8. [K8s_Comman_Issues](k8s_comman_issues.md)
 9. [Linux Directory Structure](Linux+Directory+Structure.md)
 10. [CICD+Jenkins+Ansible+k8s](cicd+Jenkins+Ansible+k8s.md)
-11. ![Cloud+Comaprison+Chart](C:\Users\sawchouksey\Documents\sawan-notes\notes\cloudComapre.png)
+11. [Misc.+Document](Misc.md)
