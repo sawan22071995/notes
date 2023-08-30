@@ -35,8 +35,6 @@ RUN apt-get update && apt-get install --yes --no-install-recommends \
   && apt-get update \
   && apt-get install --yes gcsfuse \
   && apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* 
-
-
 ```
 
 ### Create setenv.sh file to mount bucket with gcsfuse
@@ -116,7 +114,6 @@ spec:
             add:
             - SYS_ADMIN
           privileged: true
-        
 ```
 
 # For Node Application with alpine linux docker image
@@ -162,8 +159,6 @@ COPY . /app
 RUN ["chmod", "+x", "/app/startup.sh"]
 
 ENTRYPOINT ["/app/startup.sh"]
-
-
 ```
 
 ### Create startup.sh file to mount folder inside bucket with gcsfuse
@@ -220,10 +215,7 @@ spec:
 
 https://cloud.google.com/kubernetes-engine/docs/how-to/persistent-volumes/cloud-storage-fuse-csi-driver
 
-
 https://chimbu.medium.com/access-cloud-storage-buckets-as-volumes-in-gke-c2e405adea6c
-
-
 
 ### To enable the driver on an existing Standard cluster
 
