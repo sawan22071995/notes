@@ -309,5 +309,6 @@ spec:
 ### Disable the Cloud Storage FUSE CSI driver
 
 ```
-
+gcloud container clusters update CLUSTER_NAME \
+    --update-addons GcsFuseCsiDriver=DISABLED
 ```
