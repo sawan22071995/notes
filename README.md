@@ -11,3 +11,4 @@
 9. [Linux Directory Structure](Linux+Directory+Structure.md)
 10. [CICD+Jenkins+Ansible+k8s](cicd+Jenkins+Ansible+k8s.md)
 11. [Miscellaneous+Notes](misc.md)
+12. [gcp+bucket+gke+gcsfuse+mount](gcp+bucket+gke+gcsfuse+mount.md)
