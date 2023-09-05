@@ -6,6 +6,10 @@
 
 ![alt text](https://github.com/sawan22071995/notes/blob/main/cloudDbChoose.jpg?raw=true)
 
+### Google Cloud Providing services cheatsheet
+
+![alt text](https://github.com/sawan22071995/notes/blob/main/GCPServiceCheatSheet.png?raw=true)
+
 ##### Add image in MD file
 
 ```
