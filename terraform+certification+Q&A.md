@@ -964,6 +964,8 @@ module "consul" {
 }
 ```
 
+### 
+
 ### What is the syntax for referencing a private registry module?
 
 <HOSTNAME>/<NAMESPACE>/<NAME>/<PROVIDER>
@@ -978,13 +980,19 @@ module "vpc" {
 }
 ```
 
+### 
+
 ### The terraform recommends that all modules must follow semantic versioning. Is this true?
 
 TRUE
 
+### 
+
 ### What is a Terraform Module?
 
 A Terraform module is a set of Terraform configuration files in a single directory. Even a simple configuration consisting of a single directory with one or more .tf files is a module.
+
+
 
 ### Why do we use modules for?
 
@@ -996,11 +1004,15 @@ A Terraform module is a set of Terraform configuration files in a single directo
 
 - Provide consistency and ensure best practices
 
+### 
+
 ### How do you call modules in your configuration?
 
 Your configuration can use module blocks to call modules in other directories.
 
 When Terraform encounters a module block, it loads and processes that module's configuration files.
+
+
 
 ### How many ways you can load modules?
 
@@ -1009,6 +1021,8 @@ Local and remote modules
 Modules can either be loaded from the local filesystem, or a remote source.
 
 Terraform supports a variety of remote sources, including the Terraform Registry, most version control systems, HTTP URLs, and Terraform Cloud or Terraform Enterprise private module registries.
+
+
 
 ### What are the best practices for using Modules?
 
@@ -1019,6 +1033,8 @@ Terraform supports a variety of remote sources, including the Terraform Registry
 3. Use the public Terraform Registry to find useful modules. This way you can more quickly and confidently implement your configuration by relying on the work of others to implement common infrastructure scenarios.
 
 4. Publish and share modules with your team. Most infrastructure is managed by a team of people, and modules are an important way that teams can work together to create and maintain infrastructure. As mentioned earlier, you can publish modules either publicly or privately. We will see how to do this in a future guide in this series.
+
+
 
 ### What are the different source types for calling modules?
 
@@ -1038,6 +1054,8 @@ Terraform supports a variety of remote sources, including the Terraform Registry
 
 - GCS buckets
 
+### 
+
 ### What are the arguments you need for using modules in your configuration?
 
 source and version
@@ -1052,17 +1070,25 @@ module "consul" {
 }
 ```
 
+### 
+
 ### How do you set input variables for the modules?
 
 The configuration that calls a module is responsible for setting its input values, which are passed as arguments in the module block. Aside from source and version, most of the arguments to a module block will set variable values.
+
+
 
 ### How do you access output variables from the modules?
 
 module.<MODULE NAME>.<OUTPUT NAME>
 
+### 
+
 ### Where do you put output variables in the configuration?
 
 Module outputs are usually either passed to other parts of your configuration, or defined as outputs in your root module. You will see both uses in this guide.
+
+
 
 ### How do you pass input variables in the configuration?
 
@@ -1106,9 +1132,13 @@ module "vpc" {
 }
 ```
 
+### 
+
 ### What is the child module?
 
 A module that is called by another configuration is sometimes referred to as a "child module" of that configuration.
+
+### 
 
 ### When you use local modules you don’t have to do the command init or get every time there is a change in the local module. why?
 
@@ -1116,23 +1146,33 @@ When installing a local module, Terraform will instead refer directly to the sou
 
 Because of this, Terraform will automatically notice changes to local modules without having to re-run terraform init or terraform get.
 
+
+
 ### When you use remote modules what should you do if there is a change in the module?
 
 When installing a remote module, Terraform will download it into the .terraform directory in your configuration's root directory.
 
 You should initialize with terraform init
 
+### 
+
 ### A simple configuration consisting of a single directory with one or more .tf files is a module. Is this true?
 
 TRUE
+
+### 
 
 ### When using a new module for the first time, you must run either terraform init or terraform get to install the module. Is this true?
 
 TRUE
 
+### 
+
 ### When installing the modules and where does the terraform save these modules?
 
 .terraform/modules
+
+### 
 
 ### What is the required argument for the module?
 
@@ -1140,13 +1180,19 @@ source
 
 All modules require a source argument, which is a meta-argument defined by Terraform CLI. Its value is either the path to a local directory of the module's configuration files or a remote module source that Terraform should download and use. This value must be a literal string with no template sequences; arbitrary expressions are not allowed.
 
+
+
 ### What are the other optional meta-arguments along with the source when defining modules?
 
 version - (Optional) A version constraint string that specifies which versions of the referenced module are acceptable. The newest version matching the constraint will be used. version is supported only for modules retrieved from module registries.
 
 providers - (Optional) A map whose keys are provider configuration names that are expected by the child module and whose values are corresponding provider names in the calling module. This allows provider configurations to be passed explicitly to child modules. If not specified, the child module inherits all of the default (un-aliased) provider configurations from the calling module.
 
+
+
 # Navigate Terraform workflow
+
+### 
 
 ### What is the Core Terraform workflow?
 
@@ -1156,9 +1202,13 @@ The core Terraform workflow has three steps:1. Write - Author infrastructure as 
 
 3. Apply - Provision reproducible infrastructure.
 
+### 
+
 ### What is the command init?
 
 The terraform init command is used to initialize a working directory containing Terraform configuration files. This is the first command that should be run after writing a new Terraform configuration or cloning an existing one from version control.
+
+
 
 ### You recently joined a team and you cloned a terraform configuration files from the version control system. What is the first command you should use?
 
@@ -1166,19 +1216,27 @@ terraform init
 
 This command performs several different initialization steps in order to prepare a working directory for use. This command is always safe to run multiple times, to bring the working directory up to date with changes in the configuration. Though subsequent runs may give errors, this command will never delete your existing configuration or state. If no arguments are given, the configuration in the current working directory is initialized. It is recommended to run Terraform with the current working directory set to the root directory of the configuration, and omit the DIR argument.
 
+
+
 ### What is the flag you should use to upgrade modules and plugins a part of their respective installation steps?
 
 upgrade
 
 terraform init -upgrade
 
+### 
+
 ### When you are doing initialization with terraform init, you want to skip backend initialization. What should you do?
 
 terraform init -backend=false
 
+### 
+
 ### When you are doing initialization with terraform init, you want to skip child module installation. What should you do?
 
 terraform init -get=false
+
+### 
 
 ### When you are doing initialization with terraform init, you want to skip plugin installation. What should you do?
 
@@ -1186,29 +1244,43 @@ terraform init -get-plugins=false
 
 Skips plugin installation. Terraform will use plugins installed in the user plugins directory, and any plugins already installed for the current working directory. If the installed plugins aren't sufficient for the configuration, init fails.
 
+
+
 ### What does the command terraform validate does?
 
 The terraform validate command validates the configuration files in a directory, referring only to the configuration and not accessing any remote services such as remote state, provider APIs, etc. Validate runs checks that verify whether a configuration is syntactically valid and internally consistent, regardless of any provided variables or existing state.
+
+
 
 ### What does the command plan do?
 
 The terraform plan command is used to create an execution plan. Terraform performs a refresh, unless explicitly disabled, and then determines what actions are necessary to achieve the desired state specified in the configuration files.
 
+
+
 ### What does the command apply do?
 
 The terraform apply command is used to apply the changes required to reach the desired state of the configuration, or the pre-determined set of actions generated by a terraform plan execution plan.
+
+
 
 ### You are applying the infrastructure with the command apply and you don’t want to do interactive approval. Which flag should you use?
 
 terraform apply -auto-approve
 
+### 
+
 ### What does the command destroy do?
 
 The terraform destroy command is used to destroy the Terraform-managed infrastructure.
 
+
+
 ### How do you preview the behavior of the command terraform destroy?
 
 terraform plan -destroy
+
+### 
 
 ### What are implicit and explicit dependencies?
 
@@ -1219,6 +1291,8 @@ By studying the resource attributes used in interpolation expressions, Terraform
 Explicit dependency:
 
 Sometimes there are dependencies between resources that are not visible to Terraform. The depends_on argument is accepted by any resource and accepts a list of resources to create explicit dependencies for.
+
+
 
 ### Give an example of implicit dependency?
 
@@ -1250,6 +1324,8 @@ resource "aws_eip" "ip" {
 }
 ```
 
+
+
 ### Give an example of explicit dependency?
 
 In the example below, an application we will run on our EC2 instance expects to use a specific Amazon S3 bucket, but that dependency is configured inside the application code and thus not visible to Terraform. In that case, we can use depends_on to explicitly declare the dependency.
@@ -1274,6 +1350,8 @@ resource "aws_instance" "example" {
 }
 ```
 
+
+
 ### How do you save the execution plan?
 
 terraform plan -out=tfplan
@@ -1282,9 +1360,13 @@ you can use that file with apply
 
 terraform apply tfplan
 
+### 
+
 ### You have started writing terraform configuration and you are using some sample configuration as a basis. How do you copy the example configuration into your working directory?
 
 terraform init -from-module=MODULE-SOURCE
+
+### 
 
 ### What is the flag you should use with the terraform plan to get detailed on the exit codes?
 
@@ -1298,17 +1380,25 @@ Return a detailed exit code when the command exits. When provided, this argument
 
 - 2 = Succeeded with non-empty diff (changes present)
 
+### 
+
 ### How do you target only specific resources when you run a terraform plan?
 
 -target=resource - A Resource Address to target. This flag can be used multiple times.
+
+### 
 
 ### How do you update the state prior to checking differences when you run a terraform plan?
 
 terraform plan -refresh=true
 
+### 
+
 ### The behavior of any terraform destroy command can be previewed at any time with an equivalent terraform plan -destroy command. Is this true?
 
 TRUE
+
+### 
 
 ### You created a VM instance on AWS cloud provider with the terraform configuration and you log in AWS console and removed the instance. What does the next apply do?
 
@@ -1316,11 +1406,17 @@ It creates the Instance again.
 
 Implement and maintain state
 
+### 
+
 ### What are Backends?
 
 A "backend" in Terraform determines how the state is loaded and how an operation such as apply is executed. This abstraction enables non-local file state storage, remote execution, etc.
 
 By default, Terraform uses the "local" backend, which is the normal behavior of Terraform.
+
+
+
+### 
 
 ### What is local Backend?
 
@@ -1338,13 +1434,19 @@ terraform {
 }
 ```
 
+### 
+
 ### What is the default path for the local backend?
 
 This defaults to "terraform.tfstate" relative to the root module by default.
 
+### 
+
 ### What is State Locking?
 
 If supported by your backend, Terraform will lock your state for all operations that could write state. This prevents others from acquiring the lock and potentially corrupting your state. State locking happens automatically on all operations that could write state. You won't see any message that it is happening. If state locking fails, Terraform will not continue.
+
+
 
 ### Does Terraform continue if state locking fails?
 
@@ -1352,11 +1454,15 @@ No.
 
 If state locking fails, Terraform will not continue.
 
+### 
+
 ### Can you disable state locking?
 
 Yes.
 
 You can disable state locking for most commands with the -lock flag but it is not recommended.
+
+
 
 ### What are the types of Backend?
 
@@ -1364,9 +1470,13 @@ Standard: State management, functionality covered in State Storage & Locking
 
 Enhanced: Everything in standard plus remote operations.
 
+### 
+
 ### What are remote Backends?
 
 Remote backends allow Terraform to use a shared storage space for state data, so any member of your team can use Terraform to manage the same infrastructure.
+
+
 
 ### What is the benefit of using remote backend?
 
@@ -1374,19 +1484,27 @@ Remote state storage makes collaboration easier and keeps state and secret infor
 
 Remote state is loaded only in memory when it is used.
 
+### 
+
 ### If you want to switch from using remote backend to local backend. What should you do?
 
 If you want to move back to the local state, you can remove the backend configuration block from your configuration and run terraform init again.
 
 Terraform will once again ask if you want to migrate your state back to local.
 
+### 
+
 ### What does the command refresh do?
 
 The terraform refresh command is used to reconcile the state Terraform knows about (via its state file) with the real-world infrastructure. This can be used to detect any drift from the last-known state, and to update the state file.
 
+
+
 ### Does the command refresh modify the infrastructure?
 
 The command refresh does not modify infrastructure but does modify the state file. If the state is changed, this may cause changes to occur during the next plan or apply.
+
+
 
 ### How do you backup the state to the remote backend?
 
@@ -1394,9 +1512,13 @@ The command refresh does not modify infrastructure but does modify the state fil
 
 2. To be extra careful, we always recommend manually backing up your state as well. You can do this by simply copying your terraform.tfstate file to another location.
 
+### 
+
 ### What is a partial configuration in terms of configuring Backends?
 
 You do not need to specify every required argument in the backend configuration. Omitting certain arguments may be desirable to avoid storing secrets, such as access keys, within the main configuration. When some or all of the arguments are omitted, we call this a partial configuration.
+
+
 
 ### What are the ways to provide remaining arguments when using partial configuration?
 
@@ -1405,6 +1527,8 @@ Interactively: Terraform will interactively ask you for the required values unle
 File: A configuration file may be specified via the init command line. To specify a file, use the -backend-config=PATH option when running terraform init. If the file contains secrets it may be kept in a secure data store, such as Vault, in which case it must be downloaded to the local disk before running Terraform.
 
 Command-line key/value pairs: Key/value pairs can be specified via the init command line. Note that many shells retain command-line flags in a history file, so this isn't recommended for secrets. To specify a single key/value pair, use the -backend-config="KEY=VALUE" option when running terraform init.
+
+
 
 ### What is the basic requirement when using partial configuration?
 
@@ -1418,6 +1542,8 @@ terraform {
 
 }
 
+### 
+
 ### Give an example of passing partial configuration with Command-line Key/Value pairs?
 
 ```
@@ -1430,11 +1556,15 @@ terraform init \
     -backend-config="scheme=https"
 ```
 
+### 
+
 ### How to unconfigure a backend?
 
 If you no longer want to use any backend, you can simply remove the configuration from the file. Terraform will detect this like any other change and prompt you to reinitialize.
 
 As part of the reinitialization, Terraform will ask if you'd like to migrate your state back down to a normal local state. Once this is complete then Terraform is back to behaving as it does by default.
+
+
 
 ### How do you encrypt sensitive data in the state?
 
@@ -1442,9 +1572,13 @@ Terraform Cloud always encrypts the state at rest and protects it with TLS in tr
 
 The S3 backend supports encryption at rest when the encrypt option is enabled. IAM policies and logging can be used to identify any invalid access. Requests for the state go over a TLS connection.
 
+
+
 ### Backends are completely optional. Is this true?
 
 Backends are completely optional. You can successfully use Terraform without ever having to learn or use backends. However, they do solve pain points that afflict teams at a certain scale. If you're an individual, you can likely get away with never using backends.
+
+
 
 ### What are the benefits of Backends?
 
@@ -1454,6 +1588,8 @@ Keeping sensitive information off disk: State is retrieved from backends on dema
 
 Remote operations: For larger infrastructures or certain changes, terraform apply can take a long, long time. Some backends support remote operations which enable the operation to execute remotely. You can then turn off your computer and your operation will still complete. Paired with remote state storage and locking above, this also helps in team environments.
 
+
+
 ### Why should you be very careful with the Force unlocking the state?
 
 Terraform has a force-unlock command to manually unlock the state if unlocking failed.
@@ -1462,11 +1598,17 @@ Be very careful with this command. If you unlock the state when someone else is 
 
 To protect you, the force-unlock command requires a unique lock ID. Terraform will output this lock ID if unlocking fails. This lock ID acts as a nonce, ensuring that locks and unlocks target the correct lock.
 
+
+
 ### You should only use force unlock command when automatic unlocking fails. Is this true?
 
 TRUE
 
+# 
+
 # Read, generate, and modify the configuration
+
+
 
 ### How do you define a variable?
 
@@ -1480,6 +1622,8 @@ variable "region" {
 
 This defines the region variable within your Terraform configuration.
 
+### 
+
 ### How do you access the variable in the configuration?
 
 ```
@@ -1489,6 +1633,8 @@ provider "aws" {
 
 }
 ```
+
+### 
 
 ### How many ways you can assign variables in the configuration?
 
@@ -1516,11 +1662,15 @@ UI input
 
 If you execute terraform apply with any variable unspecified, Terraform will ask you to input the values interactively. These values are not saved, but this provides a convenient workflow when getting started with Terraform. UI input is not recommended for everyday use of Terraform.
 
+
+
 ### Does environment variables support List and map types?
 
 No
 
 Environment variables can only populate string-type variables. List and map type variables must be populated via one of the other mechanisms.
+
+### 
 
 ### How do you provision infrastructure in a staging environment or a production environment using the same Terraform configuration?
 
@@ -1536,6 +1686,8 @@ For test
 terraform apply -var-file="test.tfvars"
 ```
 
+### 
+
 ### How do you assign default values to variables?
 
 If no value is assigned to a variable via any of these methods and the variable has a default key in its declaration, that value will be used for the variable.
@@ -1547,6 +1699,8 @@ variable "region" {
 
 }
 ```
+
+### 
 
 ### Give an example of data type List variables?
 
@@ -1562,11 +1716,15 @@ variable "availability_zone_names" {
 }
 ```
 
+### 
+
 ### What are the output variables?
 
 output variables as a way to organize data to be easily queried and shown back to the Terraform user.
 
 Outputs are a way to tell Terraform what data is important. This data is outputted when apply is called, and can be queried using the terraform output command.
+
+
 
 ### How do you view outputs and queries them?
 
@@ -1580,11 +1738,15 @@ You can query the output with the following command
 terraform output ip
 ```
 
+
+
 ### Does Terraform language support user-defined functions?
 
 No
 
 The Terraform language does not support user-defined functions, and so only the functions built in to the language are available for use.
+
+
 
 ### What is the Module path?
 
@@ -1594,11 +1756,17 @@ module.A.module.B.module.C...
 
 Multiple modules in a path indicate nesting. If a module path is specified without a resource spec, the address applies to every resource within the module. If the module path is omitted, this addresses the root module.
 
+
+
 # Understand Terraform Cloud and Enterprise capabilities
+
+### 
 
 ### What is Sentinel?
 
 Sentinel is an embedded policy-as-code framework integrated with the HashiCorp Enterprise products. It enables fine-grained, logic-based policy decisions, and can be extended to use information from external sources.
+
+
 
 ### What is the benefit of Sentinel?
 
@@ -1608,25 +1776,37 @@ One of the other benefits of Sentinel is that it also has a full testing framewo
 
 Avoiding a ticketing workflow allows organizations to provide more self-service capabilities and end-to-end automation, minimizing the friction for developers and operators.
 
+
+
 ### What is the Private Module Registry?
 
 Terraform Cloud's private module registry helps you share Terraform modules across your organization. It includes support for module versioning, a searchable and filterable list of available modules, and a configuration designer to help you build new workspaces faster.
+
+
 
 ### What is a workspace?
 
 A workspace contains everything Terraform needs to manage a given collection of infrastructure, and separate workspaces function like completely separate working directories.
 
+
+
 ### You are configuring a remote backend in the terraform cloud. You didn’t create an organization before you do terraform init. Does it work?
 
 While the organization defined in the backend stanza must already exist.
+
+### 
 
 ### You are configuring a remote backend in the terraform cloud. You didn’t create a workspace before you do terraform init. Does it work?
 
 Terraform Cloud will create it if necessary. If you opt to use a workspace that already exists, the workspace must not have any existing states.
 
+
+
 ### Terraform workspaces when you are working with CLI and Terraform workspaces in the Terraform cloud. Is this correct?
 
 If you are familiar with running Terraform using the CLI, you may have used Terraform workspaces. Terraform Cloud workspaces behave differently than Terraform CLI workspaces. Terraform CLI workspaces allow multiple state files to exist within a single directory, enabling you to use one configuration for multiple environments. Terraform Cloud workspaces contain everything needed to manage a given set of infrastructure and function like separate working directories.
+
+
 
 ### You are building infrastructure on your local machine and you changed your backend to remote backend with the Terraform cloud. What should you do to migrate the state to the remote backend?
 
@@ -1636,29 +1816,41 @@ Once you have authenticated the remote backend, you're ready to migrate your loc
 
 During reinitialization, Terraform presents a prompt saying that it will copy the state file to the new backend. Enter "yes" and Terraform will migrate the state from your local machine to Terraform Cloud.
 
+
+
 ### What is Run Triggers?
 
 Terraform Cloud’s run triggers allow you to link workspaces so that a successful apply in a source workspace will queue a run in the workspace linked to it with a run trigger.
 
 For example, adding new subnets to your network configuration could trigger an update to your application configuration to rebalance servers across the new subnets.
 
+### 
+
 ### What is the benefit of Run Triggers?
 
 When managing complex infrastructure with Terraform Cloud, organizing your configuration into different workspaces helps you to better manage and design your infrastructure. Configuring run triggers between workspaces allows you to set up infrastructure pipelines as part of your overall deployment strategy.
+
+
 
 ### What are the available permissions that terraform clouds can have?
 
 Terraform Cloud teams can have read, plan, write, or admin permissions on individual workspaces.
 
+
+
 ### Who can grant permissions on the workspaces?
 
 Organization owners grant permissions by grouping users into teams and giving those teams privileges based on their need for access to individual workspaces.
+
+
 
 ### How can you add users to an organization?
 
 You can add users to an organization by inviting them using their email address.
 
 Even if your team member has not signed up for Terraform Cloud yet, they can still accept the invitation and create a new account.
+
+
 
 ### The Terraform Cloud Team plan charges you on a per-user basis. Is this true?
 
