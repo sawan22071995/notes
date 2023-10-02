@@ -952,9 +952,10 @@ terraform init command will download and cache any modules referenced by a confi
 
 ### What is the syntax for referencing a registry module?
 
-<NAMESPACE>/<NAME>/<PROVIDER>
+
 
 ```
+<NAMESPACE>/<NAME>/<PROVIDER>
 module "consul" {
 
   source = "hashicorp/consul/aws"
