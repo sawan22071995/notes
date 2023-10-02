@@ -14,3 +14,4 @@
 12. [Miscellaneous+Notes](misc.md)
 13. [gcp+bucket+gke+gcsfuse+mount](gcp+bucket+gke+gcsfuse+mount.md)
 14. [bash+script+reference](bash+script+reference.md)
+15. [terraform+certification+Q&A](terraform+certification+Q&A.md)
