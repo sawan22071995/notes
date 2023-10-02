@@ -952,8 +952,6 @@ terraform init command will download and cache any modules referenced by a confi
 
 ### What is the syntax for referencing a registry module?
 
-
-
 ```
 <NAMESPACE>/<NAME>/<PROVIDER>
 module "consul" {
@@ -969,9 +967,10 @@ module "consul" {
 
 ### What is the syntax for referencing a private registry module?
 
-<HOSTNAME>/<NAMESPACE>/<NAME>/<PROVIDER>
+
 
 ```
+<HOSTNAME>/<NAMESPACE>/<NAME>/<PROVIDER>
 module "vpc" {
 
   source = "app.terraform.io/example_corp/vpc/aws"
