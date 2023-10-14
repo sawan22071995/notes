@@ -717,9 +717,368 @@ Here are the general steps to register Nomad clients with a Nomad server:
    
 
 - display list of known server and their status
+
+- ```
+  $ nomad server members
+  Name Address Port Status Leader Raft Version Build Datacenter Region
+  nomad_svr_a.global 10.0.102.53 4648 alive true 3 1.4.3 dc1 global
+  nomad_svr_b.global 10.0.101.81 4648 alive false 3 1.4.3 dc1 global
+  nomad_svr_c.global 10.0.101.72 4648 alive false 3 1.4.3 dc1 global
+  ```
+
+### Nomad Clients
+
+- Nomad clients are members of the Nomad datacenter responsible for executing tasks and jobs
+
+- In other words, Nomad clients are responsible for running the containers and applications scheduled by Nomad
+
+- Clients register with Nomad servers and the agent runs on dedicated servers (usually VMs) to maximize the resources available to run tasks and jobs
+
+- You can have multiple clients in a cluster and Nomad servers allocate jobs to clients with its scheduling algorithm 
+
+- Nomad Agent will run on the client with a client configuration
+
+- Since workloads run on Nomad clients, other prerequisites need to be met before tasks and job
+
+- For example, if you are running containers, you might need Docker or containerd installed and running, If you want virtualized workloads, you
+  can install Firecracker or QEMU
+
+- Nomad task driver binaries must also be downloaded and installed on the client as well
+
+- Nomad client configuration
   
   ```
-  nomad server members
+  # Server & Raft configuration
+  server {
+    enabled = false
+  }
+  # Client Configuration
+  client {
+    enabled = true
+    
+    server_join {
+      retry_join = ["provider=aws tag_key=nomad_cluster_id tag_value=us-east-1"]
+    }
+  }
   ```
 
+- display list of known client and their status
+  
+  ```
+  $ Nomad node status
+  ```
 
+### Removing Server Nodes from the Cluster
+
+- You might need to remove server nodes from the cluster to perform operations such as:
+  - Regularly scheduled maintenance
+  - Upgrading to new version of Nomad
+- It's important that you remove server nodes the proper way to ensure Nomad (raft) is aware of your intentions
+  
+  ```
+  # Remove a node using the id
+  $ nomad operator raft remove-peer –peer-id="nomad_server_a"
+  # Remove a node using the IP address
+  $ nomad operator raft remove-peer –peer-address="10.0.3.45:4646"
+  ```
+
+### Removing Clients from the Cluster
+
+- You might need to remove clients nodes from the cluster to perform operations such as:
+  - Regularly scheduled maintenance
+  - Upgrading to new version of Nomad
+  - Reducing cluster size because of reduced performance needs or cost savings
+- To ensure workloads are not impacted, you should disable scheduling eligibility on node(s) you want to remove
+- Next, drain the client to migrate all existing allocations to other clients
+- Finally, stop the Nomad service and decommission the node
+  
+  ```
+  # View the status of the nodes in a cluster
+  $ nomad node status
+  # View the status of node, events, resources, and allocations
+  $ nomad status <node_id>
+  # Disable a client's eligibility to accept new allocations
+  $ nomad node eligibility –disable <node_prefix>
+  # Drain the allocations from a client node
+  $ nomad node drain –enable <node_prefix>
+  ```
+
+### Secure Nomad Environments
+
+Similar to most other HashiCorp products, it's up to YOU to secure the Nomad environment
+
+- By default, Nomad is not secure:
+  
+  - TLS encryption is not configured – data between servers & clients are sent in clear text
+  - ACLs are disabled meaning anybody can configured the Nomad environment
+  - Namespaces are not used by default so there is no isolation between teams
+  - Sentinel policies must be developed and applied where needed (Enterprise feature)
+  - Gossip is not encrypted
+  - Resource quotes are not configured so operators are not restricted to the underlying compute
+    resources (Enterprise feature)
+
+- Minimal security tasks for a secure production environment:
+
+- Secure Nomad with TLS certificates 
+  from a trusted CA to avoid sending data in clear text and eliminate MITM attacks
+
+- Enable ACLs. 
+  Otherwise, ANYBODY can make configuration changes to the cluster and workloads
+
+- Don't run the Nomad service as the root user – 
+  create an unprivileged user with only the permissions needed to run the service
+
+- Lock down any directories 
+  used on Nomad servers and clients to avoid accidental or intentional modifications to the binary, configuration files, drivers, systemd service files, etc.
+
+- Limit SSH/RPD access 
+  to the Nomad servers and clients. Use immutable infrastructure if possible
+
+### Namespaces
+
+Allows many teams and projects to share a single multi-region Nomad deployment without conflict
+
+- ACL policies provide enforcement of namespaces
+- Job IDs are required to be unique with a namespace but not across namespaces
+- Namespaces are automatically replicated across regions for easy, centralized administration at scale
+  
+  ![alt text](https://github.com/sawan22071995/notes/blob/main/namespace.png?raw=true)
+
+### Enabling TLS Encryption
+
+- ![alt text](https://github.com/sawan22071995/notes/blob/main/tls.png?raw=true)
+
+- Prevent unauthorized access to Nomad
+
+- Stop any observation or tampering with communications
+
+- Prevent server/client misconfigurations (accidental or malicious)
+
+- Prevent services from representing themselves as a Nomad agents
+
+- Nomad requires that you use certs from the same CA throughout the datacenter
+
+- You will have multiple types of TLS certs for Nomad, including:
+  
+  - Server agents
+  - Client agents
+  - CLI and UI
+
+- Certs need to be generated from a trusted CA – likely you have one deployed in your environment already, such as Vault. If not, you can use tools like openssl or cfssl
+
+- Nomad requires that servers use a certificate that uses server.<region>.nomad and clients use client.<region>.nomad
+
+- This is somewhat different than traditional TLS certs where you usually create a cert for the DNS name
+
+- This strategy also prevents a client from presenting itself as a server
+
+- TLS configuration as shown in the Nomad agent configuration file
+  CA cert should be the same across all agents , Use the server cert & key for servers, Use the client cert & key for servers
+  
+  ```
+  # TLS configurations
+  tls {
+    http = false
+    rpc  = false
+  
+    ca_file   = "/etc/certs/ca.crt"
+    cert_file = "/etc/certs/nomad.crt"
+    key_file  = "/etc/certs/nomad.key"
+  }
+  ```
+
+### Gossip Encryption
+
+- By default, Gossip is NOT encrypted
+
+- Gossip (Serf) uses an encryption key across all servers in the datacenter
+
+- Federation requires that the same key be used on all other datacenters as well
+
+- The gossip encryption key is a pre-shared key, meaning you must create it and provide it in the agent configuration file
+
+- You can use any method that can create 32 random bytes encoded in base64, however, I recommend using the built-in tool to avoid any issues
+
+- Key is placed in the configuration file in the server configuration stanza
+  
+  ```
+  # Server & Raft configuration
+  server {
+    enabled          = true
+    bootstrap_expect = 3
+    encrypt          = "Do7GerAsNtzK527dxRZJwpJANdS2NTFbKJIxIod84u0=" 
+    license_path     = "/etc/nomad.d/nomad.hclic"
+    server_join {
+      retry_join = ["10.4.23.44", "10.4.54.112", "10.4.56.33"]
+    }
+    default_scheduler_config { 
+      scheduler_algorithm = "spread" # change from default of binpack
+    } 
+  }
+  ```
+
+- Each server agent configuration file should include this SAME key
+
+- Encryption key can be easily created by using the nomad operator gossip keyring
+  generate command
+  
+  ```
+  $ nomad operator gossip keyring generate
+  Do7GerAsNtzK527dxRZJwpJANdS2NTFbKJIxIod84u0=
+  ```
+
+- Use the command nomad agent-info to validate gossip is encrypted
+  
+  ```
+  $ nomad agent-info
+  ..
+  serf
+  intent_queue = 0
+  member_time = 1
+  query_queue = 0
+  event_time = 1
+  event_queue = 0
+  failed = 0
+  left = 0
+  members = 5
+  query_time = 1
+  encrypted = true
+  ```
+
+### Secure Nomad with ACLs
+
+- ![alt text](https://github.com/sawan22071995/notes/blob/main/acl.png?raw=true)
+
+- Token-based authentication
+
+- Tokens are associated with a policy that permits/denies access to capabilities in Nomad
+
+- Policies are centrally managed
+
+- Policies and tokens are automatically replicated across regions for easy, centralized administration at scale
+  
+  ![alt text](https://github.com/sawan22071995/notes/blob/main/acl-components.png?raw=true)
+
+- Nomad ACLs are NOT enabled by default and therefore the ACL must be bootstrapped before you can use them to secure Nomad
+
+- All servers must include the acl stanza and parameters in the agent config, otherwise you'll get an error message stating that ACL support is disabled
+  
+  ![alt text](https://github.com/sawan22071995/notes/blob/main/acl-steps.png?raw=true)
+
+- update server configuration file
+  
+  ```
+  acl {
+    enabled    = true
+    token_ttl  = "30s"
+    policy_ttl = "60s"
+    role_ttl   = "60s"
+  }
+  ```
+
+- To bootstrap the ACL system, use the nomad acl bootstrap command:
+  
+  ```
+  $ nomad acl bootstrap
+  Accessor ID = 400a8f88-8f73-ef48-0750-fd122e2abe8d
+  Secret ID = 4a8be0a9-459c-6598-ac8b-d80f26a6e8f0
+  Name = Bootstrap Token
+  Type = management
+  Global = true
+  Create Time = 2023-01-03 14:19:04.509226313 +0000 UTC
+  Expiry Time = <none>
+  Create Index = 9877
+  Modify Index = 9877
+  Policies = n/a
+  Roles = n/a
+  ```
+
+### ACL Tokens
+
+- When the ACL system is bootstrapped, you get the bootstrap token
+- The bootstrap token is a management token that provides access to everything
+- It is NOT recommended that you use this token for day-to-day operations
+- Command to generate ACL token
+  
+  ```
+  $ nomad acl token create -name="nomad_is_awesome" -policy="krausen"
+  Accessor ID = ebea4525-51a4-3b6d-6511-da8fecf63eb1
+  Secret ID = 0f8b37f4-6f22-ef1d-c9aa-e1f04a86dd76
+  Name = nomad_is_awesome
+  Type = client
+  Global = false
+  Create Time = 2023-01-03 18:41:06.447109751 +0000 UTC
+  Expiry Time = <none>
+  Create Index = 10166
+  Modify Index = 10166
+  Policies = krausen
+  Roles = n/a
+  ```
+
+### ACL Policies
+
+- Control access to Nomad data and APIs (RBAC)
+
+- Written in HCL (or JSON) and contains one or more rules
+
+- Policies generally have the following dispositions:
+  
+  - read – allows read and list of Nomad resources
+  - write – allows read and write of Nomad resources
+  - deny – denies read or write – takes precedence over any other permission
+  - list – list resources but not provide details
+
+- Other rules also allow more fine-grained controls and capabilities
+
+- Policy written in HCL
+
+- Provides write to most resources in Nomad
+
+- More aligned to a Nomad operator
+
+- policy example policy.hcl
+  
+  ```
+  namespace "default" {
+    #provided read and four additional rights
+    policy = "read"
+    capabilities = ["submit-job", "read-logs", "alloc-exec", "scale-job"] 
+  }
+  
+  node {
+    policy = "write"
+  }
+  
+  plugin {
+    policy = "list"
+  }
+  ```
+  
+  ![alt text](https://github.com/sawan22071995/notes/blob/main/ns-policy.png?raw=true)
+
+### Namespace Capablities
+
+![alt text](https://github.com/sawan22071995/notes/blob/main/ns-capa.png?raw=true)
+
+![alt text](https://github.com/sawan22071995/notes/blob/main/ns-capa-1.png?raw=true)
+
+- Interaction via CLI requires an ACL token to perform almost all operations
+
+- There are a few ways you can provide the token:
+
+- -token flag on the CLI with the desired command to be executed
+
+- Setting the NOMAD_TOKEN environment variable
+  
+  ```
+  # Use the –token flag for authentication
+  $ nomad job run webapp.nomad –token=4a8be0a9-459c-6598-ac8b-d80f26a6e8f0
+  
+  # Set the NOMAD_TOKEN environment variable to authenticate
+  $ export NOMAD_TOKEN=4a8be0a9-459c-6598-ac8b-d80f26a6e8f0
+  $ nomad job run webapp.nomad
+  ```
+
+### Authenticate to the Nomad UI without exposing the token to the browser's history
+
+![alt text](https://github.com/sawan22071995/notes/blob/main/acl-token-ui.png?raw=true)
