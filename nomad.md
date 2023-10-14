@@ -174,6 +174,7 @@ container challenge HashiCorp did)
 #### Installing Nomad on Linux Using Package Manager
 
 1. Log in to the Linux server
+
 2. Use the following commands to install Nomad (this example will work with
    Amazon Linux)
    
@@ -183,6 +184,7 @@ container challenge HashiCorp did)
    https://rpm.releases.hashicorp.com/AmazonLinux/hashicorp.repo
    $ sudo yum -y install nomad
    ```
+
 3. Alternatively, you can use this for RHEL
    
    ```
@@ -376,13 +378,21 @@ $ nomad agent –dev –bind 0.0.0.0
 ```
 
 - When Nomad started as development mode It is known as "dev agent & dev mode"
+
 - This quickly start a single agent on your local machine and acts as server and client for testing
+
 - Dev Mode never used for Production...It only for testing
+
 - To start Nomad as client or server we first need a configuration file
+
 - It is written in HCL contains all the information needed for Nomad to run
+
 - configuration file differes for Nomad server vs Nomad Client agent
+
 - Driver/Pre-requisite must be installed on Nomad Clients Such as "Docker"
+
 - Other configuration such as Nomad User, directories, permissions and pre-requsite must be done before starting nomad server
+  
   - systemd config file
   
   - Local Nomad user to run the service
@@ -557,7 +567,7 @@ server {
 # Client Configuration
 client {
   enabled = true
-  
+
   server_join {
     retry_join = ["provider=aws tag_key=nomad_cluster_id tag_value=us-east-1"]
   }
@@ -585,8 +595,8 @@ Here are the general steps to register Nomad clients with a Nomad server:
        enabled = true
        servers = ["1.2.3.4:4647", "5.6.7.8:4647"]
      }
-     
-     
+     ```
+
      ```
 
 3. **Start the Nomad Client**:
@@ -604,7 +614,6 @@ Here are the general steps to register Nomad clients with a Nomad server:
        enabled = true
        bootstrap_expect = 3
      }
-     
      ```
 
 5. **Start the Nomad Server**:
@@ -614,5 +623,103 @@ Here are the general steps to register Nomad clients with a Nomad server:
 6. **Verify Registration**:
    
    - After starting both Nomad clients and the server, you can verify that the clients have successfully registered by checking the Nomad server logs or using the Nomad CLI. You can use commands like `nomad node status` to view the registered nodes.
-   
-   
+
+### Nomad Cluster - Typcial Deployment Architecture
+
+- In a production environment, you'll need high availability that single node doesn't provide you
+- A typical deployment architecture includes 3-5 servers per Nomad cluster
+- The servers use the Raft protocol to elect a cluster "Leader" to manage priorities, evaluations, and allocations. The leader replicates data to followers
+- The server nodes must maintain a quorum to ensure the Nomad service is up and running
+  - 3-node cluster provides a failure tolerance of 1 node
+  - 5-node cluster provides a failure tolerance of 2 nodes
+
+![alt text](https://github.com/sawan22071995/notes/blob/main/5-node-arc.png?raw=true)
+
+### Raft Overview
+
+- Raft is the consensus protocol used by Nomad
+
+- Only server nodes participate in Raft and make up the peer set
+
+- All client nodes forward requests to servers
+
+- Servers elect a leader and will automatically elect a new leader if the current leader becomes unavailable
+
+- A quorum must be maintained, otherwise, Nomad cannot process log entries or elect a leader – Nomad will be unavailable
+  
+  ![alt text](https://github.com/sawan22071995/notes/blob/main/raft.png?raw=true)
+
+            
+
+### Networking
+
+- Servers should be able to communicate over a high bandwidth, low latency network
+- Recommended to have <10ms latency between cluster members
+- Nomad servers can be spread across cloud regions or datacenters if they meet the latency requirements
+- ![alt text](https://github.com/sawan22071995/notes/blob/main/networking.png?raw=true)
+
+### System Requirements For Nomad Servers(recommended)
+
+![alt text](https://github.com/sawan22071995/notes/blob/main/system-require-recom.png?raw=true)
+
+### Joining Servers to a Cluster
+
+[Connect Nodes into a Cluster | Nomad | HashiCorp Developer](https://developer.hashicorp.com/nomad/tutorials/manage-clusters/clustering)
+
+- Servers need to know how to connect to each other to form a cluster
+
+- This can be done manually or automated using parameters the configuration file
+
+- For most environments, configuration to automatically discover and join server agents to form a cluster will be done using the configuration file
+
+- Join Manually by running command in follower b,c where server_a.example.com:4648 is hostname or DNS server name of Node a
+
+- ```
+  nomad server join server_a.example.com:4648
+  ```
+
+- Provision and setup your server nodes
+
+- Manually join nodes b & c to node a to create a cluster where a= leader b,c = followers
+
+- Use the Automated Way retry_join parameter to instruct Nomad to connect to the
+  server agents listed. Can use DNS names or IP addresses
+
+- ```
+  # Server & Raft configuration
+  server {
+    enabled          = true
+    bootstrap_expect = 3
+    encrypt          = "Do7GerAsNtzK527dxRZJwpJANdS2NTFbKJIxIod84u0=" 
+    license_path     = "/etc/nomad.d/nomad.hclic"
+    server_join {
+      retry_join = ["10.4.23.44", "10.4.54.112", "10.4.56.33"]
+    }
+    default_scheduler_config { 
+      scheduler_algorithm = "spread" # change from default of binpack
+    } 
+  }
+  ```
+
+- We can auto join cluster by cloud tags as well
+- ```
+  # Server & Raft configuration
+  server {
+    enabled          = true
+    bootstrap_expect = 5
+  
+    server_join {
+      retry_join = ["provider=aws tag_key=nomad_cluster_id tag_value=us-east-1"]
+    }
+  }
+  ```
+
+   
+
+- display list of known server and their status
+  
+  ```
+  nomad server members
+  ```
+
+
