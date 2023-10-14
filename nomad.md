@@ -1658,10 +1658,12 @@ Allows many teams and projects to share a single multi-region Nomad deployment w
 
 - Options for networking include:
   
-  bridge: group will have an isolated network namespace with an interface bridged with the host
+  - bridge: group will have an isolated network namespace with an interface bridged with the host
   
   - host: (default) - each task will join the host network namespace – a shared network namespace is not created
+  
   - cni/<network>: task group will have an isolated network namespace with the CNI network
+  
   - none: each task will have an isolated network without any network interfaces
 
 #### Host Mode
