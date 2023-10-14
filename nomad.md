@@ -1,3 +1,5 @@
+### Working with Volumes
+
 # Nomad Notes
 
 ## Getting NOMAD Running
@@ -1103,6 +1105,7 @@ Allows many teams and projects to share a single multi-region Nomad deployment w
 
 - You don't need to log into a Nomad server to interact with Nomad. You can easily interact with Nomad clusters deployed in your datacenter by using
   the Nomad CLI on your own laptop/desktop
+
 - Nomad also has an autocomplete that you can install for tab completion
   
   ```
@@ -1134,12 +1137,19 @@ Allows many teams and projects to share a single multi-region Nomad deployment w
    ![alt text](https://github.com/sawan22071995/notes/blob/main/subcommand.png?raw=true)
    
    - All commands in the Nomad CLI start with nomad
+   
    - Nomad has an extensive CLI with lots of subcommands
+   
    - acl - agent - agent-info - alloc - config - deployment - eval - fmt - job - license - monitor - namespace - node - operator - plugin - quota
+   
    - recommendation - scaling - sentinel - server - service - status - system - ui - var - version - volume
+   
    - Nomad CLI supports help commands
+   
    - Use –h or --help
+   
    - or just press enter to see a list of available commands
+   
    - The CLI is <mostly> used for managing jobs and therefore defaults to working with jobs unless you specify a different command name
      
      ```
@@ -1150,7 +1160,9 @@ Allows many teams and projects to share a single multi-region Nomad deployment w
 #### Nomad UI
 
 - Provides a simple interface to interact with Nomad
+
 - View Nomad infrastructure, jobs, evaluations, allocations, variables, and more.
+
 - Access the UI by hitting the URL (assuming default port):
   
   ```
@@ -1190,6 +1202,7 @@ Allows many teams and projects to share a single multi-region Nomad deployment w
   ![alt text](https://github.com/sawan22071995/notes/blob/main/api.png?raw=true)
 
 - If ACLs are enabled, a Nomad token must be provided when invoking an API
+
 - Authentication is done using the "X-Nomad-Token" or "Authorization: Bearer" header
   
   ```
@@ -1246,51 +1259,51 @@ Allows many teams and projects to share a single multi-region Nomad deployment w
     
     ```
     job "tetris" {
-    	# ...
-    	# Specify the datacenters this job can run in
-    	datacenters = ["dc1"]
-    	
-    	#type of service i.e service,batch etc.
-    	type = "service"
-    	
-    	constraint {
-    	attribute = "$[attr.kernel.name}"
-    	value = "linux"
-    	}
-    	
-    	update {
-    	#update job but one task at a time only`
-    	max_parallel = 1
-    	}
-    	
-    	# ...
+        # ...
+        # Specify the datacenters this job can run in
+        datacenters = ["dc1"]
+    
+        #type of service i.e service,batch etc.
+        type = "service"
+    
+        constraint {
+        attribute = "$[attr.kernel.name}"
+        value = "linux"
+        }
+    
+        update {
+        #update job but one task at a time only`
+        max_parallel = 1
+        }
+    
+        # ...
     }
     
     job "tetris" {
-    	# ...
-    	datacenters = ["dc1"]
-    	group "games" {
-    		count = 1
-    		
-    		network "web"{
-    			port "web"{
-    				to = 80
-    			}
-    		}
-    		task "tetris" {
-    			driver = "docker"
-    			config {
-    				image = "bsord/tetris"
-    				ports = ["web"]
-    				auth_soft_fail = true
-    			}
-    			resources {
-    				cpu = 500 # 500MHz
-    				memory = 256 # 256MB
-    				network {
-    				mbits = 10
-    				}
-    	    }
+        # ...
+        datacenters = ["dc1"]
+        group "games" {
+            count = 1
+    
+            network "web"{
+                port "web"{
+                    to = 80
+                }
+            }
+            task "tetris" {
+                driver = "docker"
+                config {
+                    image = "bsord/tetris"
+                    ports = ["web"]
+                    auth_soft_fail = true
+                }
+                resources {
+                    cpu = 500 # 500MHz
+                    memory = 256 # 256MB
+                    network {
+                    mbits = 10
+                    }
+            }
     }
     ```
   
@@ -1311,7 +1324,6 @@ Allows many teams and projects to share a single multi-region Nomad deployment w
     ```
     $ nomad validate tetris.nomad
     Job validation successful
-    
     ```
 
 ### complete Job File for Nomad
@@ -1321,7 +1333,9 @@ Allows many teams and projects to share a single multi-region Nomad deployment w
 ### Running our first Nomad Job
 
 - Once your job specification has been written, we can now create jobs and submit to Nomad to launch our application
+
 - You can use the CLI or API to submit new jobs
+
 - Use the command "nomad job run <file>" to submit the job to Nomad
   
   ```
@@ -1349,12 +1363,11 @@ Allows many teams and projects to share a single multi-region Nomad deployment w
 - Ok, let's submit our tetris job with just a count of "1" which we know will work fine
   
   ```
-  
   $ nomad job run tetris.nomad
           OR
   $ nomad run tetris.nomad
-  
-  
+  ```
+
   $ nomad job run tetris.nomad
   ==> 2023-01-04T15:10:12Z: Monitoring evaluation "ec4eb3c0"
   2023-01-04T15:10:12Z: Evaluation triggered by job "tetris"
@@ -1373,17 +1386,16 @@ Allows many teams and projects to share a single multi-region Nomad deployment w
   Deployed
   Task Group Desired Placed Healthy Unhealthy Progress Deadline
   games        1       1      1        0 2023-01-04T15:20:29Z
-  ```
 
+```
 - use the command "nomad job status <job name>" to details about job
-  
-  ```
+```
+
   $ nomad job status
   ID Type Priority Status Submit Date
   tetris service 50 running 2023-01-04T15:10:12Z
   vault service 50 running 2022-12-27T15:09:14Z
-  
-  
+
   $ nomad job status tetris
   ID = tetris
   Name = tetris
@@ -1408,8 +1420,8 @@ Allows many teams and projects to share a single multi-region Nomad deployment w
   Allocations
   ID Node    ID   Task Group Version Desired Status Created Modified
   83ff6abb f55a64a7 games      0      run    running 1h13m ago 1h13m ago
-  ```
 
+```
 ### How Can We Improve Our Environment?
 
 - Spread our application across nodes for high availability
@@ -1435,80 +1447,90 @@ Allows many teams and projects to share a single multi-region Nomad deployment w
 - Choose “binpack” or “spread”
 - Customizable as one simple string in Nomad’s configuration
 - Scheduling algorithm applies to all applications deployed on the cluster
-  
-  ```
+```
+
   #server and raft configuration
   server{
-  	enabled = true
-  	bootstrap_expect = 3
-  	encrypt = "djkhfjkslkjfsgfkldjgkdjk"
-  	license_path = "/etc/nomad.d/nomad.hcl"
-  	server_join{
-  		retry_join = ["10.1.1.1", "10.1.1.2"]
-  	}
-  	default_scheduler_config {
-  		scheduler_algorithm = "spread"
-  	}
+      enabled = true
+      bootstrap_expect = 3
+      encrypt = "djkhfjkslkjfsgfkldjgkdjk"
+      license_path = "/etc/nomad.d/nomad.hcl"
+      server_join{
+          retry_join = ["10.1.1.1", "10.1.1.2"]
+      }
+      default_scheduler_config {
+          scheduler_algorithm = "spread"
+      }
   }
-  ```
 
+```
 - When using spread, the scheduler will attempt to place allocations equally among the available values of the given target
 - Spread can be used at the job level and/or the group level
 - Spread can distribute tasks across datacenters if you have federated datacenters
+```
+
+  job "tetris"{
+      datacenter = ["dc1"]
+
+      group "games" {
+          count = 5
+    
+      spread {
+          attribute = "${node.datacenter}"
+          target = "dc1"{
+              percent = 100
+          }
+        }
+      }
+
+  }
+
+- Schedule 70% of allocations to DC1 and 30% to DC2
+  job "tetris"{
+    datacenter = ["dc1", "dc2"]
+  
+    group "games" {
+  
+        count = 5
+  
+    spread {
+  
+        attribute = "${node.datacenter}"
+        target = "dc1"{
+            percent = 70
+        }
+        target = "dc2"{
+            percent = 30
+        }
+      }
+  
+    }
+  }
+
+- Schedule 50% of allocations to the primary datacenter (NYC) and 50% to the DR datacenter (SFO) using user-defined metadata
+  job "tetris"{
+    datacenter = ["nyc", "sfo"]
+  
+    group "games" {
+  
+        count = 5
+  
+    spread {
+  
+        attribute = "${meta.dc}"
+        target = "nyc-prod"{
+            percent = 50
+        }
+        target = "sfo-dr"{
+            percent = 50
+        }
+      }
+  
+    }
+  }
   
   ```
-  job "tetris"{
-  	datacenter = ["dc1"]
-  	
-  	group "games" {
-  		count = 5
-  		
-  	spread {
-  		attribute = "${node.datacenter}"
-  		target = "dc1"{
-  			percent = 100
-  		}
-  	  }
-  	}
-  }
   
-  - Schedule 70% of allocations to DC1 and 30% to DC2
-  job "tetris"{
-  	datacenter = ["dc1", "dc2"]
-  	
-  	group "games" {
-  		count = 5
-  		
-  	spread {
-  		attribute = "${node.datacenter}"
-  		target = "dc1"{
-  			percent = 70
-  		}
-  		target = "dc2"{
-  			percent = 30
-  		}
-  	  }
-  	}
-  }
-  
-  - Schedule 50% of allocations to the primary datacenter (NYC) and 50% to the DR datacenter (SFO) using user-defined metadata
-  job "tetris"{
-  	datacenter = ["nyc", "sfo"]
-  	
-  	group "games" {
-  		count = 5
-  		
-  	spread {
-  		attribute = "${meta.dc}"
-  		target = "nyc-prod"{
-  			percent = 50
-  		}
-  		target = "sfo-dr"{
-  			percent = 50
-  		}
-  	  }
-  	}
-  }
   ```
 
 ### Job Scheduling
@@ -1521,29 +1543,29 @@ Allows many teams and projects to share a single multi-region Nomad deployment w
   
   ```
   job "tetris" {
-  	datacenter = ["dc1", "dc2"]
-  	
-  	spread {
-  		attribute = "${node.datacenter}"
-  		target "dc1" {
-  			percent = 70
-  		}
-  		target "dc2"{
-  			percent = 30
-  		}		
-  	}
-  	group "frontend"{
-  		#...
-  		task "webapp" {
-  			#....
-  		}
-  	}
-  	group "Backend"{
-  		#...
-  		task "Java" {
-  			#....
-  		}
-  	}
+      datacenter = ["dc1", "dc2"]
+  
+      spread {
+          attribute = "${node.datacenter}"
+          target "dc1" {
+              percent = 70
+          }
+          target "dc2"{
+              percent = 30
+          }        
+      }
+      group "frontend"{
+          #...
+          task "webapp" {
+              #....
+          }
+      }
+      group "Backend"{
+          #...
+          task "Java" {
+              #....
+          }
+      }
   }
   ```
 
@@ -1560,12 +1582,12 @@ Allows many teams and projects to share a single multi-region Nomad deployment w
     # Spread allocations over all datacenter
     spread {
       attribute = "${node.datacenter}"
-  	target "nyc" {
-  		percent = 70
-  	}
-  	target "sfo" {
-  		percent = 30
-  	}
+      target "nyc" {
+          percent = 70
+      }
+      target "sfo" {
+          percent = 30
+      }
     }
   
     group "example" {
@@ -1589,32 +1611,34 @@ Allows many teams and projects to share a single multi-region Nomad deployment w
   
   ```
   client {
-  	enabled = true
-  	meta {
-  		env  = "prod1"
-  		rack = "rack-12"
-  		hardware = "cisco"
-  		instructor = "karuasen"
-  	}
+      enabled = true
+      meta {
+          env  = "prod1"
+          rack = "rack-12"
+          hardware = "cisco"
+          instructor = "karuasen"
+      }
   }
   ```
+
 - Constraints are requirements Nomad must evaluate about the client, such as the operating system, architecture, kernel version, and more before allocations are made….
+
 - Constraint requirements are specified at the job, group, or task level
   
   ```
   Examples:
-  	- Client must be Linux
-  	job "tetris"{
-  		datacenters = ["dc1","dc2"]
+      - Client must be Linux
+      job "tetris"{
+          datacenters = ["dc1","dc2"]
           constraint{
-  			attribute = "${attr.kernel.name}
-  			value = "Linux"
-  		}		
-  	}
-  	- Client must be running x64 architecture
-  	- Client must be running on an underlying AWS instance that is m5.8xlarge
-  	- Client must have specific metadata
-  	
+              attribute = "${attr.kernel.name}
+              value = "Linux"
+          }        
+      }
+      - Client must be running x64 architecture
+      - Client must be running on an underlying AWS instance that is m5.8xlarge
+      - Client must have specific metadata
+  
             |----->job--->constraint
   Placement |----->job--->group--->constraint
             |----->job--->group--->task--->constraint
@@ -1629,33 +1653,41 @@ Allows many teams and projects to share a single multi-region Nomad deployment w
 ### Networking
 
 - When deploying applications, networking is a critical component to ensure users can access the running applications
+
 - Networking is defined at the group level using the network stanza
+
 - Options for networking include:
   
   bridge: group will have an isolated network namespace with an interface bridged with the host
+  
   - host: (default) - each task will join the host network namespace – a shared network namespace is not created
   - cni/<network>: task group will have an isolated network namespace with the CNI network
   - none: each task will have an isolated network without any network interfaces
-1. Host Mode
-   
-   ![alt text](https://github.com/sawan22071995/notes/blob/main/host-mode-demo.png?raw=true)
-   
-   -  Access via host IP address and dynamically allocated port
-   
-   - Default port range is 20000 – 32000
-   
-   -  Relies on the task drivers to implement port mapping
-   
-   ![alt text](https://github.com/sawan22071995/notes/blob/main/host-mode.png?raw=true)
+
+#### Host Mode
+
+![alt text](https://github.com/sawan22071995/notes/blob/main/host-mode-demo.png?raw=true)
+
+- Access via host IP address and dynamically allocated port
+
+- Default port range is 20000 – 32000
+
+- Relies on the task drivers to implement port mapping
+
+![alt text](https://github.com/sawan22071995/notes/blob/main/host-mode.png?raw=true)
+
 - ![alt text](https://github.com/sawan22071995/notes/blob/main/host-mode-1.png?raw=true)
 
 - ![alt text](https://github.com/sawan22071995/notes/blob/main/host-mode-2.png?raw=true)
-2. Bridge Mode
-   
-   ![alt text](https://github.com/sawan22071995/notes/blob/main/bridgw-mode-demo.png?raw=true)
-   
-   - Access via host IP address and dynamically allocated port
-   
-   - Default port range is 20000 - 32000
-   
-   ![alt text](https://github.com/sawan22071995/notes/blob/main/bridgw-mode.png?raw=true)
+
+#### Bridge Mode
+
+![alt text](https://github.com/sawan22071995/notes/blob/main/bridgw-mode-demo.png?raw=true)
+
+- Access via host IP address and dynamically allocated port
+
+- Default port range is 20000 - 32000
+
+![alt text](https://github.com/sawan22071995/notes/blob/main/bridgw-mode.png?raw=true)
+
+### Working with Volumes
