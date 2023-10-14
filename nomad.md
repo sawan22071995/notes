@@ -596,7 +596,9 @@ Here are the general steps to register Nomad clients with a Nomad server:
        servers = ["1.2.3.4:4647", "5.6.7.8:4647"]
      }
      ```
-
+     
+     ```
+     
      ```
 
 3. **Start the Nomad Client**:
@@ -702,6 +704,7 @@ Here are the general steps to register Nomad clients with a Nomad server:
   ```
 
 - We can auto join cluster by cloud tags as well
+
 - ```
   # Server & Raft configuration
   server {
@@ -755,7 +758,7 @@ Here are the general steps to register Nomad clients with a Nomad server:
   # Client Configuration
   client {
     enabled = true
-    
+  
     server_join {
       retry_join = ["provider=aws tag_key=nomad_cluster_id tag_value=us-east-1"]
     }
@@ -771,8 +774,10 @@ Here are the general steps to register Nomad clients with a Nomad server:
 ### Removing Server Nodes from the Cluster
 
 - You might need to remove server nodes from the cluster to perform operations such as:
+  
   - Regularly scheduled maintenance
   - Upgrading to new version of Nomad
+
 - It's important that you remove server nodes the proper way to ensure Nomad (raft) is aware of your intentions
   
   ```
@@ -785,11 +790,15 @@ Here are the general steps to register Nomad clients with a Nomad server:
 ### Removing Clients from the Cluster
 
 - You might need to remove clients nodes from the cluster to perform operations such as:
+  
   - Regularly scheduled maintenance
   - Upgrading to new version of Nomad
   - Reducing cluster size because of reduced performance needs or cost savings
+
 - To ensure workloads are not impacted, you should disable scheduling eligibility on node(s) you want to remove
+
 - Next, drain the client to migrate all existing allocations to other clients
+
 - Finally, stop the Nomad service and decommission the node
   
   ```
@@ -839,7 +848,9 @@ Similar to most other HashiCorp products, it's up to YOU to secure the Nomad env
 Allows many teams and projects to share a single multi-region Nomad deployment without conflict
 
 - ACL policies provide enforcement of namespaces
+
 - Job IDs are required to be unique with a namespace but not across namespaces
+
 - Namespaces are automatically replicated across regions for easy, centralized administration at scale
   
   ![alt text](https://github.com/sawan22071995/notes/blob/main/namespace.png?raw=true)
@@ -996,8 +1007,11 @@ Allows many teams and projects to share a single multi-region Nomad deployment w
 ### ACL Tokens
 
 - When the ACL system is bootstrapped, you get the bootstrap token
+
 - The bootstrap token is a management token that provides access to everything
+
 - It is NOT recommended that you use this token for day-to-day operations
+
 - Command to generate ACL token
   
   ```
@@ -1082,3 +1096,566 @@ Allows many teams and projects to share a single multi-region Nomad deployment w
 ### Authenticate to the Nomad UI without exposing the token to the browser's history
 
 ![alt text](https://github.com/sawan22071995/notes/blob/main/acl-token-ui.png?raw=true)
+
+### Interacting with Nomad
+
+#### Nomad UI
+
+- You don't need to log into a Nomad server to interact with Nomad. You can easily interact with Nomad clusters deployed in your datacenter by using
+  the Nomad CLI on your own laptop/desktop
+- Nomad also has an autocomplete that you can install for tab completion
+  
+  ```
+  nomad –autocomplete-install
+  ```
+1. Remotely Connect to Nomad
+   
+   ```
+   - To interact with a remote Nomad host, set the environment variable NOMAD_ADDR
+   export NOMAD_ADDR=https://nomad.example.com:4646
+   PS> $env:NOMAD_ADDR = "https://nomad.example.com:4646"
+   set NOMAD_ADDR=https://nomad.example.com:4646
+   
+   - Alternatively, you can use the –address flag when running commands
+   nomad server members –address=https://nomad.example.com:4646
+   ```
+
+2. Environment Variables
+   
+   ```
+   NOMAD_ADDR              - The address of the Nomad server you want to interact with…
+   NOMAD_REGION            - The region of the Nomad server to forward commands to…
+   NOMAD_NAMESPACE         - The target namespace for queries and actions that you want to use…
+   NOMAD_TOKEN             - The ACL token you want to use to authenticate to Nomad…
+   ```
+
+3. Nomad SubCommands
+   
+   ![alt text](https://github.com/sawan22071995/notes/blob/main/subcommand.png?raw=true)
+   
+   - All commands in the Nomad CLI start with nomad
+   - Nomad has an extensive CLI with lots of subcommands
+   - acl - agent - agent-info - alloc - config - deployment - eval - fmt - job - license - monitor - namespace - node - operator - plugin - quota
+   - recommendation - scaling - sentinel - server - service - status - system - ui - var - version - volume
+   - Nomad CLI supports help commands
+   - Use –h or --help
+   - or just press enter to see a list of available commands
+   - The CLI is <mostly> used for managing jobs and therefore defaults to working with jobs unless you specify a different command name
+     
+     ```
+     "nomad run myapp.nomad" is equal to "nomad job run myapp.nomad"
+     "nomad status" is equal to "nomad job status"
+     ```
+
+#### Nomad UI
+
+- Provides a simple interface to interact with Nomad
+- View Nomad infrastructure, jobs, evaluations, allocations, variables, and more.
+- Access the UI by hitting the URL (assuming default port):
+  
+  ```
+  https://nomad.example.com:4646
+  ```
+
+- You can also get to the URL by using the nomad ui command:
+  
+  ```
+  nomad ui
+  ```
+
+- Print the Nomad UI URL without opening the browser
+  
+  ```
+  $ nomad ui –show-url
+  URL for web UI: https://nomad.example.com:4646
+  ```
+  
+  ![alt text](https://github.com/sawan22071995/notes/blob/main/nomad-ui.png?raw=true)
+
+- disable/enbale "Eligible" button icon at top below client name header client page
+
+#### Nomad API
+
+- Nomad offers a fully-featured API to configure and work with your Nomad infrastructure
+
+- In fact, the CLI and UI invokes the proper API when using them The API address is determined by the http address and port in the
+  agent configuration file
+
+- By default, the API uses port 4646
+
+- All API routes are prefixed with v1/
+
+- Additional information may be passed as a query parameter
+  
+  ![alt text](https://github.com/sawan22071995/notes/blob/main/api.png?raw=true)
+
+- If ACLs are enabled, a Nomad token must be provided when invoking an API
+- Authentication is done using the "X-Nomad-Token" or "Authorization: Bearer" header
+  
+  ```
+  $ curl \
+  --header "X-Nomad-Token: 4a8be0a9-459c-6598-ac8b-d80f26a6e8f0" \
+  --request POST
+  --data @myapp.json
+  https://nomad.example.com:4646/v1/jobs
+  ```
+
+- prettify the json ou og API
+  
+  ```
+  curl --header "X-Nomad-Token: 4a8be0a9-459c-6598-ac8b-d80f26a6e8f0" --request https://nomad.example.com:4646/v1/agent/members?pretty
+  ```
+
+- properly formatted output in json by JQ
+  
+  ```
+  curl --header "X-Nomad-Token: 4a8be0a9-459c-6598-ac8b-d80f26a6e8f0" --request https://nomad.example.com:4646/v1/agent/members | jq
+  ```
+
+## Launching and Managing Nomad
+
+- Task
+  The smallest unit of scheduling work. It could be a Docker container, a Java application, or batch processing.
+
+- Group
+  A series of tasks that should be colocated on the same Nomad client. Tightly-coupled tasks in the same group can share the same network/storage.
+
+- Job
+  The declarative that defines the deployment rules for applications.
+
+- Application
+  The instance of a task group that are running on client.
+
+- Run a Job in Nomad
+  
+  - Each job is submitted to Nomad using a job specification (job spec)
+  
+  - The job file is written in HCL (or JSON) and is often saved with a .nomad extension
+  
+  - Job files only contain one job, but they can have multiple tasks & groups if needed
+  
+  - Tasks define the actual work that will be executed while the driver controls how the task is executed
+  
+  ![alt text](https://github.com/sawan22071995/notes/blob/main/job-spec-hier.png?raw=true)
+
+- Nomad Job Specification
+  
+  - The default job type is "service" so if you are deploying a service job, you can leave this parameter out. There are three types of jobs - service, batch, and system.
+    
+    https://developer.hashicorp.com/nomad/docs/job-specification/hcl2
+    
+    ```
+    job "tetris" {
+    	# ...
+    	# Specify the datacenters this job can run in
+    	datacenters = ["dc1"]
+    	
+    	#type of service i.e service,batch etc.
+    	type = "service"
+    	
+    	constraint {
+    	attribute = "$[attr.kernel.name}"
+    	value = "linux"
+    	}
+    	
+    	update {
+    	#update job but one task at a time only`
+    	max_parallel = 1
+    	}
+    	
+    	# ...
+    }
+    
+    job "tetris" {
+    	# ...
+    	datacenters = ["dc1"]
+    	group "games" {
+    		count = 1
+    		
+    		network "web"{
+    			port "web"{
+    				to = 80
+    			}
+    		}
+    		task "tetris" {
+    			driver = "docker"
+    			config {
+    				image = "bsord/tetris"
+    				ports = ["web"]
+    				auth_soft_fail = true
+    			}
+    			resources {
+    				cpu = 500 # 500MHz
+    				memory = 256 # 256MB
+    				network {
+    				mbits = 10
+    				}
+    	    }
+    }
+    ```
+  
+  - All these configurations are in a single .nomad file
+  
+  - The file can be stored in a code repo and iterated on as needed
+  
+  - The file will be submitted to Nomad to create our resources when we're ready to launch our application
+
+- Validate Job Specification
+  
+  - Nomad CLI supports multiple ways to validate and format your job specification file
+  
+  - to check a job spec for any syntax errors or validation problems
+    
+    nomad validate <file>
+    
+    ```
+    $ nomad validate tetris.nomad
+    Job validation successful
+    
+    ```
+
+### complete Job File for Nomad
+
+![alt text](https://github.com/sawan22071995/notes/blob/main/job.png?raw=true)
+
+### Running our first Nomad Job
+
+- Once your job specification has been written, we can now create jobs and submit to Nomad to launch our application
+- You can use the CLI or API to submit new jobs
+- Use the command "nomad job run <file>" to submit the job to Nomad
+  
+  ```
+  $ nomad job run [options] <file>
+  ```
+
+### Nomad Job Plan
+
+- Nomad Job Plan
+
+- Before you submit a "real" job, you can use the "nomad job run plan <file>" to perform a dry-run to determine what would happen if the job is submitted
+
+- This is helpful to determine how the scheduler will react to the submission of this new job
+
+- Can determine whether the job will run successfully, or it might show you that you have insufficient resources to run it
+  
+  ```
+  $ nomad job run plan [options] <file>
+  ```
+  
+  ![alt text](https://github.com/sawan22071995/notes/blob/main/plan-pass.png?raw=true)
+  
+  ![alt text](https://github.com/sawan22071995/notes/blob/main/plan-fail.png?raw=true)
+
+- Ok, let's submit our tetris job with just a count of "1" which we know will work fine
+  
+  ```
+  
+  $ nomad job run tetris.nomad
+          OR
+  $ nomad run tetris.nomad
+  
+  
+  $ nomad job run tetris.nomad
+  ==> 2023-01-04T15:10:12Z: Monitoring evaluation "ec4eb3c0"
+  2023-01-04T15:10:12Z: Evaluation triggered by job "tetris"
+  2023-01-04T15:10:13Z: Evaluation within deployment: "f5cbd676"
+  2023-01-04T15:10:13Z: Allocation "83ff6abb" created: node "f55a64a7", group "games"
+  2023-01-04T15:10:13Z: Evaluation status changed: "pending" -> "complete"
+  ==> 2023-01-04T15:10:13Z: Evaluation "ec4eb3c0" finished with status "complete"
+  ==> 2023-01-04T15:10:13Z: Monitoring deployment "f5cbd676"
+  ✓ Deployment "f5cbd676" successful
+  2023-01-04T15:10:31Z
+  ID = f5cbd676
+  Job ID = tetris
+  Job Version = 0
+  Status = successful
+  Description = Deployment completed successfully
+  Deployed
+  Task Group Desired Placed Healthy Unhealthy Progress Deadline
+  games        1       1      1        0 2023-01-04T15:20:29Z
+  ```
+
+- use the command "nomad job status <job name>" to details about job
+  
+  ```
+  $ nomad job status
+  ID Type Priority Status Submit Date
+  tetris service 50 running 2023-01-04T15:10:12Z
+  vault service 50 running 2022-12-27T15:09:14Z
+  
+  
+  $ nomad job status tetris
+  ID = tetris
+  Name = tetris
+  Submit Date = 2023-01-04T15:10:12Z
+  Type = service
+  Priority = 50
+  Datacenters = dc1
+  Namespace = default
+  Status = running
+  Periodic = false
+  Parameterized = false
+  Summary
+  Task Group Queued Starting Running Failed Complete Lost Unknown
+  games         0     0        1      0      0        0    0
+  Latest Deployment
+  ID = f5cbd676
+  Status = successful
+  Description = Deployment completed successfully
+  Deployed
+  Task Group Desired Placed Healthy Unhealthy Progress Deadline
+  games         1      1       1       0     2023-01-04T15:20:29Z
+  Allocations
+  ID Node    ID   Task Group Version Desired Status Created Modified
+  83ff6abb f55a64a7 games      0      run    running 1h13m ago 1h13m ago
+  ```
+
+### How Can We Improve Our Environment?
+
+- Spread our application across nodes for high availability
+- Monitor our application logs
+- Upgrading the version of our application
+- Improve the way we access our application
+- Scale our application for dynamic workloads
+- Use variables to limit hardcoding values
+- Integrate Nomad with Vault and Consul
+
+### Job Placement
+
+- When deploying applications, understanding where they will run is essential to ensure the maximum uptime and high availability for consumers
+- By default, Nomad will use the "binpack" algorithm for allocations on available client nodes
+- Bin packing can save costs by maximizing the resources of Nomad clients
+- However, bin packing can introduce risk to your application because it may not be deployed across multiple client nodes
+- You can configure Nomad scheduling to use a "spread" algorithm for the entire cluster, or you can customize it per job within the job specification
+
+![alt text](https://github.com/sawan22071995/notes/blob/main/binpack.png?raw=true)
+
+### Customizable Scheduling
+
+- Choose “binpack” or “spread”
+- Customizable as one simple string in Nomad’s configuration
+- Scheduling algorithm applies to all applications deployed on the cluster
+  
+  ```
+  #server and raft configuration
+  server{
+  	enabled = true
+  	bootstrap_expect = 3
+  	encrypt = "djkhfjkslkjfsgfkldjgkdjk"
+  	license_path = "/etc/nomad.d/nomad.hcl"
+  	server_join{
+  		retry_join = ["10.1.1.1", "10.1.1.2"]
+  	}
+  	default_scheduler_config {
+  		scheduler_algorithm = "spread"
+  	}
+  }
+  ```
+
+- When using spread, the scheduler will attempt to place allocations equally among the available values of the given target
+- Spread can be used at the job level and/or the group level
+- Spread can distribute tasks across datacenters if you have federated datacenters
+  
+  ```
+  job "tetris"{
+  	datacenter = ["dc1"]
+  	
+  	group "games" {
+  		count = 5
+  		
+  	spread {
+  		attribute = "${node.datacenter}"
+  		target = "dc1"{
+  			percent = 100
+  		}
+  	  }
+  	}
+  }
+  
+  - Schedule 70% of allocations to DC1 and 30% to DC2
+  job "tetris"{
+  	datacenter = ["dc1", "dc2"]
+  	
+  	group "games" {
+  		count = 5
+  		
+  	spread {
+  		attribute = "${node.datacenter}"
+  		target = "dc1"{
+  			percent = 70
+  		}
+  		target = "dc2"{
+  			percent = 30
+  		}
+  	  }
+  	}
+  }
+  
+  - Schedule 50% of allocations to the primary datacenter (NYC) and 50% to the DR datacenter (SFO) using user-defined metadata
+  job "tetris"{
+  	datacenter = ["nyc", "sfo"]
+  	
+  	group "games" {
+  		count = 5
+  		
+  	spread {
+  		attribute = "${meta.dc}"
+  		target = "nyc-prod"{
+  			percent = 50
+  		}
+  		target = "sfo-dr"{
+  			percent = 50
+  		}
+  	  }
+  	}
+  }
+  ```
+
+### Job Scheduling
+
+- Spread is now under the job stanza
+
+- This applies to all groups and tasks in the job specification
+
+- Multiple groups in the job specification
+  
+  ```
+  job "tetris" {
+  	datacenter = ["dc1", "dc2"]
+  	
+  	spread {
+  		attribute = "${node.datacenter}"
+  		target "dc1" {
+  			percent = 70
+  		}
+  		target "dc2"{
+  			percent = 30
+  		}		
+  	}
+  	group "frontend"{
+  		#...
+  		task "webapp" {
+  			#....
+  		}
+  	}
+  	group "Backend"{
+  		#...
+  		task "Java" {
+  			#....
+  		}
+  	}
+  }
+  ```
+
+### Job Scheduling (Multiple Spread Configurations)
+
+- Spread all groups included in the job specification across both the nyc and sfo datacenters
+
+- Within each datacenter, spread allocations for the frontend group across Nomad clients that have user-defined metadata for prod1 and prod2
+
+- Note: If there is a conflict, the group level spread will take priority
+  
+  ```
+  job "docs" {
+    # Spread allocations over all datacenter
+    spread {
+      attribute = "${node.datacenter}"
+  	target "nyc" {
+  		percent = 70
+  	}
+  	target "sfo" {
+  		percent = 30
+  	}
+    }
+  
+    group "example" {
+      # Spread allocations over each rack based on desired percentage
+        spread {
+          attribute = "${meta.rack}"
+          target "r1" {
+            percent = 60
+          }
+          target "r2" {
+            percent = 40
+          }
+        }
+    }
+  }
+  ```
+
+### Job Constraints
+
+- Define Meta data in client configuration in nomad.hcl file
+  
+  ```
+  client {
+  	enabled = true
+  	meta {
+  		env  = "prod1"
+  		rack = "rack-12"
+  		hardware = "cisco"
+  		instructor = "karuasen"
+  	}
+  }
+  ```
+- Constraints are requirements Nomad must evaluate about the client, such as the operating system, architecture, kernel version, and more before allocations are made….
+- Constraint requirements are specified at the job, group, or task level
+  
+  ```
+  Examples:
+  	- Client must be Linux
+  	job "tetris"{
+  		datacenters = ["dc1","dc2"]
+          constraint{
+  			attribute = "${attr.kernel.name}
+  			value = "Linux"
+  		}		
+  	}
+  	- Client must be running x64 architecture
+  	- Client must be running on an underlying AWS instance that is m5.8xlarge
+  	- Client must have specific metadata
+  	
+            |----->job--->constraint
+  Placement |----->job--->group--->constraint
+            |----->job--->group--->task--->constraint
+  ```
+
+### Job Constraints Example
+
+![alt text](https://github.com/sawan22071995/notes/blob/main/job-const.png?raw=true)
+
+![alt text](https://github.com/sawan22071995/notes/blob/main/job-con.png?raw=true)
+
+### Networking
+
+- When deploying applications, networking is a critical component to ensure users can access the running applications
+- Networking is defined at the group level using the network stanza
+- Options for networking include:
+  
+  bridge: group will have an isolated network namespace with an interface bridged with the host
+  - host: (default) - each task will join the host network namespace – a shared network namespace is not created
+  - cni/<network>: task group will have an isolated network namespace with the CNI network
+  - none: each task will have an isolated network without any network interfaces
+1. Host Mode
+   
+   ![alt text](https://github.com/sawan22071995/notes/blob/main/host-mode-demo.png?raw=true)
+   
+   -  Access via host IP address and dynamically allocated port
+   
+   - Default port range is 20000 – 32000
+   
+   -  Relies on the task drivers to implement port mapping
+   
+   ![alt text](https://github.com/sawan22071995/notes/blob/main/host-mode.png?raw=true)
+- ![alt text](https://github.com/sawan22071995/notes/blob/main/host-mode-1.png?raw=true)
+
+- ![alt text](https://github.com/sawan22071995/notes/blob/main/host-mode-2.png?raw=true)
+2. Bridge Mode
+   
+   ![alt text](https://github.com/sawan22071995/notes/blob/main/bridgw-mode-demo.png?raw=true)
+   
+   - Access via host IP address and dynamically allocated port
+   
+   - Default port range is 20000 - 32000
+   
+   ![alt text](https://github.com/sawan22071995/notes/blob/main/bridgw-mode.png?raw=true)
