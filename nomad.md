@@ -1794,3 +1794,260 @@ Allows many teams and projects to share a single multi-region Nomad deployment w
 - And….finally. Create the job for the task(s) that will consume the new CSI volume
   
   ![alt text](https://github.com/sawan22071995/notes/blob/main/vol-job.png?raw=true)
+
+### By default, the port range that Nomad will use for allocating dynamic ports on client hosts
+
+- `20000 – 32000`
+
+### Nomad is NOT aware of Docker volumes because they are managed outside of Nomad. Therefore, the scheduler cannot make decisions based on availability.
+
+### Managing Nomad Environments
+
+- Monitoring the Nomad Environment
+
+-  Monitoring Application Logs
+
+-  Rotating Gossip Encryption Key
+
+-  Upgrading Nomad to Newer Version
+
+## Nomad Monitoring
+
+- Nomad offers multiple, integrated options to monitor the cluster for system events, audit logging, and events
+
+- Nomad server and client agents collect runtime metrics that are useful for
+  monitoring the health and performance of Nomad clusters
+
+- The cluster leader also collects specific metrics as well
+
+- Nomad clients have separate metrics for the host they are running on as well as
+  each allocation being run
+
+- Telemetry data can be sent to upstream systems at a 1 second interval (default),
+  allowing you to leverage the capabilities of a monitoring provider to set up alerts and dashboards
+
+### Viewing System Logs
+
+You can view journal logs on Linux operating systems to view important information about the Nomad service. This is great for troubleshooting issues if Nomad won't start or if you think you have misconfigurations in your Nomad agent configuration
+
+![alt text](https://github.com/sawan22071995/notes/blob/main/logs.png?raw=true)
+
+Use the log_level and log_file parameters in the Nomad agent configuration file to
+output logs for Nomad.
+
+![alt text](https://github.com/sawan22071995/notes/blob/main/logs-1.png?raw=true)
+
+### Getting Metrics from the API
+
+Nomad offers an API endpoint to return metrics for the current Nomad process
+
+![alt text](https://github.com/sawan22071995/notes/blob/main/metrics.png?raw=true)
+
+### Configuring Telemetry
+
+Telemetry logs provide metrics about the health of our cluster along with key
+performance metrics we can use to validate or forecast the resources of our cluster
+
+To enable and use telemetry metrics, add the stanza to Nomad client and server
+configuration files to send metrics to Prometheus/Graphana, Splunk, DataDog, etc.
+
+![alt text](https://github.com/sawan22071995/notes/blob/main/telemetry.png?raw=true)
+
+## Application Monitoring
+
+Beyond Nomad cluster logs, you might need to gather or monitor application logs for
+security, performance, or troubleshooting purposes.
+
+Nomad offers multiple options for collecting logs directly from an application:
+
+- All tasks will write logs to the Nomad client under the alloc/logs directory
+
+- Use the nomad alloc logs CLI command to view logs of an allocation
+
+- Stream logs via the API using the /v1/client/fs/logs/<alloc> endpoint
+
+### Allocation Logs
+
+All tasks in Nomad will automatically write logs when running on Nomad clients
+
+- Currently, there is no way to disable logging for tasks
+
+- Tasks will write logs to a file in the directory: /data/alloc/<task>/alloc/logs/
+  <stdout/stderr>.index
+
+- You can change the maximum number of files Nomad will retain and the maximum size of those files
+  
+  ![alt text](https://github.com/sawan22071995/notes/blob/main/logs-alloc.png?raw=true)
+  
+  ```
+  $ ls
+  tetris.stderr.0 tetris.stdout.0
+  $ cat tetris.stdout.0
+  /docker-entrypoint.sh: /docker-entrypoint.d/ is not empty, will attempt to perform configuration
+  /docker-entrypoint.sh: Looking for shell scripts in /docker-entrypoint.d/
+  /docker-entrypoint.sh: Launching /docker-entrypoint.d/10-listen-on-ipv6-by-default.sh
+  10-listen-on-ipv6-by-default.sh: info: Getting the checksum of /etc/nginx/conf.d/default.conf
+  10-listen-on-ipv6-by-default.sh: info: Enabled listen on IPv6 in /etc/nginx/conf.d/default.conf
+  /docker-entrypoint.sh: Launching /docker-entrypoint.d/20-envsubst-on-templates.sh
+  /docker-entrypoint.sh: Launching /docker-entrypoint.d/30-tune-worker-processes.sh
+  /docker-entrypoint.sh: Configuration complete; ready for start up
+  /docker-entrypoint.sh: /docker-entrypoint.d/ is not empty, will attempt to perform configuration
+  /docker-entrypoint.sh: Looking for shell scripts in /docker-entrypoint.d/
+  /docker-entrypoint.sh: Launching /docker-entrypoint.d/10-listen-on-ipv6-by-default.sh
+  ```
+
+### Using the Nomad CLI to View Logs
+
+Use the nomad alloc logs <alloc_id> to view logs directly from the CLI
+
+```
+$ nomad alloc logs 003b26e5
+/docker-entrypoint.sh: /docker-entrypoint.d/ is not empty, will attempt to perform configuration
+/docker-entrypoint.sh: Looking for shell scripts in /docker-entrypoint.d/
+/docker-entrypoint.sh: Launching /docker-entrypoint.d/10-listen-on-ipv6-by-default.sh
+10-listen-on-ipv6-by-default.sh: info: Getting the checksum of /etc/nginx/conf.d/default.conf
+10-listen-on-ipv6-by-default.sh: info: Enabled listen on IPv6 in /etc/nginx/conf.d/default.conf
+/docker-entrypoint.sh: Launching /docker-entrypoint.d/20-envsubst-on-templates.sh
+/docker-entrypoint.sh: Launching /docker-entrypoint.d/30-tune-worker-processes.sh
+/docker-entrypoint.sh: Configuration complete; ready for start up
+/docker-entrypoint.sh: /docker-entrypoint.d/ is not empty, will attempt to perform configuration
+/docker-entrypoint.sh: Looking for shell scripts in /docker-entrypoint.d/
+/docker-entrypoint.sh: Launching /docker-entrypoint.d/10-listen-on-ipv6-by-default.sh
+10-listen-on-ipv6-by-default.sh: info: Getting the checksum of /etc/nginx/conf.d/default
+```
+
+### Stream Logs via API
+
+Using the API, you can stream the contents of a file in an allocation directory, such as
+the stdout or stderr logs
+Uses the full allocation ID (not the short one) as part of the API endpoint path
+
+```
+$ curl \
+http://localhost:4646/v1/client/fs/stream/003b26e5-8f6c-af88-e5e7-a07a1792cbd9
+?path=/alloc/logs/tetris.stdout.0
+{"Data":"L2RvY2tlci1lbnRyeXBvaW50LnNoOiAvZG9ja2VyLWVudHJ5cG9pbnQuZC8gaXMgbm90IGVtcHR5
+LCB3aWxsIGF0dGVtcHQgdG8gcGVyZm9ybSBjb25maWd1cmF0aW9uCi9kb2NrZXItZW50cnlwb2ludC5zaDogT
+G9va2luZyBmb3Igc2hlbGwgc2NyaXB0cyBpbiAvZG9ja2VyLWVudHJ5cG9pbnQuZC8KL2RvY2tlci1lbnRyeX
+BvaW50LnNoOiBMYXVuY2hpbmcgL2RvY2tlci1lbnRyeXBvaW50LmQvMTAtbGlzdGVuLW9uLWlwdjYtYnktZGV
+mYXVsdC5zaAoxMC1saXN0ZW4tb24taXB2Ni1ieS1kZWZhdWx0LnNoOiBpbmZvOiBHZXR0aW5nIHRoZSBjaGVj
+a3N1bSBvZiAvZXRjL25naW54L2NvbmYuZC9kZWZhdWx0LmNvbmYKMTAtbGlzdGVuLW9uLWlwdjYtYnktZGVmY
+XVsdC5zaDogaW5mbzogRW5hYmxlZCBsaXN0ZW4gb24gSVB2NiBpbiAvZXRjL25naW54L2NvbmYuZC9kZWZhdW
+```
+
+### Rotate the Gossip Encryption Key
+
+Many organizations have security policies that require encryption keys to be rotated at least once a year, sometimes for often
+
+Nomad has built-in features that allow you to easily generate, install, use, and remove an encryption key from the keyring
+
+- Steps for Rotating the Gossip Encryption Key
+  
+  - Generate a new key using keyring generate
+  
+  - Install the new key to all members in the cluster
+  
+  - Change the encryption key used for gossip
+  
+  - Remove the old key from the cluster
+  
+  #### Generate a New Gossip Encryption Key
+  
+  - Use the key generate command included in Nomad to create a new key
+  
+  - This is the same command we used when talking about securing Nomad earlier in the course and you could use it the same way
+  
+  - Note: You'll get a unique key each time you run this command
+    
+    ```
+    $ nomad operator gossip keyring generate
+    WHvDRJKnCA3UyCUQv0wclfZM5XABgXXnn4qYxQhQBJE=
+    ```
+  
+  #### Install the New Gossip Encryption Key
+  
+  - Install the new gossip encryption key. This will broadcast the key to all members in the cluster – only need to run it on one node, and all the other nodes will receive it.
+  
+  - Use the nomad operator gossip keyring install <key> command
+    
+    ```
+    $ nomad operator gossip keyring install WHvDRJKnCA3UyCUQv0wclfZM5XABgXXnn4qYxQhQBJE=
+    Installing new gossip encryption key...
+    ```
+  
+  - Validate key change in logs
+    
+    ```
+    $ journalctl –u nomad
+    Jan 30 19:31:01 nomad_svr_a nomad[3060]: 2023-01-30T19:31:01.482Z [INFO] nomad: serf:
+    Received install-key query
+    ```
+  
+  #### View the Gossip Encryption Keys
+  
+  - View both keys in Nomad
+    
+    ```
+    $ nomad operator gossip keyring list
+    Gathering installed encryption keys...
+    Key
+    Do7GerAsNtzK527dxRZJwpJANdS2NTFbKJIxIod84u0=   # Old Key
+    WHvDRJKnCA3UyCUQv0wclfZM5XABgXXnn4qYxQhQBJE=   # New Key
+    ```
+  
+  #### Change the Encryption Key
+  
+  - Once the key has been installed, you can instruct Nomad to use the key for gossip encryption
+  
+  - Use the nomad operator gossip keyring use <key> command
+    
+    ```
+    $ nomad operator gossip keyring use WHvDRJKnCA3UyCUQv0wclfZM5XABgXXnn4qYxQhQBJE=
+    Changing primary gossip encryption key..
+    
+    $ journalctl –u nomad
+    Jan 30 19:46:44 nomad_svr_a nomad[3060]: 2023-01-30T19:46:44.730Z [INFO] nomad:
+    serf: Received use-key query
+    
+    ```
+  
+  #### Remove the Old Gossip Encryption Key
+  
+  - Once the new key is installed, we can easily remove the old key, leaving us with only the new key on the keyring to be used for gossip encryption
+    
+    Use the nomad operator gossip keyring remove <key> command
+    
+    ```
+    $ nomad operator gossip keyring remove Do7GerAsNtzK527dxRZJwpJANdS2NTFbKJIxIod84u0=
+    Removing gossip encryption key...
+    ```
+
+## Upgrading Nomad to a Newer Version
+
+- Nothing says "Day 2 Operations" more than upgrading the cluster 
+
+- Nomad supports both in-place upgrades by replacing the binary or rolling
+  updates by adding new hosts to the cluster and removing the old ones
+
+- Nomad is backward compatible for at least one point release but doesn't test
+  or support upgrades beyond that
+
+- Nomad does NOT support downgrading either
+
+### Critical Items for Upgrading
+
+![alt text](https://github.com/sawan22071995/notes/blob/main/item-upg.png?raw=true)
+
+### Order of Operations (Rolling)
+
+- HashiCorp recommends to upgrade servers first since many new client
+  features will not work until servers are upgraded
+
+- Any new features (server and client) are unlikely to work correctly until all
+  nodes in the cluster have been upgraded
+  
+  ![alt text](https://github.com/sawan22071995/notes/blob/main/upgrade.png?raw=true)
+
+### Order of Operations (In-Place)
+
+![alt text](https://github.com/sawan22071995/notes/blob/main/upg.png?raw=true)
