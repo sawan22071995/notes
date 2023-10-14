@@ -1,3 +1,5 @@
+### Create the Job to Use
+
 ### Working with Volumes
 
 # Nomad Notes
@@ -1367,7 +1369,7 @@ Allows many teams and projects to share a single multi-region Nomad deployment w
           OR
   $ nomad run tetris.nomad
   ```
-
+  
   $ nomad job run tetris.nomad
   ==> 2023-01-04T15:10:12Z: Monitoring evaluation "ec4eb3c0"
   2023-01-04T15:10:12Z: Evaluation triggered by job "tetris"
@@ -1693,3 +1695,102 @@ Allows many teams and projects to share a single multi-region Nomad deployment w
 ![alt text](https://github.com/sawan22071995/notes/blob/main/bridgw-mode.png?raw=true)
 
 ### Working with Volumes
+
+- For workloads that require storage for stateful workloads, Nomad can provide access to host volumes or CSI volumes
+
+- Nomad is aware of host volumes during the scheduling process, allowing it to make scheduling decisions based on the availability of host volumes on a specific client
+
+- However, Nomad is NOT aware of Docker volumes because they are managed outside of Nomad. Therefore, the scheduler cannot make decisions based on availability
+
+- Of course, volumes are available to other resources beyond containers, such as exec and java apps
+
+- A host volume is essentially a path on the client that is made available to jobs. The
+  data is stored locally on the Nomad client
+
+- A csi-volume is exposed to jobs using a CSI plugin to consume externally created
+  storage volumes. Examples of these include AWS EBS volumes, GCP persistent disks, Ceph, vSphere, and more
+  
+  #### Host Volume
+  
+  ![alt text](https://github.com/sawan22071995/notes/blob/main/host-vol.png?raw=true)
+  
+  ![alt text](https://github.com/sawan22071995/notes/blob/main/host-volume.png?raw=true)
+  
+  #### CSI Volume
+  
+  - CSI volumes are dynamically mounted by CSI plugins.
+  
+  - These plugins actually run as a system job and can mount volumes created by cloud providers or storage platforms. No updates to the client agent configuration file needed*!
+  
+  - Again, Nomad is aware of CSI volumes, which allows Nomad to schedule your workloads based on the availability of volumes on a client
+  
+  - Since the CSI plugins are written by the storage vendors, any CSI plugin that supports Kubernetes should work with Nomad
+  
+  - CSI volumes are supported by a large number of storage platforms and cloud
+    providers, including:
+    
+    ```
+    • Alicloud Disk/NAS/OSS
+    • AWS EBS
+    • AWS EFS
+    • AWS FSx
+    • Azure Blob/Disk/File
+    • CephFS
+    • Cisco Hyperflex
+    • Dell EMC PowerMax/PowerScale/Unity/etc
+    • Google Cloud Filestore/Storage
+    • IBM
+    • NFS
+    • Portworx (Pure)
+    • SMB
+    • Synology
+    • vSphere
+    ```
+  
+  ![alt text](https://github.com/sawan22071995/notes/blob/main/csi-vol-steps.png?raw=true)
+
+### Enable Priviledged Docker Jobs
+
+- CSI plugins run as a privileged Docker job since they use bidirectional mount propagation to mount disks to the host
+
+- The default configuration does not allow privileged Docker jobs, so you must update your client configuration to permit them
+  
+  ![alt text](https://github.com/sawan22071995/notes/blob/main/doc-job.png?raw=true)
+
+### Create the Plugin Job
+
+- Each CSI plugin supports one or more types of jobs – Controller, Nodes, or Monolith
+
+- Most CSI plugins require that you run both a controller and a nodes job
+
+- Node plugins are usually run as system jobs
+  
+  - These jobs use the csi_plugin stanza in the job spec file
+  
+  ![alt text](https://github.com/sawan22071995/notes/blob/main/plugin-job.png?raw=true)
+
+### Deploy the Plugin Jobs to Nomad
+
+- Once you have the plugin job specifications ready, you can create the jobs in Nomad:
+  
+  ```
+  $ nomad job run csi_plugin.hcl
+  ==> 2023-01-26T17:20:29-05:00: Monitoring evaluation "b66aaf83"
+  2023-01-26T17:20:29-05:00: Evaluation triggered by job "plugin-aws-ebs-nodes"
+  2023-01-26T17:20:30-05:00: Allocation "f329afdd" created: node "7ff357a0", group "nodes"
+  2023-01-26T17:20:30-05:00: Evaluation status changed: "pending" -> "complete"
+  ==> 2023-01-26T17:20:30-05:00: Evaluation "b66aaf83" finished with status "complete
+  ```
+
+### Register the Volume
+
+- Each volume needs to be registered with Nomad to ensure the CSI plugins
+  know about each volume
+  
+  ![alt text](https://github.com/sawan22071995/notes/blob/main/reg-vol.png?raw=true)
+
+### Create the Job to Use the Volume
+
+- And….finally. Create the job for the task(s) that will consume the new CSI volume
+  
+  ![alt text](https://github.com/sawan22071995/notes/blob/main/vol-job.png?raw=true)
