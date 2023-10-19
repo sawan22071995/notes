@@ -1,3 +1,3 @@
 # Manipal E-pharmacy
 
-## This is a place for technical documentation of Manipal E-pharmacy project
+## This is a place for technical documentation of all DevOps and Cloud Related Topics
