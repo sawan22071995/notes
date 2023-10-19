@@ -1,0 +1,41 @@
+steps:
+  - name: 'gcr.io/cloud-builders/docker'
+    args: ['build', '-t', 'asia-south1-docker.pkg.dev/${_PROJECT}/${_ARTIFACT_REPO_NAME}/${_IMAGENAME}:${_VERSION}', '.']
+
+  - name: 'gcr.io/cloud-builders/docker'
+    args: ['push', 'asia-south1-docker.pkg.dev/${_PROJECT}/${_ARTIFACT_REPO_NAME}/${_IMAGENAME}:${_VERSION}']
+
+  #It will check the deployment exist and sets the 'check-deployment' steps to ignore exist status.
+  #So, that it doesn't fail if the deployment doesn't exist.
+  #It proceed to delete it if deployment exist.
+
+  - name: 'gcr.io/cloud-builders/kubectl'
+    args: ['delete', '-f', 'k8/deploymentdev.yaml']
+    env:
+    - 'CLOUDSDK_COMPUTE_ZONE=${_ZONE}'
+    - 'CLOUDSDK_CONTAINER_CLUSTER=${_GKE_CLUSTER}'
+    id: delete-deployment
+    allowFailure: true
+
+  - name: 'gcr.io/cloud-builders/kubectl'
+    args: ['apply', '-f', 'k8/deploymentdev.yaml']
+    id: apply-deployment
+    env:
+    - 'CLOUDSDK_COMPUTE_ZONE=${_ZONE}'
+    - 'CLOUDSDK_CONTAINER_CLUSTER=${_GKE_CLUSTER}'
+    waitFor: ['delete-deployment']
+substitutions:
+    #GCP Specific configuration. Please DON'T change anything
+    _PROJECT: mhe-dev-svcprj
+    _ZONE: asia-south1
+    _GKE_CLUSTER: mheepharmacykubernetes
+    
+    #Repository Specific configuration. DevOps can change this settings
+    _IMAGENAME: mhe-docsify    
+    _ARTIFACT_REPO_NAME: mhe-epharmacy
+    
+    # Developers ONLY change
+    _VERSION: latest
+    
+options:
+    substitution_option: 'ALLOW_LOOSE'
