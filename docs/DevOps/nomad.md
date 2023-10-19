@@ -1,7 +1,3 @@
-### Create the Job to Use
-
-### Working with Volumes
-
 # Nomad Notes
 
 ## Getting NOMAD Running
