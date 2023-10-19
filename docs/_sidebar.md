@@ -7,6 +7,11 @@
 - DevOps
   
   - [DevOps+Cloud+Interview+QA](DevOps/DevOps+Cloud+Interview+QA.md)
+  - [bash+script+reference](DevOps/bash+script+reference.md)
+  - [cicd+Jenkins+Ansible+k8s](DevOps/cicd+Jenkins+Ansible+k8s.md)
+  - [Git](DevOps/Git.md)
+  - [Linux+Command+Notes](DevOps/Linux+Command+Notes.md)
+  - [Windows+Command+Notes](DevOps/Windows+Command+Notes.md)
 
 - IAC
   
