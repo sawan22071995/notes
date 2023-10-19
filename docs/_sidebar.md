@@ -12,6 +12,7 @@
   - [Git](DevOps/Git.md)
   - [Linux+Command+Notes](DevOps/Linux+Command+Notes.md)
   - [Windows+Command+Notes](DevOps/Windows+Command+Notes.md)
+  - [nomad](DevOps/nomad.md)
 
 - IAC
   
