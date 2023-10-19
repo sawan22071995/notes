@@ -2,8 +2,6 @@
 
 ![diagram](https://media.licdn.com/dms/image/D4D22AQHIULO9fciOzA/feedshare-shrink_800/0/1691052203983?e=1695254400&v=beta&t=rBTtYe9-EFqLSkGhlTMBVVb7F6gJJBrJapypU05t-sw)
 
-
-
 ### ✍Create new Ubuntu Virtual Machine and install Jenkins in it.
 
 ## ✍ Create new Ubuntu Virtual Machine and install Ansible in it.
