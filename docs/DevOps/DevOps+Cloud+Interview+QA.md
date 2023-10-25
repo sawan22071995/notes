@@ -43,8 +43,8 @@ Normal Solution
 listA = [ 1, 2, 3]
 listB = []
 for n in listA:
-	add_1 = n + 1
-	listB.append(add_1)
+    add_1 = n + 1
+    listB.append(add_1)
 -----------------------
 By List Comprehension
 -----------------------
@@ -201,12 +201,12 @@ print(txt)
 ---
 #by for loop because charcter arrange in revrse order [right<--left]
 def reverse(s):
-	str = ""
-	for i in s:
-	    print("i :", i)
-	    str = i + str
-	    print("str :", str)
-	return str
+    str = ""
+    for i in s:
+        print("i :", i)
+        str = i + str
+        print("str :", str)
+    return str
 
 s = "Comapany"
 print(reverse(s))
@@ -428,10 +428,10 @@ kind: PodDisruptionBudget
 metadata:
   name: pdbName
 spec:
-	minAvailable: 2
-	selector:
-		matchLabels:
-			run: nginx
+    minAvailable: 2
+    selector:
+        matchLabels:
+            run: nginx
 ---
 ```
 
@@ -561,17 +561,17 @@ Command used in ansible without playbook is called ad-hoc command.
 ```
 - You can dynamically construct repeatable nested block like setting using a specific dynamic block type , which is supported inside resources, data, providors and provisioner block.
 local {
-	ports = [22,80,8080,8081]
+    ports = [22,80,8080,8081]
 }
 
 dynamic "security_rule"{
-	for_each = local.port
-	content{
-	name                   = "Inbound-rule-${security_rule.key}"   //0,1,2,3         - keyIndexForEachLoop
-	priority               = sum([100, security_rule.key])         //100,101,102,103 - 100 + KeyIndexForEachLoop
-	source_port_range      = security_rule.value                   //22,80,8080,8081 - ValueForEachLoop
-	destination_port_range = security_rule.value                   //22,80,8080.8081 - ValueForEachLoop
-	}
+    for_each = local.port
+    content{
+    name                   = "Inbound-rule-${security_rule.key}"   //0,1,2,3         - keyIndexForEachLoop
+    priority               = sum([100, security_rule.key])         //100,101,102,103 - 100 + KeyIndexForEachLoop
+    source_port_range      = security_rule.value                   //22,80,8080,8081 - ValueForEachLoop
+    destination_port_range = security_rule.value                   //22,80,8080.8081 - ValueForEachLoop
+    }
 }
 ```
 
@@ -941,7 +941,7 @@ resource "aws_instance" "example" {
   tags = {
     Name          = "terraform-learn-state-ec2"
     Drift_example = "v1"
-	
+
   }
 
   lifecycle {
@@ -1359,18 +1359,18 @@ There are two types of managed identities:
 
 ```
 #!/bin/bash
- 
+
 SOURCE_KEYVAULT="keyvaultold"
 DESTINATION_KEYVAULT="keyvaultnewtest"
- 
+
 SECRETS+=($(az keyvault secret list --vault-name $SOURCE_KEYVAULT --query "[].id" -o tsv))
- 
+
 for SECRET in "${SECRETS[@]}"; do
- 
+
 SECRETNAME=$(echo "$SECRET" | sed 's|.*/||')
- 
+
 SECRET_CHECK=$(az keyvault secret list --vault-name $DESTINATION_KEYVAULT --query "[?name=='$SECRETNAME']" -o tsv)
-  
+
 if [ -n "$SECRET_CHECK" ]
 then
     echo "A secret with name $SECRETNAME already exists in $DESTINATION_KEYVAULT"
@@ -1379,7 +1379,7 @@ else
     SECRET=$(az keyvault secret show --vault-name $SOURCE_KEYVAULT -n $SECRETNAME --query "value" -o tsv)
     az keyvault secret set --vault-name $DESTINATION_KEYVAULT -n $SECRETNAME --value "$SECRET" >/dev/null
 fi
- 
+
 done
 ```
 
@@ -1418,15 +1418,15 @@ to start and stop azure kubernates cluster.
 # MASTER NODE configuration used for control all cluster. There are 4 component in master node or control plane
 1. API Server       - Used to communicate between all other component with each other  
    port-6443          All the configuration like CRUD operation goes through it only.
-				      It is also manage authentication and validate yaml configuration also.
+                      It is also manage authentication and validate yaml configuration also.
 2. ETCD             - It is know as the key-value pair database for Kubernates.
    port-2379          It is stored all kubernates configuration,app configuration and secret etc.
 3. Controll Manager - There is used to controller for controllers. Their are 4 controllers component
    port-10252         a. node controller
-					  b. replication controller
-					  c. end-point controller
-					  d. token and service token controllers
-					  It manage overall health of kubernates cluster like evrything is up and running state
+                      b. replication controller
+                      c. end-point controller
+                      d. token and service token controllers
+                      It manage overall health of kubernates cluster like evrything is up and running state
 4. Schedular        - It helps to task schedule and check pod configuration and assign configuration to node as respect to pod
    port-10251         It have task to find approriate worker node and assign to pod 
 
@@ -1439,8 +1439,8 @@ to start and stop azure kubernates cluster.
    (30000-32767)      Jobs like Service configuration , routing and load balancing task 
 3. CRI              - It is know as Container Runtime Interfaces
                       It is responsible for running and downloading images in node
-					  Kubernates support various CRI like docker,containers.d and others
-					  Docker is default CRI in Kubernates
+                      Kubernates support various CRI like docker,containers.d and others
+                      Docker is default CRI in Kubernates
 ```
 
 ##### Q. How to authenticate terraform with azure?
@@ -1470,7 +1470,6 @@ export ARM_CLIENT_CERTIFICATE_PATH="/path/to/my/client/certificate.pfx"
 export ARM_CLIENT_CERTIFICATE_PASSWORD="Pa55w0rd123"
 export ARM_SUBSCRIPTION_ID="00000000-0000-0000-0000-000000000000"
 export ARM_TENANT_ID="00000000-0000-0000-0000-000000000000"
-
 ```
 
 ##### Q. What is Kubernetes and why it is important?
@@ -1608,5 +1607,166 @@ In Kubernetes, "create" and "apply" are two different commands used to manage Ku
 - Only 1 agent used for run 1 pipeline parallel.
 - Yaml file will available for CI pipeline from class editor created pipeline in Azure DevOps not CD pipelines.
 - Online debugger for python : https://pythontutor.com/visualize.html#mode=edit
+
+##### Q. what is the diffrence between COPY and ADD command in dockerfile?
+
+1. Functionality:
+   COPY: The COPY command is a straightforward way to copy files and directories from your host system to the image. It copies files or directories as-is without extracting or processing them. It's a simple file transfer mechanism.
+   ADD: The ADD command has additional functionality. It not only copies files from the host to the image but also allows you to use URLs or extract compressed archives (e.g., .tar, .zip) directly into the image. Docker will automatically handle the extraction and copying of files.
+
+2. Caching:
+   COPY: The COPY command is cacheable. Docker will cache the results of the COPY command, which can lead to faster build times when the source files have not changed. If the source files haven't changed, Docker will use the cached layer, and the subsequent builds will be faster.
+   ADD: The ADD command is not cacheable in the same way as COPY. Since it can involve complex operations such as decompression of archives or downloading from URLs, Docker doesn't cache the results in the same manner. This can lead to slower builds if the source files haven't changed.
+
+3. URLs and Archives:
+   COPY: The COPY command is designed primarily for copying local files and directories into the image. It does not support URLs or extracting compressed archives directly.
+   ADD: The ADD command, on the other hand, allows you to copy files from URLs or automatically extract compressed archives. For example, you can use ADD to download a file from the internet and place it in your image, or you can use it to add a compressed archive that will be extracted during the build process.
+- Best Practices:
+  It is generally recommended to use the COPY command when you only need to copy local files or directories and have no need for the additional features of ADD. This is because COPY is more explicit and predictable in its behavior.
+  Use the ADD command when you specifically require its additional functionality, such as extracting archives or downloading files from URLs.
+
+##### Q. Explain the typical lifecycle of a docker container?
+
+There can be many combinations of stages in the life cycle of a docker container but here is one of the most common one is given below.
+
+- Pull or create a docker image
+- Create a container from the image
+- Run the container
+- Stop the container 
+- Restart the container
+- Kill the container (if needed)
+- Prune or reclaim the resources used by the container
+
+##### Q. What are the two ways to download the docker images?
+
+There are two ways i.e. explicit and implicit. We can download image explicitly using command ‘docker pull’. Implicitly, when we execute ‘docker run’ then Docker daemon searches the image locally and if not found, it downloads the image.
+
+##### Q. How to transfer docker images from one machine to another without intenret?
+
+docker save -o images.tar image1 image2 image3
+docker load -i image.tar
+
+##### Q. Import and export docker containers?
+
+docker export -o container.tar container_name
+docker import container.tar
+
+##### Q. How to check steps executed in docker images?
+
+```
+$ docker image history  acme/my-final-image:1.0
+IMAGE          CREATED         CREATED BY                                      SIZE      COMMENT
+8bd85c42fa7f   3 minutes ago   CMD ["/bin/sh" "-c" "/app/hello.sh"]            0B        buildkit.dockerfile.v0
+<missing>      3 minutes ago   RUN /bin/sh -c chmod +x /app/hello.sh # buil…   39B       buildkit.dockerfile.v0
+<missing>      3 minutes ago   COPY . /app # buildkit                          222B      buildkit.dockerfile.v0
+<missing>      4 minutes ago   RUN /bin/sh -c apk add --no-cache bash # bui…   2.15MB    buildkit.dockerfile.v0
+<missing>      7 weeks ago     /bin/sh -c #(nop)  CMD ["/bin/sh"]              0B
+<missing>      7 weeks ago     /bin/sh -c #(nop) ADD file:f278386b0cef68136…   5.6MB
+```
+
+##### Q. What does the following command do "docker inspect –format ‘{{ .NetworkSettings.IPAddress }}’ hfgdh67868"?
+
+This will extract the exact private IP address of the container
+
+##### Q. How can you override the ENTRYPOINT at runtime?
+
+You can override the ENTRYPOINT at runtime using ‘–entrypoint’.
+
+##### Q. What are the two types of registries used in Docker?
+
+The two types of registry used in Docker system are Public Registry and Private Registry. Docker’s public registry is called Docker hub where you can store millions of images. You can also build a private registry for your in-premise use.
+
+##### Q. How does  Docker client and Docker Daemon communicate?
+
+Docker client and Docker Daemon communicate using a mix of Restful API, socket I/O, and TCP.
+
+##### Q. Can we add mutiple machine in docker swarn without installing docker swarn in each machine?
+
+NO
+
+##### Q. what is the difference between docker create and docker run command?
+
+**Create** command create the conatiner but doesn't start it. the docker daemon creates a writeable container layer over the specified image and prepares it for running the specified command. The container ID is then printed to STDOUT. This is similar to docker run -d except the container is never started.
+
+**Run** command create as well as start the conatiner from docker image.
+
+##### Q. What is “null” network driver and what is its use?
+
+“null” network driver gets activated when the container is started with
+
+```
+$ docker run –net none …
+```
+
+The “null” here simply means that no IP address would be configured for the container. Also the container will not have any access to the external network as well as to other containers. It is generally used for running local batch tyep of jobs.
+
+##### Q. How do you ensure that container 1 runs before container 2 while using Docker Compose?
+
+Docker Compose doesn’t wait for containers to be ready before moving forward with the next container. 
+In order to control our order of execution, we can use the “depends on” condition, depends_on. Here’s an example of it being used in a docker-compose.yml file:
+
+```
+version: "2.4"
+services:
+ backend:
+   build: .
+   depends_on:
+     - db
+ db:
+   image: postgres
+```
+
+The docker-compose up command will start and run the services in the dependency order that we specify.
+
+##### Q. Can you explain the “ship the application” part of Docker?
+
+A modern-day application is structured as a set of independent microservices with well-defined access points. They are converted to images along with their dependencies and shipped. Each image is a set of layers and only changes in layers are shipped (and not the entire layer). This way, we can save on disk usage, reduce network load and minimize memory usage.
+
+##### Q. Who owns the Docker control socket?
+
+Docker control socket is owned by docker group.
+
+##### Suppose you are inside a container say container_1. You exit the container by typing exit on the command prompt. What happens to container_1?
+
+root@container_1:/# exit
+Ans. Container_1 goes to stop state and all its compute resources get freed. However, it remains on the system’s disk storage.
+
+##### Q. Can an ARG variable be used by the running container?
+
+No, an ARG variable cannot be used by the running container as it is exclusively reserved for use by dockerfile.
+
+##### Q. The launchable, configured unit of an application is called a container. Is this statement true or false?
+
+This statement is false. Image is the launchable and configured unit of an application.
+
+##### Q. How can one see the logs of a container in real time?
+
+```
+We can see the logs of a container in real time using –follow option of logs command. E.g.
+$ docker logs –follow <containerid>
+```
+
+##### Q. Normal user in host machine can read files mounted by docker container with root user?
+
+NO
+
+##### Q.  What is Checkpoint? / Does Nomad call home?
+
+Nomad makes use of a HashiCorp service called Checkpoint which is used to check for updates and critical security bulletins. Only anonymous information, which cannot be used to identify the user or host, is sent to Checkpoint. An anonymous ID is sent which helps de-duplicate warning messages. This anonymous ID can be disabled. Using the Checkpoint service is optional and can be disabled.
+
+##### Q. Is Nomad eventually or strongly consistent?
+
+Nomad makes use of both a consensus protocol and a gossip protocol. The consensus protocol is strongly consistent, and is used for all state replication and scheduling. The gossip protocol is used to manage the addresses of servers for automatic clustering and multi-region federation. This means all data that is managed by Nomad is strongly consistent.
+
+##### Q. Is Nomad's datacenter parameter the same as Consul's?
+
+No. For those familiar with Consul, Consul's notion of a datacenter is more equivalent to a Nomad region. Nomad supports grouping nodes into multiple datacenters, which should reflect nodes being colocated, while being managed by a single set of Nomad servers.
+Consul on the other hand does not have this two-tier approach to servers and agents and instead relies on federation to create larger logical clusters.
+
+##### Q. What is "bootstrapping" a Nomad cluster?
+
+Bootstrapping is the process when a Nomad cluster elects its first leader and writes the initial cluster state to that leader's state store. Bootstrapping will not occur until at least a given number of servers, defined by bootstrap_expect, have connected to each other. Once this process has completed, the cluster is said to be bootstrapped and is ready to use.
+Certain configuration options are only used to influence the creation of the initial cluster state during bootstrapping and are not consulted again so long as the state data remains intact. These typically are values that must be consistent across server members. For example, the default_scheduler_config option allows an operator to set the SchedulerConfig to non-default values during this bootstrap process rather than requiring an immediate call to the API once the cluster is up and running.
+If the state is completely destroyed, whether intentionally or accidentally, on all of the Nomad servers in the same outage, the cluster will re-bootstrap based on the Nomad defaults and any configuration present that impacts the bootstrap process.
 
 
