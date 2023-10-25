@@ -1728,8 +1728,11 @@ Docker control socket is owned by docker group.
 
 ##### Suppose you are inside a container say container_1. You exit the container by typing exit on the command prompt. What happens to container_1?
 
+```
 root@container_1:/# exit
-Ans. Container_1 goes to stop state and all its compute resources get freed. However, it remains on the system’s disk storage.
+```
+
+Container_1 goes to stop state and all its compute resources get freed. However, it remains on the system’s disk storage.
 
 ##### Q. Can an ARG variable be used by the running container?
 
@@ -1768,5 +1771,3 @@ Consul on the other hand does not have this two-tier approach to servers and age
 Bootstrapping is the process when a Nomad cluster elects its first leader and writes the initial cluster state to that leader's state store. Bootstrapping will not occur until at least a given number of servers, defined by bootstrap_expect, have connected to each other. Once this process has completed, the cluster is said to be bootstrapped and is ready to use.
 Certain configuration options are only used to influence the creation of the initial cluster state during bootstrapping and are not consulted again so long as the state data remains intact. These typically are values that must be consistent across server members. For example, the default_scheduler_config option allows an operator to set the SchedulerConfig to non-default values during this bootstrap process rather than requiring an immediate call to the API once the cluster is up and running.
 If the state is completely destroyed, whether intentionally or accidentally, on all of the Nomad servers in the same outage, the cluster will re-bootstrap based on the Nomad defaults and any configuration present that impacts the bootstrap process.
-
-
