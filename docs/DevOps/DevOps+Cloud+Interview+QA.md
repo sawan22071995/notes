@@ -1771,3 +1771,124 @@ Consul on the other hand does not have this two-tier approach to servers and age
 Bootstrapping is the process when a Nomad cluster elects its first leader and writes the initial cluster state to that leader's state store. Bootstrapping will not occur until at least a given number of servers, defined by bootstrap_expect, have connected to each other. Once this process has completed, the cluster is said to be bootstrapped and is ready to use.
 Certain configuration options are only used to influence the creation of the initial cluster state during bootstrapping and are not consulted again so long as the state data remains intact. These typically are values that must be consistent across server members. For example, the default_scheduler_config option allows an operator to set the SchedulerConfig to non-default values during this bootstrap process rather than requiring an immediate call to the API once the cluster is up and running.
 If the state is completely destroyed, whether intentionally or accidentally, on all of the Nomad servers in the same outage, the cluster will re-bootstrap based on the Nomad defaults and any configuration present that impacts the bootstrap process.
+
+##### Q. have you worked on the branching strategies?
+
+```
+1. Git Flow - Master-->Develop-->Support[feature + Hotfix + Release]
+2. GitHub flow - Master-->development
+3. Gitlab Flow - development-->pre-production-->production
+```
+
+##### Q. Difference between git merge and git squash merge and how does the history lists out?
+
+- **git merge**
+  preserves the entire commit history of both branches and creates a merge commit to represent the merge. It shows the branching and merging structure in the history.
+
+- **git squash merge** 
+  combines all the changes from the source branch into a single commit on the target branch, resulting in a linear history. It does not preserve the individual commit history of the source branch
+
+##### Q. where will you store the env variable for the jenkins pipeline?
+
+- Pipeline Environment Blocks:
+  
+  ```
+  pipeline {
+      agent any
+      environment {
+          MY_VARIABLE = 'my_value'
+      }
+      stages {
+          stage('Build') {
+              steps {
+                  echo "My variable: ${MY_VARIABLE}"
+              }
+          }
+      }
+  }
+  ```
+- Global Environment Variables:
+  "Manage Jenkins" > "Configure System." In the "Global properties" section, you can set environment variables that will be available to all pipelines.
+- Credentials Plugin:
+  
+  If you need to store sensitive information like API keys, passwords, or other secret values, it's best to use Jenkins Credentials Plugin. 
+  You can create credentials with secret text and then use them in your pipeline as environment variables.
+  
+  ```
+  For example:
+  withCredentials([string(credentialsId: 'my-secret-credential', variable: 'SECRET_KEY')]) {
+      // Access SECRET_KEY in this block
+  }
+  ```
+
+##### Q. How will you troubleshoot if the pipelines aren't running successfully? In an automated way?
+
+- **Monitoring and Alerting:**
+  Implement a monitoring and alerting system to track the health and performance of your pipelines. Tools like Prometheus, Grafana, or commercial solutions like New Relic or Datadog can help.
+
+- **Logging and Tracing:**
+  Ensure that your applications and pipeline stages generate detailed logs and traces. Use tools like ELK Stack (Elasticsearch, Logstash, Kibana), Fluentd, or specialized logging solutions like Splunk.
+  Centralize log storage and implement automated log analysis to detect errors or performance issues.
+  Define clear success and failure criteria for your pipelines. Set up alerts for various stages in your CI/CD process.
+
+- **Automatic Remediation:**
+  In cases where specific issues can be automatically resolved, use automation scripts and tools to trigger remediation actions. For example, automatically restarting a container if it crashes.
+
+##### Q. How do you find the OS version of your kernel used?
+
+```
+- Find Kernel Version
+$uname -r 
+o/p : "4.15.0-72-generic."
+
+- fine kernal release
+$uname -a
+Linux cs-440994213542-default 6.1.42+ #1 SMP PREEMPT_DYNAMIC Sat Sep 30 14:24:00 UTC 2023 x86_64 GNU/Linux
+
+- use below command as well
+$cat /proc/version
+
+- Linux OS version
+$cat /etc/os-release
+$lsb_release -a
+```
+
+##### Q. What is Kubernetes architecture - explain it's components?
+
+Cluster: A cluster typically includes a **master node (control plane) and multiple worker nodes.**
+
+1. ###### Master Node (Control Plane): The master node is responsible for managing the cluster. It contains several key components:
+   
+   - **API Server:** The API server is the central management point for the entire cluster.It exposes the Kubernetes API, which allows users, administrators, and external services to interact with the cluster.
+   
+   - **Scheduler:** The scheduler is responsible for placing containers on available worker nodes based on various factors like resource requirements,policies, and constraints.
+   
+   - **Controller Manager:** This component manages various controllers that regulate the state of the system.Controllers are responsible for ensuring that the desired state of resources in the cluster matches the actual state.
+   
+   - **etcd:** etcd is a distributed key-value store used to store configuration and state information for the entire cluster.It provides consistent and reliable data storage for the cluster's configuration.
+
+2. ###### Worker Node (Minion): Worker nodes are responsible for running containers and providing the runtime environment for them.
+   
+   - **Kubelet:** Kubelet is an agent that runs on each worker node and communicates with the control plane.It manages the containers on the node, ensuring they are in the desired state.
+   
+   - **Kube Proxy:** Kube Proxy is responsible for network routing and load balancing.It maintains network rules on the node to forward traffic to the appropriate services.
+   
+   - **Container Runtime:** Kubernetes supports various container runtimes like Docker, containerd, and CRI-O.This component is responsible for running containers.
+   
+   - **Pods:** A pod can contain one or more containers that share the same network namespace and storage volume.Containers within a pod are usually tightly coupled and are scheduled together on the same node.
+   
+   - **Service:** Services are used to provide a stable network endpoint to a set of pods.They enable load balancing and service discovery for applications. Kubernetes supports different types of services, such as ClusterIP, NodePort, and LoadBalancer.
+   
+   - **Ingress:** Ingress is an API object used for managing external access to services within the cluster.It allows you to define rules for routing HTTP and HTTPS traffic to services based on hostnames and paths.
+   
+   - **Namespace:** Namespaces are used to create isolated virtual clusters within a physical cluster.They help in organizing and isolating resources, making it easier to manage multi-tenant environments.
+   
+   - **ConfigMaps and Secrets:** These are Kubernetes resources used for storing configuration data and sensitive information like passwords and API keys. They can be mounted into pods as environment variables or files.
+   
+   - **Volumes:** Kubernetes provides various types of volumes that can be attached to pods, allowing data to persist beyond the lifetime of a container.
+   
+   - **StatefulSets and Deployments:** These are controller objects used for managing the deployment and scaling of applications.Deployments are typically used for stateless applications, while StatefulSets are used for stateful application. Stateful applications rely on persistent state information that is specific to each instance or pod. This state can include data, identity, or configuration.
+   
+   - **Daemonset:** DaemonSets are used to ensure that a specific pod runs on all (or a subset of) nodes in a cluster.They are typically used for system-level and infrastructure-related services that need to run on every node, such as log collectors, monitoring agents, or storage services.        
+   
+   - **Replicaset:** ReplicaSets are used to ensure a specified number of replicas (identical copies) of a pod are running at all times in cluster .They are commonly used for stateless applications, such as web servers and microservices.
