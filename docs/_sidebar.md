@@ -3,6 +3,7 @@
   - [EKS+NLB+ALB+Ingress](Cloud/EKS+NLB+ALB+Ingress.md)
   - [GKE+ALB+Ingress](Cloud/GKE+ALB+Ingress.md)
   - [gcp+bucket+gke+gcsfuse+mount](Cloud/gcp+bucket+gke+gcsfuse+mount.md)
+  - [GCP Cloud Migration Transition](Cloud/CloudTransitionMigrationGCP.md)
 
 - DevOps
   
