@@ -1364,9 +1364,6 @@ Allows many teams and projects to share a single multi-region Nomad deployment w
   $ nomad job run tetris.nomad
           OR
   $ nomad run tetris.nomad
-  ```
-  
-  $ nomad job run tetris.nomad
   ==> 2023-01-04T15:10:12Z: Monitoring evaluation "ec4eb3c0"
   2023-01-04T15:10:12Z: Evaluation triggered by job "tetris"
   2023-01-04T15:10:13Z: Evaluation within deployment: "f5cbd676"
@@ -1383,41 +1380,72 @@ Allows many teams and projects to share a single multi-region Nomad deployment w
   Description = Deployment completed successfully
   Deployed
   Task Group Desired Placed Healthy Unhealthy Progress Deadline
-  games        1       1      1        0 2023-01-04T15:20:29Z
+    games      1       1      1         0    2023-01-04T15:20:29Z
+  ```
+  
+  
+  
 
 ```
 - use the command "nomad job status <job name>" to details about job
+$ nomad job status
+  ID     Type  Priority  Status    Submit Date
+ tetris service 50     running  2023-01-04T15:10:12Z
+ vault  service 50     running  2022-12-27T15:09:14Z
+
+$ nomad job status tetris
+ ID = tetris
+ Name = tetris
+ Submit Date = 2023-01-04T15:10:12Z
+ Type = service
+ Priority = 50
+ Datacenters = dc1
+ Namespace = default
+ Status = running
+ Periodic = false
+ Parameterized = false
+ Summary
+ Task Group Queued Starting Running Failed Complete Lost Unknown
+ games 0 0 1 0 0 0 0
+ Latest Deployment
+ ID = f5cbd676
+ Status = successful
+ Description = Deployment completed successfully
+ Deployed
+ Task Group Desired Placed Healthy Unhealthy Progress Deadline
+ games 1 1 1 0 2023-01-04T15:20:29Z
+ Allocations
+ ID       Node ID  Task Group Version Desired Status   Created  Modified
+ 83ff6abb f55a64a7 games        0      run   running 1h13m ago  1h13m ago
 ```
 
-  $ nomad job status
-  ID Type Priority Status Submit Date
-  tetris service 50 running 2023-01-04T15:10:12Z
-  vault service 50 running 2022-12-27T15:09:14Z
+  
 
-  $ nomad job status tetris
-  ID = tetris
-  Name = tetris
-  Submit Date = 2023-01-04T15:10:12Z
-  Type = service
-  Priority = 50
-  Datacenters = dc1
-  Namespace = default
-  Status = running
-  Periodic = false
-  Parameterized = false
-  Summary
-  Task Group Queued Starting Running Failed Complete Lost Unknown
-  games         0     0        1      0      0        0    0
-  Latest Deployment
-  ID = f5cbd676
-  Status = successful
-  Description = Deployment completed successfully
-  Deployed
-  Task Group Desired Placed Healthy Unhealthy Progress Deadline
-  games         1      1       1       0     2023-01-04T15:20:29Z
-  Allocations
-  ID Node    ID   Task Group Version Desired Status Created Modified
-  83ff6abb f55a64a7 games      0      run    running 1h13m ago 1h13m ago
+#### terminate the running job in Nomad
+
+```
+$ nomad job stop -purge pytechco-web
+==> 2023-03-10T12:24:45-05:00: Monitoring evaluation "d4079a21"
+    2023-03-10T12:24:45-05:00: Evaluation triggered by job "pytechco-web"
+    2023-03-10T12:24:45-05:00: Evaluation within deployment: "cdb7d282"
+    2023-03-10T12:24:45-05:00: Evaluation status changed: "pending" -> "complete"
+==> 2023-03-10T12:24:45-05:00: Evaluation "d4079a21" finished with status "complete"
+==> 2023-03-10T12:24:45-05:00: Monitoring deployment "cdb7d282"
+  ✓ Deployment "cdb7d282" successful
+    
+    2023-03-10T12:24:45-05:00
+    ID          = cdb7d282
+    Job ID      = pytechco-web
+    Job Version = 0
+    Status      = successful
+    Description = Deployment completed successfully
+    
+    Deployed
+    Task Group  Desired  Placed  Healthy  Unhealthy  Progress Deadline
+    ptc-web     1        1       1        0          2023-03-10T17:26:57Z
+
+
+```
 
 ```
 ### How Can We Improve Our Environment?
@@ -1801,11 +1829,11 @@ Allows many teams and projects to share a single multi-region Nomad deployment w
 
 - Monitoring the Nomad Environment
 
--  Monitoring Application Logs
+- Monitoring Application Logs
 
--  Rotating Gossip Encryption Key
+- Rotating Gossip Encryption Key
 
--  Upgrading Nomad to Newer Version
+- Upgrading Nomad to Newer Version
 
 ## Nomad Monitoring
 
@@ -2004,7 +2032,6 @@ Nomad has built-in features that allow you to easily generate, install, use, and
     $ journalctl –u nomad
     Jan 30 19:46:44 nomad_svr_a nomad[3060]: 2023-01-30T19:46:44.730Z [INFO] nomad:
     serf: Received use-key query
-    
     ```
   
   #### Remove the Old Gossip Encryption Key
