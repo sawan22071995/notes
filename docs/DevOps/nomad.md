@@ -16,6 +16,8 @@
 
 [HashiCorp Live: From Zero to Nomad Hero - YouTube](https://www.youtube.com/watch?v=QbcksVJcYZY&list=PLEAHWp_qqCrLOZNljlD4zJRiHIerrSRmX&index=10)
 
+[Job Specification | Nomad | HashiCorp Developer](https://developer.hashicorp.com/nomad/docs/job-specification)
+
 ### Introduction to Nomad
 
 - Much simpler alternative for k8s
