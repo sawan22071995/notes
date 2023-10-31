@@ -4,6 +4,8 @@
 
 ### official Documenttation
 
+[Nomad Reference Architecture | Nomad | HashiCorp Developer](https://developer.hashicorp.com/nomad/tutorials/enterprise/production-reference-architecture-vm-with-consul)
+
 [Architecture | Nomad | HashiCorp Developer](https://developer.hashicorp.com/nomad/docs/concepts/architecture)
 
 ### Introduction to Nomad
@@ -1305,7 +1307,43 @@ Allows many teams and projects to share a single multi-region Nomad deployment w
     }
     ```
   
-  - All these configurations are in a single .nomad file
+  - All these configurations are in a single .nomad file or nomad.hcl
+  
+  - If you define job type is service. the container will automatically restart if it stopped.
+    
+    ```
+    job "node-app-job"{
+        type = "service"
+        datacenters = ["dc1"]
+        group "games" {
+            count = 1
+    
+            network "web"{
+                port "web"{
+                    to = 80
+                }
+            service {
+                name = ""
+                port = "web"
+                provider = "nomad"
+    }
+            }
+            task "tetris" {
+                driver = "docker"
+                config {
+                    image = "bsord/tetris"
+                    ports = ["web"]
+                    auth_soft_fail = true
+                }
+                resources {
+                    cpu = 500 # 500MHz
+                    memory = 256 # 256MB
+                    network {
+                    mbits = 10
+                    }
+            }
+    }
+    ```
   
   - The file can be stored in a code repo and iterated on as needed
   
@@ -1382,9 +1420,6 @@ Allows many teams and projects to share a single multi-region Nomad deployment w
   Task Group Desired Placed Healthy Unhealthy Progress Deadline
     games      1       1      1         0    2023-01-04T15:20:29Z
   ```
-  
-  
-  
 
 ```
 - use the command "nomad job status <job name>" to details about job
@@ -1419,8 +1454,6 @@ $ nomad job status tetris
  83ff6abb f55a64a7 games        0      run   running 1h13m ago  1h13m ago
 ```
 
-  
-
 #### terminate the running job in Nomad
 
 ```
@@ -1432,19 +1465,17 @@ $ nomad job stop -purge pytechco-web
 ==> 2023-03-10T12:24:45-05:00: Evaluation "d4079a21" finished with status "complete"
 ==> 2023-03-10T12:24:45-05:00: Monitoring deployment "cdb7d282"
   ✓ Deployment "cdb7d282" successful
-    
+
     2023-03-10T12:24:45-05:00
     ID          = cdb7d282
     Job ID      = pytechco-web
     Job Version = 0
     Status      = successful
     Description = Deployment completed successfully
-    
+
     Deployed
     Task Group  Desired  Placed  Healthy  Unhealthy  Progress Deadline
     ptc-web     1        1       1        0          2023-03-10T17:26:57Z
-
-
 ```
 
 ```
