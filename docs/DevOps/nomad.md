@@ -1500,7 +1500,6 @@ $ nomad job stop -purge pytechco-web
     Deployed
     Task Group  Desired  Placed  Healthy  Unhealthy  Progress Deadline
     ptc-web     1        1       1        0          2023-03-10T17:26:57Z
-
 ```
 
 ## How Can We Improve Our Environment?
