@@ -8,6 +8,14 @@
 
 [Architecture | Nomad | HashiCorp Developer](https://developer.hashicorp.com/nomad/docs/concepts/architecture)
 
+[Nomad - The Hard Way - YouTube](https://www.youtube.com/watch?v=31rvngI7vUk&list=PLEAHWp_qqCrLOZNljlD4zJRiHIerrSRmX&index=2)
+
+[Various Workloads on Nomad - YouTube](https://www.youtube.com/watch?v=3d0g-_g8ezA&list=PLEAHWp_qqCrLOZNljlD4zJRiHIerrSRmX&index=4)
+
+[The Nomad Autoscaler - YouTube](https://www.youtube.com/watch?v=qfsn6F01jcc&list=PLEAHWp_qqCrLOZNljlD4zJRiHIerrSRmX&index=5)
+
+[HashiCorp Live: From Zero to Nomad Hero - YouTube](https://www.youtube.com/watch?v=QbcksVJcYZY&list=PLEAHWp_qqCrLOZNljlD4zJRiHIerrSRmX&index=10)
+
 ### Introduction to Nomad
 
 - Much simpler alternative for k8s
@@ -22,6 +30,12 @@
   2. Non-Containarized
   3. Batch Application
   4. Java Apps
+  5. | <mark>Scheduler</mark>  | Service          | Batch        | System           |
+     | ----------------------- | ---------------- | ------------ | ---------------- |
+     | <mark>**Driver**</mark> | **Docker**       | **Java**     | **Exec**         |
+     | <mark>**Type**</mark>   | **Long Running** | **Periodic** | **Parametrized** |
+     | <mark>**Volume**</mark> | **Yes**          | **No**       | -                |
+- ![alt text](https://github.com/sawan22071995/notes/blob/main/docs/DevOps/wl.png?raw=true)
 
 ### Nomad Components
 
@@ -83,6 +97,10 @@
    The mapping of task in a job to clients is doing using allocations.
    An allocations used to declare that a set of tasks in a job should be run on a particular node.
    Allocation can fail if there are not enough resource to executed the task, a node is down etc.
+
+### Nomad Supports multiple Task Driver Software
+
+![alt text](https://github.com/sawan22071995/notes/blob/main/docs/DevOps/td.png?raw=true)
 
 ### Scheduling Workflow in Nomad
 
@@ -661,6 +679,10 @@ Here are the general steps to register Nomad clients with a Nomad server:
 - Recommended to have <10ms latency between cluster members
 - Nomad servers can be spread across cloud regions or datacenters if they meet the latency requirements
 - ![alt text](https://github.com/sawan22071995/notes/blob/main/docs/DevOps/networking.png?raw=true)
+
+### Nomad Networking Calls
+
+![alt text](https://github.com/sawan22071995/notes/blob/main/docs/DevOps/net.png?raw=true)
 
 ### System Requirements For Nomad Servers(recommended)
 
@@ -1476,10 +1498,10 @@ $ nomad job stop -purge pytechco-web
     Deployed
     Task Group  Desired  Placed  Healthy  Unhealthy  Progress Deadline
     ptc-web     1        1       1        0          2023-03-10T17:26:57Z
-```
 
 ```
-### How Can We Improve Our Environment?
+
+## How Can We Improve Our Environment?
 
 - Spread our application across nodes for high availability
 - Monitor our application logs
@@ -1497,98 +1519,32 @@ $ nomad job stop -purge pytechco-web
 - However, bin packing can introduce risk to your application because it may not be deployed across multiple client nodes
 - You can configure Nomad scheduling to use a "spread" algorithm for the entire cluster, or you can customize it per job within the job specification
 
-![alt text](https://github.com/sawan22071995/notes/blob/main/binpack.png?raw=true)
-
 ### Customizable Scheduling
 
 - Choose “binpack” or “spread”
 - Customizable as one simple string in Nomad’s configuration
 - Scheduling algorithm applies to all applications deployed on the cluster
-```
-
-  #server and raft configuration
-  server{
-      enabled = true
-      bootstrap_expect = 3
-      encrypt = "djkhfjkslkjfsgfkldjgkdjk"
-      license_path = "/etc/nomad.d/nomad.hcl"
-      server_join{
-          retry_join = ["10.1.1.1", "10.1.1.2"]
-      }
-      default_scheduler_config {
-          scheduler_algorithm = "spread"
-      }
-  }
-
-```
 - When using spread, the scheduler will attempt to place allocations equally among the available values of the given target
 - Spread can be used at the job level and/or the group level
 - Spread can distribute tasks across datacenters if you have federated datacenters
+- ![alt text](https://github.com/sawan22071995/notes/blob/main/binpack.png?raw=true)
+
+### server and raft configuration
+
 ```
-
-  job "tetris"{
-      datacenter = ["dc1"]
-
-      group "games" {
-          count = 5
-    
-      spread {
-          attribute = "${node.datacenter}"
-          target = "dc1"{
-              percent = 100
-          }
-        }
-      }
-
-  }
-
-- Schedule 70% of allocations to DC1 and 30% to DC2
-  job "tetris"{
-    datacenter = ["dc1", "dc2"]
-  
-    group "games" {
-  
-        count = 5
-  
-    spread {
-  
-        attribute = "${node.datacenter}"
-        target = "dc1"{
-            percent = 70
-        }
-        target = "dc2"{
-            percent = 30
-        }
-      }
-  
-    }
-  }
-
-- Schedule 50% of allocations to the primary datacenter (NYC) and 50% to the DR datacenter (SFO) using user-defined metadata
-  job "tetris"{
-    datacenter = ["nyc", "sfo"]
-  
-    group "games" {
-  
-        count = 5
-  
-    spread {
-  
-        attribute = "${meta.dc}"
-        target = "nyc-prod"{
-            percent = 50
-        }
-        target = "sfo-dr"{
-            percent = 50
-        }
-      }
-  
-    }
-  }
-  
-  ```
-  
-  ```
+server{
+ enabled = true
+ bootstrap_expect = 3
+ encrypt = "djkhfjkslkjfsgfkldjgkdjk"
+ license_path = "/etc/nomad.d/nomad.hcl"
+ server_join{
+ retry_join = ["10.1.1.1", "10.1.1.2"]
+ }
+ default_scheduler_config {
+ scheduler_algorithm = "spread"
+ }
+ }
+```
 
 ### Job Scheduling
 
@@ -1706,6 +1662,21 @@ $ nomad job stop -purge pytechco-web
 ![alt text](https://github.com/sawan22071995/notes/blob/main/docs/DevOps/job-const.png?raw=true)
 
 ![alt text](https://github.com/sawan22071995/notes/blob/main/docs/DevOps/job-con.png?raw=true)
+
+### Job Scaling
+
+    resources{
+        network{
+        port "http" = {}
+       }
+    }
+    scaling{
+        enabled = true
+        min = 5
+        max = 10
+        policy{   
+     }
+    }
 
 ### Networking
 
