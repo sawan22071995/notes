@@ -1807,8 +1807,10 @@ If the state is completely destroyed, whether intentionally or accidentally, on 
       }
   }
   ```
+
 - Global Environment Variables:
   "Manage Jenkins" > "Configure System." In the "Global properties" section, you can set environment variables that will be available to all pipelines.
+
 - Credentials Plugin:
   
   If you need to store sensitive information like API keys, passwords, or other secret values, it's best to use Jenkins Credentials Plugin. 
@@ -1892,3 +1894,13 @@ Cluster: A cluster typically includes a **master node (control plane) and multip
    - **Daemonset:** DaemonSets are used to ensure that a specific pod runs on all (or a subset of) nodes in a cluster.They are typically used for system-level and infrastructure-related services that need to run on every node, such as log collectors, monitoring agents, or storage services.        
    
    - **Replicaset:** ReplicaSets are used to ensure a specified number of replicas (identical copies) of a pod are running at all times in cluster .They are commonly used for stateless applications, such as web servers and microservices.
+
+### Support Me
+
+**If you find my content useful or enjoy what I do, you can support me by buying me a coffee. Your support helps keep this website running and encourages me to create more content.**
+
+[![Buy Me a Coffee](https://www.buymeacoffee.com/assets/img/custom_images/orange_img.png)](https://www.buymeacoffee.com/sawanchokso)
+
+**Your generosity is greatly appreciated!**
+
+##### Thank you for your support!💚

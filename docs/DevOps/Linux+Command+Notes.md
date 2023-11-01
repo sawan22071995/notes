@@ -1212,10 +1212,14 @@ CATALINA_OPTS="-Djava.awt.headless=true -Xms1024 -Xmx4096M -server -Duser.timezo
   ![](C:\Users\sawchouksey\AppData\Roaming\marktext\images\2023-08-09-20-07-33-image.png)
 
 - **cd /root/.ssh/**
+
 - **ls**
+
 - go to id_rsa.pub file and copy the whole content paste into target server with commands
   **ssh-copy-id -i /home/omniops/.ssh/id_rsa.pub TargetServerUser@TargetServerURL**
+
 - enter the target server password once
+
 - to check login in target server by command it will login automatically with authorization key
   **ssh TargetServerUser@TargetServerURL**
 
@@ -1308,3 +1312,13 @@ echo -e "${YELLOW}\nyou opted for ${NC}"
                          |
 o/p = you opted for(in yellow color)
 ```
+
+### Support Me
+
+**If you find my content useful or enjoy what I do, you can support me by buying me a coffee. Your support helps keep this website running and encourages me to create more content.**
+
+[![Buy Me a Coffee](https://www.buymeacoffee.com/assets/img/custom_images/orange_img.png)](https://www.buymeacoffee.com/sawanchokso)
+
+**Your generosity is greatly appreciated!**
+
+##### Thank you for your support!💚

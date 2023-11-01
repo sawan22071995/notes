@@ -1,9 +1,6 @@
-
-
 ### Introduction
 
 Bash Scripting Cheat Sheet 
-
 
 ### Example
 
@@ -94,7 +91,6 @@ echo {A,B}.js
 | `{1..5}`   | Same as `1 2 3 4 5` |
 
 See: [Brace expansion](http://wiki.bash-hackers.org/syntax/expansion/brace)
-
 
 Parameter expansions
 --------------------
@@ -317,13 +313,13 @@ fi
 
 ### Arguments
 
-| Expression | Description                                      |
-| ---        | ---                                              |
-| `$#`       | Number of arguments                              |
+| Expression | Description                                     |
+| ---------- | ----------------------------------------------- |
+| `$#`       | Number of arguments                             |
 | `$*`       | All postional arguments  (as a single word)     |
-| `$@`       | All postitional arguments (as separate strings)  |
-| `$1`       | First argument                                   |
-| `$_`       | Last argument of the previous command            |
+| `$@`       | All postitional arguments (as separate strings) |
+| `$1`       | First argument                                  |
+| `$_`       | Last argument of the previous command           |
 
 **Note**: `$@` and `$*` must be quoted in order to perform as described.
 Otherwise, they do exactly the same thing (arguments as separate strings).
@@ -338,7 +334,7 @@ Conditionals
 Note that `[[` is actually a command/program that returns either `0` (true) or `1` (false). Any program that obeys the same logic (like all base utils, such as `grep(1)` or `ping(1)`) can be used as condition, see examples.
 
 | Condition                | Description           |
-| ---                      | ---                   |
+| ------------------------ | --------------------- |
 | `[[ -z STRING ]]`        | Empty string          |
 | `[[ -n STRING ]]`        | Not empty string      |
 | `[[ STRING == STRING ]]` | Equal                 |
@@ -363,12 +359,12 @@ Note that `[[` is actually a command/program that returns either `0` (true) or `
 | ---                  | ---                      |
 | `[[ ! EXPR ]]`       | Not                      |
 | `[[ X && Y ]]`       | And                      |
-| `[[ X || Y ]]`       | Or                       |
+| `[[ X                |                          |
 
 ### File conditions
 
 | Condition               | Description             |
-| ---                     | ---                     |
+| ----------------------- | ----------------------- |
 | `[[ -e FILE ]]`         | Exists                  |
 | `[[ -r FILE ]]`         | Readable                |
 | `[[ -h FILE ]]`         | Symlink                 |
@@ -587,7 +583,6 @@ History
 
 `!!` can be replaced with any valid expansion i.e. `!cat`, `!-2`, `!42`, etc.
 
-
 Miscellaneous
 -------------
 
@@ -760,3 +755,13 @@ if grep -q 'foo' ~/.bash_history; then
   echo "You appear to have typed 'foo' in the past"
 fi
 ```
+
+### Support Me
+
+**If you find my content useful or enjoy what I do, you can support me by buying me a coffee. Your support helps keep this website running and encourages me to create more content.**
+
+[![Buy Me a Coffee](https://www.buymeacoffee.com/assets/img/custom_images/orange_img.png)](https://www.buymeacoffee.com/sawanchokso)
+
+**Your generosity is greatly appreciated!**
+
+##### Thank you for your support!💚

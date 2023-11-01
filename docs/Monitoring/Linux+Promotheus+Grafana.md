@@ -456,13 +456,9 @@ Grafana.com maintains [a collection of shared dashboards](https://grafana.com/d
 
 You must currently manually edit the downloaded JSON files and correct the `datasource:` entries to reflect the Grafana data source name which you chose for your Prometheus server. Use the "Dashboards" → "Home" → "Import" option to import the edited dashboard file into your Grafana install.
 
-
-
 #### Dashboard Variables
 
 GrafanaHome-->Dashboard-->DashboardSetting-->variables-->[+]Variables : host | Defination : label_values(node_uname_info{job="node"},nodename) | selection option : Multi-value -->update
-
-
 
 #### use variables in json dashboard
 
@@ -481,11 +477,7 @@ sudo dpkg -i grafana_8.3.3_amd64.deb
 
 you will need an SMTP server. Many corporations will provide an SMTP service for their staff. This same service can be used to send emails from Grafana.
 
-
-
 You will need an email account in your email provider, admin@your-domain.tld perhaps may be good. You will also need an accessible SMTP server address, e.g., mail.example.com and a port, usually 25 or 465.
-
-
 
 Next to configure Grafana SMTP settings
 
@@ -521,3 +513,13 @@ GrafanaHome-->Server Admin-->Users-->New user--> [Name | Email | username| Passw
 
 GrafanaHome-->Server Admin-->org
 GrafanaHome-->Settings-->Team
+
+### Support Me
+
+**If you find my content useful or enjoy what I do, you can support me by buying me a coffee. Your support helps keep this website running and encourages me to create more content.**
+
+[![Buy Me a Coffee](https://www.buymeacoffee.com/assets/img/custom_images/orange_img.png)](https://www.buymeacoffee.com/sawanchokso)
+
+**Your generosity is greatly appreciated!**
+
+##### Thank you for your support!💚

@@ -523,5 +523,3 @@
 **Your generosity is greatly appreciated!**
 
 ##### Thank you for your support!💚
-
-

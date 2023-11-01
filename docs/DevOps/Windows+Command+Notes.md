@@ -215,3 +215,13 @@ win_key + shift_key + S
 ### java.net.BindException: Address already in use:connect error message is throwing
 
 http://www.baselogic.com/2011/11/23/solved-java-net-bindexception-address-use-connect-issue-windows/
+
+### Support Me
+
+**If you find my content useful or enjoy what I do, you can support me by buying me a coffee. Your support helps keep this website running and encourages me to create more content.**
+
+[![Buy Me a Coffee](https://www.buymeacoffee.com/assets/img/custom_images/orange_img.png)](https://www.buymeacoffee.com/sawanchokso)
+
+**Your generosity is greatly appreciated!**
+
+##### Thank you for your support!💚
