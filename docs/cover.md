@@ -2,12 +2,6 @@
 
 ## This is a place for information about all DevOps and Cloud related topics
 
-
-
-
-
-
-
 ## 🔹🔹🔹🔹🙏 Support Me 🙏🔹🔹🔹🔹
 
 #### If you find my content useful or enjoy what I do, you can support me by buying me a coffee.
@@ -20,19 +14,9 @@
 
 ### **Thank you for your support!💚**
 
-
-
-
-
-
-
-
-
-
-
 ### Scroll Down for More all available documents and information
 
-⬇
+![alt text](https://github.com/sawan22071995/notes/blob/main/docs/down.gif?raw=true)
 
 
 
