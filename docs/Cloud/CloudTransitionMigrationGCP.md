@@ -148,12 +148,19 @@
 ### Disaster Recovery
 
 - What to do when some regional outage?
+
 - Service Unavailability = Lost Business
+
 - GCE - Snapshots for Individual Instances
+
 - Failover Servers
+
 - BackUp of DataBase
+
 - BackUp of Mount Points
+
 - Managed / RollBack App Services
+  
   - GCE - Instance Group Rolling Update
   
   - GKE - Rolling Updates
@@ -506,5 +513,15 @@
   - App Engine
     
     - Versioning/ Split Traffic
+
+##### ## Support Me
+
+If you find my content useful or enjoy what I do, you can support me by buying me a coffee. Your support helps keep this website running and encourages me to create more content.
+
+[![Buy Me a Coffee](https://www.buymeacoffee.com/assets/img/custom_images/orange_img.png)](https://www.buymeacoffee.com/sawanchokso)
+
+Your generosity is greatly appreciated!
+
+##### Thank you for your support!💚
 
 
