@@ -14,7 +14,7 @@
 
 ### **Thank you for your support!💚**
 
-### Scroll Down for More all available documents and information
+### Scroll Down for all available documents and information
 
 # ⬇⬇⬇
 
