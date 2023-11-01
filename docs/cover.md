@@ -1,6 +1,6 @@
-# Cloud and DevOps Documentation
+# **👨‍💻Cloud and DevOps Documentation👩‍💻**
 
-## This is a place for technical documentation of all DevOps and Cloud Related Topics
+## This is a place for information about all DevOps and Cloud related topics
 
 ## 🔹🔹🔹🔹🙏 Support Me 🙏🔹🔹🔹🔹
 
