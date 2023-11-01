@@ -11,6 +11,7 @@
   - [bash+script+reference](DevOps/bash+script+reference.md)
   - [cicd+Jenkins+Ansible+k8s](DevOps/cicd+Jenkins+Ansible+k8s.md)
   - [Git](DevOps/Git.md)
+  - [Bitbukcet](DevOps/bitbucket.md)
   - [Linux+Command+Notes](DevOps/Linux+Command+Notes.md)
   - [Windows+Command+Notes](DevOps/Windows+Command+Notes.md)
   - [nomad](DevOps/nomad.md)
