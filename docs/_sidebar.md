@@ -23,6 +23,7 @@
 - Miscellaneous
   
   - [misc. documents](Miscellaneous/misc.md)
+  - [Cloud+DevOps+Error+Solution](Miscellaneous/ErrorTrackerWithSolution.md)
 
 - Monitoring
   
