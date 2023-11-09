@@ -78,7 +78,7 @@ eksctl version
 
 ```
 eksctl create iamidentitymapping --cluster ClusterName --region=ap-south-1 \
- --arn arn:aws:iam::868909427937:role/AWSReservedSSO_Deloitte-App-Admin_55cdac5ba3f9bd94 --username accesstocluster --group system:masters \
+ --arn arn:aws:iam::868909427937:role/AWS-App-Admin_55cdac5ba3f9bd94 --username accesstocluster --group system:masters \
  --no-duplicate-arns
 ```
 
@@ -493,7 +493,7 @@ apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: alb-ingress-uat-internet
-  namespace: uat-titan
+  namespace: test-poc
   #annotation URl info
   #https://kubernetes-sigs.github.io/aws-load-balancer-controller/v2.3/guide/ingress/annotations/#annotations
   annotations:
@@ -517,12 +517,12 @@ spec:
                 name: ssl-redirect
                 port:
                   name: use-annotation
-          #watch and wearables Api exposed endpoints
-          - path: /ww/admin
+          # Api exposed endpoints
+          - path: /test
             pathType: Prefix
             backend:
               service:
-                name: ww-admin-svc
+                name: ww-test-svc
                 port:
                   number: 80
 ```
@@ -530,7 +530,7 @@ spec:
 ### Create Namespace or Use existing namespace for deployment of Application as well as Ingress file in same Name space
 
 ```
-kubectl create namespace uat-titan
+kubectl create namespace poc-test
 ```
 
 ### Deploy all application manifest and Ingress manifest in above created namespace
@@ -547,17 +547,7 @@ http://alb-ingress-uat-1775792459.ap-south-1.elb.amazonaws.com
 
 AWS Portal--> EC2--> Load Balancer--> Create Load Balancer--> Compare and select load balancer type--> Select : Network Load Balancer--> Create -->[ Load Balancer Name : aws-nlb-uat| Schema : Internet-facing | IP address type: IPv4 | Select VPC | Select Listener-->TCP:80 [ Protocol: TCP | Port: 80 | Create Target Group For Backend Application Load Balancer--> select Application Load Balancer: alb-ingress--uat ] || TCP:443 [ Protocol: TCP | Port: 443 | Create Target Group For Backend Application Load Balancer--> select Application Load Balancer: alb-ingress-uat ]-->Create Load Balancer.
 
-![](C:\Users\sawchouksey\AppData\Roaming\marktext\images\2023-08-04-23-44-47-image.png)
 
-![](C:\Users\sawchouksey\AppData\Roaming\marktext\images\2023-08-04-23-46-53-image.png)
-
-![](C:\Users\sawchouksey\AppData\Roaming\marktext\images\2023-08-04-23-48-06-image.png)
-
-![](C:\Users\sawchouksey\AppData\Roaming\marktext\images\2023-08-04-23-48-32-image.png)
-
-![](C:\Users\sawchouksey\AppData\Roaming\marktext\images\2023-08-04-23-49-20-image.png)
-
-![](C:\Users\sawchouksey\AppData\Roaming\marktext\images\2023-08-04-23-49-38-image.png)
 
 ### varify the exposed service with the help of AWS Network Load Balancer URL
 
