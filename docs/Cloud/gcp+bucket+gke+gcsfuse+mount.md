@@ -243,7 +243,7 @@ gcloud iam service-accounts create k8s-gcs-bucket \
 
 ```
 gcloud storage buckets add-iam-policy-binding gs://bucket-001 \
-    --member "serviceAccount:k8s-gcs-bucket@mhe-dev-svcprj.iam.gserviceaccount.com" \
+    --member "serviceAccount:k8s-gcs-bucket@test-dev.iam.gserviceaccount.com" \
     --role "editor"
 ```
 
