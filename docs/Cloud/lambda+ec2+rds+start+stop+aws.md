@@ -232,7 +232,7 @@ aws lambda update-function-code --function-name my-function --zip-file fileb://f
 
 ## Created IAM role
 
-1.  **Amazon_EventBridge_Scheduler_LAMBDA_a0c1b2b2db**
+1. **Amazon_EventBridge_Scheduler_LAMBDA_a0c1b2b2db**
    
    This role is create to invoke lambda function from Event bridge.
 
@@ -265,3 +265,13 @@ aws lambda update-function-code --function-name my-function --zip-file fileb://f
 [Introducing Amazon EventBridge Scheduler | AWS Compute Blog](https://aws.amazon.com/blogs/compute/introducing-amazon-eventbridge-scheduler/)
 
 [create-role AWS CLI 1.29.83](https://docs.aws.amazon.com/cli/latest/reference/iam/create-role.html)
+
+### Support Me
+
+**If you find my content useful or enjoy what I do, you can support me by buying me a coffee. Your support helps keep this website running and encourages me to create more content.**
+
+[![Buy Me a Coffee](https://www.buymeacoffee.com/assets/img/custom_images/orange_img.png)](https://www.buymeacoffee.com/sawanchokso)
+
+**Your generosity is greatly appreciated!**
+
+##### Thank you for your support!💚
