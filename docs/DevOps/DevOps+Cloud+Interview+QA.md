@@ -1,5 +1,53 @@
 # DevOps & Cloud & Python Basic & Interview & QA
 
+##### Q. How to deny traffic from specific IP for Aks pod?
+
+using NACL deny rule
+
+##### Q. How can you create private or public subnet?
+
+private : Adding routing table without internet gateway
+
+public  : Adding routing table with internet gateway
+
+##### Q. what is diffrence between default created NACL or user created NACL?
+
+default NACL            : all traffic allow
+user created NACL  : all traffic deny
+
+##### Q. How communicate two private instnace in two diffrent vpc?
+
+vpc peering
+
+##### Q. there is two vpc some of the IP are overlapping we need to make communication between instnace in 2 vpc?
+
+Not possible because we can't do peering if ip ranges overlap each other.
+
+##### Scenario 1:
+
+##### Instance1 and instance3 is in same region (California). Instance2 is in Mumbai region. Instance1 and instance2 is having same IPv4 range. So these two VPC1 and 2 are not possible to Peering connection. Cause is IP overlapping. And peering connection between  V1 and V3 & V2 and V3. For example instance1 IP is 172.16.0.0 and same IP address is for instance2.
+
+##### Q1. If two instances having same ip addresses instance1 and instance2. Then instance3 will connect whice intance?
+
+instance1,instance3 will conncet with instance1 because instance1 and instance3 is in same region.
+instnace1,it will connect with instnace having 'longest subnet mask entry'
+
+##### Q2. If VPC2 Is configured with Internet Getaway.  And VPC2 is peering with VPC1. And obviously VPC2 instance is able to internet access. But VPC1 is not configured with internet Getaway. So VPC1 instance can access internet?
+
+No. VPC1 instance should not access internet directly. VPC1 instant only can connect VPC2 instant because peering configured with them.   
+
+##### Q. you have 5 vpc and you want to communicate all these vpc with each other. How you will do it?
+
+Transit Gateway
+
+##### Q. How to access private ec2 with s3 bucket?
+
+vpc endpoint
+
+##### Q. with respect to cost which endpoint is cheaper gateway service type or interface service type?
+
+Gateway Service type vpc endpoint is cheaper than interface one.
+
 ##### Q. How can you access services or details with login through Azure Portal?
 
 - By using **Microsoft Graph API **
