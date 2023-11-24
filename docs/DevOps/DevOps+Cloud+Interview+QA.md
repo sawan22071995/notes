@@ -48,6 +48,7 @@ output:
 
 test.sh 
 test
+
 20
 
 ```
@@ -64,9 +65,13 @@ echo ${12}
 output:
 
 1
+
 1
+
 10
+
 11
+
 102
 
 ```
@@ -105,6 +110,7 @@ output:
 6
 
 sawan 20 21 34 45 56
+
 sawan 20 21 34 45 56  
 
 ```
@@ -121,7 +127,9 @@ echo `pwd`
 output:
 
 sawan
+
 /current/working/directory
+
 /current/working/directory
 
 ```
@@ -143,8 +151,11 @@ echo ${pwd}
 output:
 
 sawan
+
 test
+
 line no: pwd: readonly variable
+
 test
 
 ##### Q. How to deny traffic from specific IP for Aks pod?
