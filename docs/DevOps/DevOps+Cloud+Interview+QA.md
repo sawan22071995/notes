@@ -1,5 +1,152 @@
 # DevOps & Cloud & Python Basic & Interview & QA
 
+##### Q. find the length of the "string" variable in shell script?
+
+${#string}
+
+##### Q. how to convert string value in substring?
+
+```
+${string:<index>}
+string="abcdef"
+
+echo "${string:1}"
+echo "${string:4}"
+echo "${string:0:3}"
+echo "${string:3:3}"
+echo "${string:-1}"
+echo "${string: -1}"
+
+output:
+bcdef
+ef
+abc
+def
+f
+```
+
+##### Q. How to set default value for a variable if user didn't provide?
+
+name=${name:- <value>}
+
+##### Q. write a script to check user passed a value or not?
+
+: ${1:?" please provide variable value "
+
+##### Q. what is the output of the script we executed as below?
+
+```
+#!/bin/bash
+echo ${0}
+echo ${1}
+echo ${2}
+```
+
+##### ./test.sh test 20
+
+output:
+
+test.sh 
+test
+20
+
+```
+#!/bin/bash
+echo ${1}
+echo $1
+echo $10
+echo $11
+echo ${12}
+```
+
+##### ./test.sh 1 2 3 4 5 6 7 8 9 10 101 102
+
+output:
+
+1
+1
+10
+11
+102
+
+```
+#!/bin/bash
+echo "my name is ${1} and my age is ${2}"
+```
+
+##### ./test.sh sawan chouksey 20
+
+output:
+
+my name is sawan and my age is chouksey
+
+##### ./test.sh "sawan chouksey" 20
+
+output:
+
+my name is sawan chouksey and my age is 20
+
+```
+#!/bin/bash
+#It will return total no of arguments passed as input
+echo $#
+
+#it will return all argument value with each value as seprate word
+echo $@
+
+#it will return all argument value with each value as combined single string
+echo $*
+```
+
+##### ./test.sh sawan 20 21 34 45 56
+
+output:
+
+6
+
+sawan 20 21 34 45 56
+sawan 20 21 34 45 56  
+
+```
+#!/bin/bash
+pwd="sawan"
+
+echo ${pwd}
+echo $(pwd)
+echo `pwd`
+```
+
+##### ./test.sh
+
+output:
+
+sawan
+/current/working/directory
+/current/working/directory
+
+```
+#!/bin/bash
+pwd="sawan"
+echo ${pwd}
+
+pwd="test"
+echo ${pwd}
+
+readonly pwd
+
+pwd="chouksey"
+echo ${pwd}
+```
+
+##### ./test.sh
+
+output:
+
+sawan
+test
+line no: pwd: readonly variable
+test
+
 ##### Q. How to deny traffic from specific IP for Aks pod?
 
 using NACL deny rule
