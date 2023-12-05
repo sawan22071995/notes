@@ -10,6 +10,22 @@
 
 ![GCP cheat sheet](https://github.com/sawan22071995/notes/blob/main/docs/Miscellaneous/GCPServiceCheatSheet.png?raw=true)
 
+### AWS CICD with DevOps and security tools
+
+![cicd workflow](https://github.com/sawan22071995/notes/blob/main/docs/Miscellaneous/aws-cicd-java-eks.png?raw=true)
+
+### Azure DevOps with Azure App Services zero downtime
+
+![cicd workflow](https://github.com/sawan22071995/notes/blob/main/docs/Miscellaneous/AzureDevOpsJava.drawio.png?raw=true)
+
+### AWS CICD  workflow with help of Jenkins within EKS with DevOps Security tools
+
+![cicd workflow](https://github.com/sawan22071995/notes/blob/main/docs/Miscellaneous/CICD-workflow.drawio.png?raw=true)
+
+### CICD Workflow with Jenkins and AKS with help of DevSecOps tools
+
+![cicd workflow](https://github.com/sawan22071995/notes/blob/main/docs/Miscellaneous/cicd+Java+Docker+Azure.png?raw=true)
+
 ##### Add image in MD file
 
 ```
