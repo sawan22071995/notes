@@ -1,5 +1,37 @@
 # DevOps & Cloud & Python Basic & Interview & QA
 
+##### Q. You have committed the one file in master branch . You need to update same file in release branch?Explain me the process?
+
+We can use cherry pick command 
+
+```
+- First we will clone the repo with master branch
+git clone "https://github.com/sawan22071995.git" -b master
+
+- then we will check the commit id of the file
+git log 
+
+- then we will copy the commit id
+
+- then we will check the branch name where we need to push the changes
+git branch
+
+- then we will checkout the release branch
+git checkout release-1.0.0
+
+- then cherrypick the commitid which you copied earlier
+git cherry-pick commit-id
+
+- then add the changes 
+git add .
+
+- then commit the changes 
+git commit -m "message"
+
+- push the changes to remote repository
+git push
+```
+
 ##### Q. find the length of the "string" variable in shell script?
 
 ${#string}
