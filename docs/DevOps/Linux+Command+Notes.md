@@ -1,11 +1,20 @@
 ### Linux Command List
 
+### check and enable linux service for booting up on machine
+
+```
+sudo systemctl is-enabled nginx
+sudo systemctl enable nginx
+```
+
 ### Get the installed rpm package software
+
 ```
 rpm -qa | grep nginx
 ```
 
 ###  Remove the installed rpm package software
+
 ```
 sudo rpm -e nginx-module-xslt-1.24.0-1.amzn2.ngx.x86_64 nginx-1.24.0-1.amzn2.ngx.x86_64 nginx-module-image-filter-1.24.0-1.amzn2.ngx.x86_64 nginx-module-geoip-1.24.0-1.amzn2.ngx.x86_64 nginx-module-perl-1.24.0-1.amzn2.ngx.x86_64 nginx-debuginfo-1.24.0-1.amzn2.ngx.x86_64
 ```
