@@ -3,7 +3,7 @@
 ### For hostname
 
 ```
-open command prompt ->   type hostname ->   enter (INBEN......)
+open command prompt ->   type hostname ->   enter (My-PC-01......)
 ```
 
 ### For serialnumber
