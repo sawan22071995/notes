@@ -1,5 +1,23 @@
 ### Windows Commands List
 
+### For hostname
+
+```
+open command prompt ->   type hostname ->   enter (INBEN......)
+```
+
+### For serialnumber
+
+```
+open command prompt ->  type  wmic bios get serialnumber -> enter
+```
+
+### For windows version
+
+```
+open run command (windows key + R )   -> type winver -> enter
+```
+
 ### Java OutOfMemeory Heap Size Issue in tomcat setenv.bat in TOMCAT_HOME/bin folder
 
 ```
