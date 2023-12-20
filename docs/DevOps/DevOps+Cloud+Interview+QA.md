@@ -1,5 +1,18 @@
 # DevOps & Cloud & Python Basic & Interview & QA
 
+##### Q. What is the difference between git reset & git reset --hard & git reset --soft?
+**Delete the most recent commit, keeping the work you've done**
+```
+git reset --soft HEAD~1
+```
+**Delete the most recent commit, destroying the work you've done**
+```
+git reset --hard HEAD~1
+```
+**remove file from staging area**
+```
+git reset
+```
 ##### Q. Differentiate between Terraform and cloudformation?
 
 **Declarative vs. Imperative:**
