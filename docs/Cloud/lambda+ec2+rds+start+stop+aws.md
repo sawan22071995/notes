@@ -250,6 +250,10 @@ aws lambda update-function-code --function-name my-function --zip-file fileb://f
        
        - full access
 
+     - CloudWatch Logs
+       
+       - logs:CreateLogGroup, logs:CreateLogStream,logs:PutLogEvents  
+
 ## Reference
 
 [Python Install in Windows 10](https://www.digitalocean.com/community/tutorials/install-python-windows-10)
