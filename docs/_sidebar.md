@@ -6,7 +6,7 @@
   - [gcp+bucket+gke+gcsfuse+mount](Cloud/gcp+bucket+gke+gcsfuse+mount.md)
   - [GCP Cloud Migration Transition](Cloud/CloudTransitionMigrationGCP.md)
   - [AWS+Postgres+IAM+Authentication+Postgres+RDS](Cloud/postgresql+database+authentication+with+IAM+role.md)
-  - [AWS+Gateway API+EKS+gateway Api Controller+Using+Ingress+Replacement](Cloud/gateway API+EKS+AWS.md)
+  - [AWS+GatewayAPI+EKS+gatewayApiController](Cloud/gatewayAPI+EKS+AWS.md)
 
 - DevOps
   
