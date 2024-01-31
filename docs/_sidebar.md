@@ -5,7 +5,8 @@
   - [GKE+ALB+Ingress](Cloud/GKE+ALB+Ingress.md)
   - [gcp+bucket+gke+gcsfuse+mount](Cloud/gcp+bucket+gke+gcsfuse+mount.md)
   - [GCP Cloud Migration Transition](Cloud/CloudTransitionMigrationGCP.md)
-  - [AWS+Postgres+IAM+Authentication+Postgres+RDS](Cloud/postgresql+database+authentication+with+IAM+role.md)
+  - [AWS+Postgres+IAM+Authentication+Postgres+RDS](Cloud/postgresql+database+authentication+AWS+IAM+role.md)
+  - [AWS+ElastiCache+IAM+Authentication+Redis](Cloud/elastiCache+database+authentication+AWS+IAM+Role.md)
   - [AWS+GatewayAPI+EKS+gatewayApiController](Cloud/gatewayAPI+EKS+AWS.md)
 
 - DevOps
