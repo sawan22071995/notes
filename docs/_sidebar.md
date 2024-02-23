@@ -9,6 +9,7 @@
   - [AWS+ElastiCache+IAM+Authentication+Redis](Cloud/elastiCache+database+authentication+AWS+IAM+Role.md)
   - [AWS+GatewayAPI+EKS+gatewayApiController](Cloud/gatewayAPI+EKS+AWS.md)
   - [AWS+Secret+Manager+EKS+EKS+POD](Cloud/SecreteManager+EKS+AWS.md)
+  - [karpenter+aws+eks](Cloud/karpenter+aws+eks.md)
 
 - DevOps
   
