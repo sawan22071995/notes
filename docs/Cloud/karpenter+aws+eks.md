@@ -159,9 +159,12 @@ echo $KARPENTER_NAMESPACE $KARPENTER_VERSION $K8S_VERSION $CLUSTER_NAME $AWS_DEF
   # An error occurred (InvalidInput) when calling the CreateServiceLinkedRole operation: Service role name AWSServiceRoleForEC2Spot has been taken in this account, please try a different suffix.
   ```
 
-- Run helm to install karpenter
+- Connect eks cluster and Run helm to install karpenter
   
   ```
+  #connect eks cluster
+  aws eks update-kubeconfig --region ${AWS_DEFAULT_REGION} --name ${CLUSTER_NAME}
+  
   # Logout of helm registry to perform an unauthenticated pull against the public ECR
   helm registry logout public.ecr.aws
   
