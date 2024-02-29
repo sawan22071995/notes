@@ -1,6 +1,6 @@
 # Here you will get most of the Error with solution what we faced daily day to day life as a Cloud or devOps Engineer
 
-##### 1. Error:
+##### 1. Error
 
 *Error syncing load balancer: failed to ensure load balancer: Multiple untagged security groups found for instance
 i-0580321e00235d0f9: ensure the k88 security group is tagged*
@@ -99,7 +99,7 @@ Outputs:
     Value: !GetAtt axawscerebrodevknowledgebasefunction.Arn
 ```
 
-##### 3. Error:
+##### 3. Error
 
 Error: Failed to create changeset for the stack: axaws-cerebro-dev-knowledgebase-function, ex: Waiter ChangeSetCreateComplete failed: Waiter encountered a terminal failure state: For expression "Status" we matched expected path: "FAILED" Status: FAILED. Reason: User: arn:aws:sts::516638134243:assumed-role/axaws-cerebro-jenkins-dev-crossaccount-role/xactarget is not authorized to perform: cloudformation:CreateChangeSet on resource: arn:aws:cloudformation:ap-south-1:aws:transform/Serverless-2016-10-31 because no identity-based policy allows the cloudformation:CreateChangeSet action
 
@@ -126,3 +126,44 @@ We need to add policy in IAM Role
 ```
 
 [Controlling access with AWS Identity and Access Management - AWS CloudFormation](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-iam-template.html)
+
+##### 4. Error
+
+We are facing `slightly delay` in getting `response` from API request around `120 seconds` in `Intermittent connection` specially whenever try to connect after first attempt.
+
+##### Explanation:
+
+We are using `nginx load Balancer as proxy server in ec2 instance`, `Istio service mesh with ingress gateway` which use `Network Load Balancer` in aws and application running in `eks pod` with `Java 21` and `spring boot application` written in `Kotlin`.
+
+###### Solution:
+
+- Check telnet for dns name configured with NLB with 443 port and check IP address try 4-5 times and monitor responses.
+  
+  ```
+  telnet test-poc.alb.example.com 443
+  ```
+
+- Copy the `IP address` for the telnet output which is working and connecting quickly without delay.
+
+- make an entry in `/etc/hosts` file with with `IP address and DNS Name`
+  
+  ```
+  vi /etc/hosts
+  10.0.23.45 test-poc.alb.example.com
+  ```
+
+- It will solve problem and everytime request coming nginx will send traffic to specific Network Load Balancer IP only.
+
+- `References:`
+  
+  ## TCP connection delays
+  
+  When both cross-zone load balancing and client IP preservation are enabled, a client connecting to different IPs on the same load balancer may be routed to the same target. If the client uses the same source port for both of these connections, the target will receive what appears to be a duplicate connection, which can lead to connection errors and TCP delays in establishing new connections. You can prevent this type of connection error by disabling cross-zone load balancing. For more information, see [Cross-zone load balancing](https://docs.aws.amazon.com/elasticloadbalancing/latest/network/network-load-balancers.html#cross-zone-load-balancing).
+  
+  ## ntermittent connection failure when client IP preservation is enabled
+  
+  When client IP preservation is enabled, you might encounter TCP/IP connection limitations related to observed socket reuse on the targets. These connection limitations can occur when a client, or a NAT device in front of the client, uses the same source IP address and source port when connecting to multiple load balancer nodes simultaneously. If the load balancer routes these connections to the same target, the connections appear to the target as if they come from the same source socket, which results in connection errors. If this happens, clients can retry (if the connection fails) or reconnect (if the connection is interrupted). You can reduce this type of connection error by increasing the number of source ephemeral ports or by increasing the number of targets for the load balancer. You can prevent this type of connection error by disabling client IP preservation or by disabling cross-zone load balancing.
+  
+  Additionally, when client IP preservation is enabled, connectivity might fail if the clients that are connecting to the Network Load Balancer are also connected to targets behind the load balancer. To resolve this, you can disable client IP preservation on the affected target groups. Alternatively, have your clients connect only to the Network Load Balancer, or only to the targets, but not both.
+  
+  [Troubleshoot your Network Load Balancer - Elastic Load Balancing](https://docs.aws.amazon.com/elasticloadbalancing/latest/network/load-balancer-troubleshooting.html) 
