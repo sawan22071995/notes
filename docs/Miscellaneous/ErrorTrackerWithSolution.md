@@ -137,7 +137,7 @@ We are using `nginx load Balancer as proxy server in ec2 instance`, `Istio servi
 
 ###### Solution:
 
-- Check telnet for dns name configured with NLB with 443 port and check IP address try 4-5 times and monitor responses.
+- In `Nginx server ec2 intance` Check telnet for dns name configured with NLB with 443 port and check IP address try 4-5 times and monitor responses.
   
   ```
   telnet test-poc.alb.example.com 443
@@ -166,4 +166,4 @@ We are using `nginx load Balancer as proxy server in ec2 instance`, `Istio servi
   
   Additionally, when client IP preservation is enabled, connectivity might fail if the clients that are connecting to the Network Load Balancer are also connected to targets behind the load balancer. To resolve this, you can disable client IP preservation on the affected target groups. Alternatively, have your clients connect only to the Network Load Balancer, or only to the targets, but not both.
   
-  [Troubleshoot your Network Load Balancer - Elastic Load Balancing](https://docs.aws.amazon.com/elasticloadbalancing/latest/network/load-balancer-troubleshooting.html) 
+  [Troubleshoot your Network Load Balancer - Elastic Load Balancing](https://docs.aws.amazon.com/elasticloadbalancing/latest/network/load-balancer-troubleshooting.html)  
