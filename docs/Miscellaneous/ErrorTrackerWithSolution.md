@@ -1,6 +1,6 @@
 # Here you will get most of the Error with solution what we faced daily day to day life as a Cloud or devOps Engineer
 
-##### 1. Error
+### 1. Error
 
 *Error syncing load balancer: failed to ensure load balancer: Multiple untagged security groups found for instance
 i-0580321e00235d0f9: ensure the k88 security group is tagged*
@@ -42,7 +42,7 @@ All `secuirty group` must have tag if different `secuirty group` used in both ek
 "Key": "kubernetes.io/cluster/<Cluster-Name> ","Value": "owned"
 ```
 
-##### 2. Error
+### 2. Error
 
 Error: PythonPipBuilder:ResolveDependencies - {simplejson==3.17.2(sdist), pydantic-core==2.4.0(wheel), awslambdaric==2.0.7(wheel)}
 
@@ -99,7 +99,7 @@ Outputs:
     Value: !GetAtt axawscerebrodevknowledgebasefunction.Arn
 ```
 
-##### 3. Error
+### 3. Error
 
 Error: Failed to create changeset for the stack: axaws-cerebro-dev-knowledgebase-function, ex: Waiter ChangeSetCreateComplete failed: Waiter encountered a terminal failure state: For expression "Status" we matched expected path: "FAILED" Status: FAILED. Reason: User: arn:aws:sts::516638134243:assumed-role/axaws-cerebro-jenkins-dev-crossaccount-role/xactarget is not authorized to perform: cloudformation:CreateChangeSet on resource: arn:aws:cloudformation:ap-south-1:aws:transform/Serverless-2016-10-31 because no identity-based policy allows the cloudformation:CreateChangeSet action
 
@@ -127,7 +127,7 @@ We need to add policy in IAM Role
 
 [Controlling access with AWS Identity and Access Management - AWS CloudFormation](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-iam-template.html)
 
-##### 4. Error
+### 4. Error
 
 We are facing `slightly delay` in getting `response` from API request around `120 seconds` in `Intermittent connection` specially whenever try to connect after first attempt.
 
@@ -156,14 +156,86 @@ We are using `nginx load Balancer as proxy server in ec2 instance`, `Istio servi
 
 - `References:`
   
-  ## TCP connection delays
+  ##### TCP connection delays
   
   When both cross-zone load balancing and client IP preservation are enabled, a client connecting to different IPs on the same load balancer may be routed to the same target. If the client uses the same source port for both of these connections, the target will receive what appears to be a duplicate connection, which can lead to connection errors and TCP delays in establishing new connections. You can prevent this type of connection error by disabling cross-zone load balancing. For more information, see [Cross-zone load balancing](https://docs.aws.amazon.com/elasticloadbalancing/latest/network/network-load-balancers.html#cross-zone-load-balancing).
   
-  ## ntermittent connection failure when client IP preservation is enabled
+  ##### Intermittent connection failure when client IP preservation is enabled
   
   When client IP preservation is enabled, you might encounter TCP/IP connection limitations related to observed socket reuse on the targets. These connection limitations can occur when a client, or a NAT device in front of the client, uses the same source IP address and source port when connecting to multiple load balancer nodes simultaneously. If the load balancer routes these connections to the same target, the connections appear to the target as if they come from the same source socket, which results in connection errors. If this happens, clients can retry (if the connection fails) or reconnect (if the connection is interrupted). You can reduce this type of connection error by increasing the number of source ephemeral ports or by increasing the number of targets for the load balancer. You can prevent this type of connection error by disabling client IP preservation or by disabling cross-zone load balancing.
   
   Additionally, when client IP preservation is enabled, connectivity might fail if the clients that are connecting to the Network Load Balancer are also connected to targets behind the load balancer. To resolve this, you can disable client IP preservation on the affected target groups. Alternatively, have your clients connect only to the Network Load Balancer, or only to the targets, but not both.
   
   [Troubleshoot your Network Load Balancer - Elastic Load Balancing](https://docs.aws.amazon.com/elasticloadbalancing/latest/network/load-balancer-troubleshooting.html)  
+
+### 5. Error
+
+Error: 
+
+- Application Pods logs : Standard Commons Logging discovery in action with spring-jcl: please remove commons-logging.jar from classpath in order to avoid potential conflicts
+  Exception in thread "main" com.amazonaws.SdkClientException: Unable to execute HTTP request: secretsmanager.ap-south-1.amazonaws.com
+          at com.amazonaws.http.AmazonHttpClient$RequestExecutor.handleRetryableException(AmazonHttpClient.java:1219)
+          at com.amazonaws.http.AmazonHttpClient$RequestExecutor.executeHelper(AmazonHttpClient.java:1165)
+          at com.amazonaws.http.AmazonHttpClient$RequestExecutor.doExecute(AmazonHttpClient.java:814)
+          at com.amazonaws.http.AmazonHttpClient$RequestExecutor.executeWithTimer(AmazonHttpClient.java:781)
+          at com.amazonaws.http.AmazonHttpClient$RequestExecutor.execute(AmazonHttpClient.java:755)
+          at com.amazonaws.http.AmazonHttpClient$RequestExecutor.access$500(AmazonHttpClient.java:715)
+          at com.amazonaws.http.AmazonHttpClient$RequestExecutionBuilderImpl.execute(AmazonHttpClient.java:697)
+          at com.amazonaws.http.AmazonHttpClient.execute(AmazonHttpClient.java:561)
+          at com.amazonaws.http.AmazonHttpClient.execute(AmazonHttpClient.java:541)
+          at com.amazonaws.services.secretsmanager.AWSSecretsManagerClient.doInvoke(AWSSecretsManagerClient.java:2616)
+          at com.amazonaws.services.secretsmanager.AWSSecretsManagerClient.invoke(AWSSecretsManagerClient.java:2583)
+          at com.amazonaws.services.secretsmanager.AWSSecretsManagerClient.invoke(AWSSecretsManagerClient.java:2572)
+          at com.amazonaws.services.secretsmanager.AWSSecretsManagerClient.executeGetSecretValue(AWSSecretsManagerClient.java:1205)
+          at com.amazonaws.services.secretsmanager.AWSSecretsManagerClient.getSecretValue(AWSSecretsManagerClient.java:1177)
+          at com.axis.thanos.OneGlanceStatementApplication$Companion.getSecret(OneGlanceStatementApplication.kt:64)
+          at com.axis.thanos.OneGlanceStatementApplication$Companion.main(OneGlanceStatementApplication.kt:22)
+          at com.axis.thanos.OneGlanceStatementApplication.main(OneGlanceStatementApplication.kt)
+  Caused by: java.net.UnknownHostException: secretsmanager.ap-south-1.amazonaws.com
+          at java.base/java.net.InetAddress$CachedLookup.get(InetAddress.java:988)
+          at java.base/java.net.InetAddress.getAllByName0(InetAddress.java:1818)
+          at java.base/java.net.InetAddress.getAllByName(InetAddress.java:1688)
+          at com.amazonaws.SystemDefaultDnsResolver.resolve(SystemDefaultDnsResolver.java:27)
+          at com.amazonaws.http.DelegatingDnsResolver.resolve(DelegatingDnsResolver.java:38)
+          at org.apache.http.impl.conn.DefaultHttpClientConnectionOperator.connect(DefaultHttpClientConnectionOperator.java:112)
+          at org.apache.http.impl.conn.PoolingHttpClientConnectionManager.connect(PoolingHttpClientConnectionManager.java:376)
+          at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:103)
+          at java.base/java.lang.reflect.Method.invoke(Method.java:580)
+          at com.amazonaws.http.conn.ClientConnectionManagerFactory$Handler.invoke(ClientConnectionManagerFactory.java:76)
+          at com.amazonaws.http.conn.$Proxy10.connect(Unknown Source)
+          at org.apache.http.impl.execchain.MainClientExec.establishRoute(MainClientExec.java:393)
+          at org.apache.http.impl.execchain.MainClientExec.execute(MainClientExec.java:236)
+          at org.apache.http.impl.execchain.ProtocolExec.execute(ProtocolExec.java:186)
+          at org.apache.http.impl.client.InternalHttpClient.doExecute(InternalHttpClient.java:185)
+          at org.apache.http.impl.client.CloseableHttpClient.execute(CloseableHttpClient.java:83)
+          at org.apache.http.impl.client.CloseableHttpClient.execute(CloseableHttpClient.java:56)
+          at com.amazonaws.http.apache.client.impl.SdkHttpClient.execute(SdkHttpClient.java:72)
+          at com.amazonaws.http.AmazonHttpClient$RequestExecutor.executeOneRequest(AmazonHttpClient.java:1346)
+          at com.amazonaws.http.AmazonHttpClient$RequestExecutor.executeHelper(AmazonHttpClient.java:1157)
+          ... 15 more
+
+- Istio-Ingress-Gateway logs : lookup istiod.istio-system.svc on 10.96.0.10:53: read udp 10.44.0.4:33126->10.96.0.10:53: read: connection refused"
+  2020-09-01T16:48:29.383977Z warn cache resource:default request:e0bdbb01-0c60-47bd-a9e1-e460b8c1da81 CSR failed with error: rpc error: code = Unavailable desc = connection error: desc = "transport: Error while dialing dial tcp: lookup istiod.istio-system.svc on 10.96.0.10:53: read udp 10.44.0.4:33126->10.96.0.10:53: read: connection refused", retry in 3200 millisec
+  2020-09-01T16:48:29.384167Z error citadelclient Failed to create certificate: rpc error: code = Unavailable desc = connection error: desc = "transport: Error while dialing dial tcp: lookup istiod.istio-system.svc on 10.96.0.10:53: read udp 10.44.0.4:33126->10.96.0.10:53: read: connection refused"
+
+##### Explanation:
+
+We are using `EKS for application deployment` and `Istio for Service Mesh` for internal communication. So Whenever we deploy application it is successfully deploying in one node where istio-ingress-gateway deployed but whenever application increase replica and deployed in another new node It is giving error in `crashloopbackoff` for all pods in another node and application not deploying after multiple restart.
+
+##### Solution:
+
+1. We need to implement `node intercommunication`.
+
+2. We can allow all the `ports` which used in `istio implementation` in `node security group`.
+   
+   [Istio Implements Ports]([Istio / Application Requirements](https://istio.io/latest/docs/ops/deployment/requirements/))
+
+3. Allow or Create inbound rule for `node security group`.
+   
+   ```
+   from_port : all
+   to_port: all
+   protocol: custom
+   source: Self Node Security Group
+   Description: Allow Intercommunication between nodes 
+   ```
