@@ -274,5 +274,15 @@ The issue arises due to there is `DCS security agent` running on all `ec2 worker
 ##### To stop `DCS agent` running process in EC2 instances . please run below command
 
 ```
+ps -ef | grep -i sdcs; 
+systemctl stop sisipsdaemon; 
+systemctl disable sisipsdaemon; 
+systemctl stop sisidsdaemon; 
+systemctl disable sisidsdaemon; 
+systemctl stop sisanddaemon; 
+systemctl disable sisamddaemon; 
+systemctl stop sisipsutildaemon; 
+systemctl disable sisipsutildaemon;
+ps -ef | grep -i sdcs;
 
 ```
