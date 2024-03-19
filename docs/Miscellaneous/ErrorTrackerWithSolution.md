@@ -174,6 +174,7 @@ Error:
 
 - Application Pods logs : Standard Commons Logging discovery in action with spring-jcl: please remove commons-logging.jar from classpath in order to avoid potential conflicts
   Exception in thread "main" com.amazonaws.SdkClientException: Unable to execute HTTP request: secretsmanager.ap-south-1.amazonaws.com
+  
           at com.amazonaws.http.AmazonHttpClient$RequestExecutor.handleRetryableException(AmazonHttpClient.java:1219)
           at com.amazonaws.http.AmazonHttpClient$RequestExecutor.executeHelper(AmazonHttpClient.java:1165)
           at com.amazonaws.http.AmazonHttpClient$RequestExecutor.doExecute(AmazonHttpClient.java:814)
@@ -191,7 +192,9 @@ Error:
           at com.axis.thanos.OneGlanceStatementApplication$Companion.getSecret(OneGlanceStatementApplication.kt:64)
           at com.axis.thanos.OneGlanceStatementApplication$Companion.main(OneGlanceStatementApplication.kt:22)
           at com.axis.thanos.OneGlanceStatementApplication.main(OneGlanceStatementApplication.kt)
+  
   Caused by: java.net.UnknownHostException: secretsmanager.ap-south-1.amazonaws.com
+  
           at java.base/java.net.InetAddress$CachedLookup.get(InetAddress.java:988)
           at java.base/java.net.InetAddress.getAllByName0(InetAddress.java:1818)
           at java.base/java.net.InetAddress.getAllByName(InetAddress.java:1688)
@@ -239,3 +242,37 @@ We are using `EKS for application deployment` and `Istio for Service Mesh` for i
    source: Self Node Security Group
    Description: Allow Intercommunication between nodes 
    ```
+
+### 6. Error
+
+cache: timed out waiting for the condition
+  Warning  Failed            23m                  kubelet             Failed to pull image "artifactory.axisb.com/thanos-docker-local/istio/proxyv2:1.20.0": rpc error: code = Unknown desc = failed to pull and unpack image "artifactory.axisb.com/thanos-docker-local/istio/proxyv2:1.20.0": failed to extract layer sha256:256d88da41857db513b95b50ba9a9b28491b58c954e25477d5dad8abb465430b: failed to unmount /var/lib/containerd/tmpmounts/containerd-mount2008772348: failed to unmount target /var/lib/containerd/tmpmounts/containerd-mount2008772348: device or resource busy: unknown
+
+##### Explanation:
+
+We faced this while deploying application in eks version 1.25 with containerd only having installed istio service mesh in AWS with self Managed Node in EKS.
+
+##### Solution:
+
+The issue arises due to there is `DCS security agent` running on all `ec2 worker node` instances in EKS. due to the it will not able to unmount and the path because that agent process holding the path.
+
+- ###### what is `DCS agent`?
+  
+  In AWS security, a DCS (Distributed Cloud Service) agent refers to the software component that runs on Amazon Elastic Compute Cloud (EC2) instances or other compute resources to enable Amazon GuardDuty, a threat detection service.
+  
+  The DCS agent collects and analyzes data from various sources on the instance, such as network traffic, system logs, and other runtime behavior data. It then sends this data securely to GuardDuty for further analysis and threat detection.
+  
+  Some key functions of the DCS agent include:
+  
+  1. Network Traffic Monitoring: The agent captures network traffic metadata, including source/destination IP addresses, ports, protocols, and packet details.
+  2. System Log Collection: It collects and analyzes system logs from the operating system, applications, and AWS services running on the instance.
+  3. Runtime Behavior Analysis: The agent monitors the runtime behavior of the instance, such as process execution, file access, and other activities, to detect potential threats or anomalies.
+  4. Data Streaming: The collected data is securely streamed to GuardDuty for analysis and threat detection using machine learning and other security analytics techniques.
+  
+  The DCS agent is designed to have a minimal performance impact on the instance and is regularly updated to support new features and security enhancements. It plays a crucial role in GuardDuty's ability to detect potential threats and security incidents across AWS accounts and resources.
+
+##### To stop `DCS agent` running process in EC2 instances . please run below command
+
+```
+
+```
