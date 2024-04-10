@@ -10,6 +10,7 @@
   - [AWS+GatewayAPI+EKS+gatewayApiController](Cloud/gatewayAPI+EKS+AWS.md)
   - [AWS+Secret+Manager+EKS+EKS+POD](Cloud/SecreteManager+EKS+AWS.md)
   - [karpenter+aws+eks](Cloud/karpenter+aws+eks.md)
+  - [Jenkins+eks+containerd+nerdctl+agent](Cloud/Jenkins+eks+containerd+nerdctl+agent.md)
 
 - DevOps
   
