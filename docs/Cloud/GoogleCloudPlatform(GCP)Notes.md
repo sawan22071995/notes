@@ -28,6 +28,10 @@ Some of the key services and products offered by Google Cloud Platform include:
 
 Google Cloud Platform provides a global infrastructure with data centers around the world, enabling customers to deploy their applications and services closer to their users. It also offers a range of pricing models, including pay-as-you-go, sustained use discounts, and committed use discounts, allowing customers to optimize their costs based on their usage patterns.
 
+### GCP free account with 300 credit with 90 days
+
+https://console.cloud.google.com/
+
 ### Regions and Zones
 
 - **Availablity Region(DR)** : East US x West US (For disaster Recovery or Region geographical Failure)
@@ -919,3 +923,327 @@ https://chimbu.medium.com/access-cloud-storage-buckets-as-volumes-in-gke-c2e405a
   ```
 
 ### FileStore mount in GKE deployed application pod
+
+https://upendra-kumarage.medium.com/gcp-filestore-as-a-persistent-storage-in-google-kubernetes-engine-clusters-ab4f76b34118
+
+- create File store Server get in gcp to get following information
+  
+  ```
+  gcloud filestore instances create my-filestore \
+    --project=YOUR_PROJECT_ID \
+    --zone=us-central1-a \
+    --tier=BASIC_HDD \
+    --file-share=name=volume1,capacity=1024 \
+    --network=name=default,reserved-ip-range=10.0.0.1/29 \
+    --description="My Cloud Filestore instance"    
+  
+  FileStoreFileShare Name : volume1
+  FileStore Server IP     : 10.0.0.1 
+  ```
+- create a Kubernetes Persistent Volume nfs-pv.yaml
+  
+  ```
+  apiVersion: v1
+  kind: PersistentVolume
+  metadata:
+  name: filestore-nfs-pv
+  spec:
+  capacity:
+    storage: 20Gi
+  accessModes:
+  - ReadWriteMany
+  nfs:
+    path: /volume1
+    server: 10.0.0.1
+  ```
+- create a Kubernetes Persistent Volume Claim nfs-pvc.yaml
+  
+  ```
+  apiVersion: v1
+  kind: PersistentVolumeClaim
+  metadata:
+  name: filestore-nfs-pvc
+  spec:
+  accessModes:
+  - ReadWriteMany
+  storageClassName: ""
+  volumeName: filestore-nfs-pv
+  resources:
+    requests:
+      storage: 20Gi
+  ```
+- create a Pod and mount the created volume sample-nginx-pod.yaml
+  
+  ```
+  apiVersion: apps/v1
+  kind: Deployment
+  metadata:
+  name: nginx-deployment
+  spec:
+  selector:
+    matchLabels:
+       app: nginx
+    replicas: 1
+    template:
+      metadata:
+         labels:
+           app: nginx
+    spec:
+      containers:
+      - name: nginx
+        image: nginx:1.14.2
+        volumeMounts:
+        - mountPath: /mnt/shared-files
+          name: nfs-pvc
+        ports:
+        - containerPort: 80
+      volumes:
+        - name:  nfs-pvc
+          persistentVolumeClaim:
+            claimName: filestore-nfs-pvc
+            readOnly: false    
+  ```
+
+### Get pod count or details in GKE
+
+```
+kubectl get pod -A -o wide
+kubectl get pod -A -o wide | wc -l
+```
+
+### generate self signed ssl certitficate for domain online
+
+https://regery.com/en/security/ssl-tools/self-signed-certificate-generator
+
+### gcp cloudshell `web preview`
+
+In google cloud shell used for opening or access cloud shell running any application on browser.
+
+### Scan vulnerablity container scan api in gcp
+
+```
+gcloud artifact docker images scan imageurl --remote
+gcp portal-->artifact/gcr-->select container registry-->setting-->vulnerablity scanning-->turn on
+```
+
+### operation on container registries
+
+```
+gcloud artifact docker images [operation] [Resource URL]
+- operation name
+scan | get-opearation | describe | list | list-vulnerablities | delete
+```
+
+### Select base image for the container google varified for 0 vulnerablities
+
+https://console.cloud.google.com/gcr/images/cloud-marketplace/GLOBAL/google
+
+```
+docker pull gcr.io/cloud-marketplace/google/nodejs:latest
+```
+
+### to secure conatiner secuirty enable `binary authorization`
+
+```
+gcp portal-->security-->binary authorization-->edit policy-->save policy
+```
+
+### enable binary authorization in GKE
+
+```
+gcp portal-->create GKE-->security-->[checkbox] enable binary authorization
+```
+
+### error: enospc-no-space-left-on-device-nodejs in docker and cloudbuild service with cloudbuild.yaml
+
+```
+docker system prune --all
+steps:
+	# Step 2: Run Docker system prune --all
+	- name: 'gcr.io/cloud-builders/docker'
+	  args: ['system', 'prune', '--all', '--force']
+```
+
+### Google Deployment Manager
+
+- It is infrastructure deployment service that automate the creation and management of google cloud resources.
+
+- It is set of Google Cloud Resources and manage them as a unit Called Deployment.
+
+- It use the Configuration file(YAML) to define the resources and deployment properties.
+
+- User can use Jinja and Python template to parametrize the configuration and allow reuse of comman deployment params such as load balanced, auto scale instance group etc.
+
+- Component of resource Section
+  
+  - `name` : A user defined string to identify the resource.
+  
+  - `type` : It is type of the resources being deployed such as compute.v1.instance, compute.v1.disk.
+  
+  - `properties` : The parameters od this resource types. such as zone: asia-east1-a, boot: true.
+
+- Create deployment
+  
+  ```
+  gcloud deployment-manager deployment create <Deployment_Name> --config <YAML_File>
+  ```
+
+- update deployment before execute it on real environment
+  
+  ```
+  gcloud deployment-manager deployment update <Deployment_Name> --config <YAML_File> --preview
+  ```
+
+- update deployment
+  
+  ```
+  gcloud deployment-manager deployment update <Deployment_Name>
+  ```
+
+- Cancel deployment preview
+  
+  ```
+  gcloud deployment-manager deployment cancel-preview <Deployment_Name>
+  ```
+
+- Add label to deployment
+  
+  ```
+  gcloud deployment-manager deployment create <Deployment_Name> --config <YAML_File> --labels devserver=backend, storage=media
+  ```
+
+- Describe deployment
+  
+  ```
+  gcloud deployment-manager deployment describe <Deployment_Name>
+  ```
+
+- Delete deployment
+  
+  ```
+  gcloud deployment-manager deployment delete <Deployment_Name>
+  ```
+
+### Google Deployment Manager Console
+
+- gcp console access
+  
+  ```
+  GCP-->Navigation menu-->APIs & Services-->DashBoards-->[+] ENABLE APIs AND SERVICES--->search "CLoud Deployment Manager V2 API"-->Enable API-->Search "Deployment Manager"-->open it-->cloud shell login
+  ```
+
+- create `sampleConfig.yaml` for deployment
+  
+  ```
+  resources:
+  - name: my-first-deployment-vm
+  type: compute.v1.instance
+  properties:
+  zone: us-central1-a
+  machineType: zones/us-central1-a/machineTypes/n1-standard-1
+  disks:
+  - deviceName: boot
+  type: PERSISTENT
+  boot: true
+  autoDelete: true
+  initializeParams:
+  sourceImage: projects/debian-cloud/global/images/family/debian-10
+  networkInterfaces:
+  - network: global/networks/default
+  ```
+
+- Create resource with `jinja` template
+  
+  - create `resourceName.txt`
+    
+    ```
+    michael-machine-1
+    ```
+  
+  - create `vm-template.jinja`
+    
+    ```
+    imports:
+    - path: resourcename.txt
+    
+    resources:
+    - name: {{ imports["resourcename.txt"] }}
+    type: compute.v1.instance
+    properties:
+    zone: us-central1-a
+    machineType: zones/us-central1-a/machineTypes/n1-standard-1
+    disks:
+    - deviceName: boot
+    type: PERSISTENT
+    boot: true
+    autoDelete: true
+    initializeParams:
+    sourceImage: projects/debian-cloud/global/images/family/debian-10
+    networkInterfaces:
+    - network: global/networks/default
+    ```
+  
+  - create `deploymentConfig.yaml`
+    
+    ```
+    imports:
+    - path: vm-template.jinja
+    - path: resourcename.txt
+    
+    resources:
+    - name: my-vm
+    type: vm-template.jinja
+    ```
+
+### `Labels` in GCP
+
+- It is key-value pair
+
+- Key is unique Identifier and Value can be duplicate/Empty
+
+- It is allowed maximum 64 Labels/resource
+
+- It can be applied across all GCP resource
+
+- It cannot effect the resource Operation
+
+- Use Case:
+  
+  - Define cost center/Location
+  
+  - Define Resource Environment/Project
+  
+  - Define service type/owner
+  
+  - Define Resource State ready,inuse,readyForDeletion etc.
+  
+  - Define for monitoring purpose
+
+- Create instnace with labels
+  
+  ```
+  gcloud compute instance create instance-2 --labels env=uat,owner=sawan,team=qa,location=europe
+  ```
+
+- List existing Labels
+  
+  ```
+  gcloud compute instance describe instance-2 --format "yaml(labels)"
+  gcloud compute instance describe instance-2 --format "json(labels)"
+  ```
+
+### `resource Quota` in GCP
+
+```
+GCP-->project-->Navigation Menu-->IAM & Admin-->Quotas
+```
+
+- Capping limit on resources that you create
+- It will assigned as project wise
+- It prevent unexpected spikes in the resources
+- Types:
+  1. Resource per project
+  
+  2. API rate limit Request
+  
+  3. API Resource Quota
