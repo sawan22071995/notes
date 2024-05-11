@@ -39,9 +39,444 @@ https://console.cloud.google.com/
 - **Availablity Set(99.95% SLA)** : Fault Domain x 3 and Update Domain x 20( for upgrade or maintenance phyiscal Hardware)
 - **Single VM (99.9% SLA)** : Configuration of Machine in Single centre only
 
-### GCP is organized into Regions and zones.
+### Some Major Type of services which offers by GCP are below
+
+- **Compute Service**
+  
+  - GCP provides a scalable range of Computing
+    resources. It’s highly customizable virtual machine and option to deploy
+    your code directly or via container.
+    
+    - Google Compute Engine
+    
+    - Google App Engine
+    
+    - Google Kubernetes Engine
+    
+    - Google Cloud Container Registry
+    
+    - Google Cloud Functions
+
+- **Networking**
+  
+  - It includes services related to Networking. It include
+    following
+    
+    - Virtual Private Cloud Network (VPC)
+    
+    - Cloud Load Balancing
+    
+    - Content Delivery Network
+    
+    - Google Cloud Interconnect
+    
+    - Google Cloud DNS Service
+
+- **Storage & DataBase**
+  
+  - It includes services related to Storage and DB. It
+    include following
+    
+    - Google Cloud Storage
+    
+    - Cloud SQL DB
+    
+    - Cloud BigTable
+    
+    - Cloud Data Store
+    
+    - Cloud Persistent Disk
+
+- **Big Data Processing and Management**
+  
+  - It includes services related to Big Data. It include following
+    
+    - Google Cloud BigQuery
+    
+    - Cloud DataProc
+    
+    - Cloud DataLab
+    
+    - Cloud Pub/Sub
+
+- **Machine Learning**
+  
+  - It includes services related to Machine Learning and Artificial
+    Intelligence. It include following
+    
+    - Google Cloud Machine Learning
+    
+    - Vision APIs
+    
+    - Natural Language APIs
+    
+    - Translation APIs
+    
+    - Speech APIs
+
+- **Identity and Access Management**
+  
+  - It includes services related to access management
+    and security. It include following
+    
+    - Google Cloud Resource Manager
+    
+    - Cloud IAM
+    
+    - Cloud Security Scanner
+    
+    - Cloud Platform Security
+
+- **Management and Development Tools**
+  
+  - It includes services related to cloud management
+    and monitoring. It include following
+    
+    - StackDriver
+    
+    - Monitoring
+    
+    - Logging
+    
+    - Error Reporting
+    
+    - Trace
+
+- **Developer’s tools**
+  
+  - It includes services related to cloud development. It
+    include following
+    
+    - Cloud SDK
+    
+    - Deployment Manager
+    
+    - Cloud Source Repository
+    
+    - Cloud Test Lab
+
+### GCP Pricing
+
+- Google Cloud Platform first public Cloud Service, which provides per
+  second Billing.
+
+- Customer Friendly Pricing
+  
+  - No Upfront Costs
+  
+  - Pay as you Go
+  
+  - No Termination Fee
+  
+  - Sustained Use Discount
+
+- **GCP Pricing calculator**
+  
+  https://cloud.google.com/products/calculator 
+
+### Ways to Interact with Google Cloud
+
+- **GCP Web Console - Web User Interface**
+  
+  - It is powerful tool but used for administrative tasks.
+  
+  - Allows view of all Projects and Resources.
+  
+  - Enable-Disable Resource REST API.
+  
+  - Offers access to Cloud Shell.
+
+- **GCP Cloud Shell - Terminal base Interface**
+  
+  - It is a way powerful as compare to Web - Interface.
+  
+  - Allows user to access and command cloud environment via terminal.
+  
+  - Include pre-install SDK and other Utilities.
+  
+  - Google Cloud Shell is an Interactive terminal to Interact with Google Cloud.
+  
+  - Cloud Shell is Browser Based Terminal.
+  
+  - Cloud SDK, gcloud CLI and other Utilities are pre-installed in Google Cloud Shell.
+  
+  - Cloud Shell comes with Inbuilt Code Editor. You can use this editor to Open Directories, Files and Edit them.
+  
+  - Google Cloud Shell is fully Browser Based Application, No local Installation is required to use Google Cloud shell.
+  
+  - Cloud Shell have 5GB Persistent Disk Attached.
+  
+  - Easy Access to pre-install tools.
+    
+    - gcloud, bq, vim, gsutil, python, ruby, docker, npm, bash etc.
+
+- **REST APIs - Rest APIs are programmatic access to cloud resources**
+  
+  - Most powerful way to interact with google cloud.
+  
+  - Use JSON as interchange format.
+  
+  - Use Oauth 2.0 for authentication.
+  
+  - Mostly APIs include daily quota and rate limits, that can be raised by request.
+  
+  - Many APIs are “Disabled” by default.
+
+- **GCP Console Mobile App - For IOS and Android.**
+  
+  - You can monitor and make changes to Google Cloud resources from your mobile device. This includes managing projects, billing, App Engine apps, and Compute Engine VMs.
+  
+  - The app allows you to receive and respond to alerts, helping you quickly address production-impacting issues.
+  
+  - You can open, assign, acknowledge, and resolve incidents to keep your team in sync.
+  
+  - The app provides a way to triage and understand the crashes of your cloud services.
+  
+  - You can start, stop, and SSH into instances. You can also see logs from each instance.
+  
+  - The app provides customizable graphs that give you key metrics such as CPU usage, network usage, requests per second, server errors, and much more at a glance.
+  
+  - The app provides up-to-date billing information and cost forecasts. You can also get billing alerts for projects going over budget.
+  
+  - You can see errors, roll back, and change traffic splitting.
+  
+  - You can view and delete Cloud Storage data (image, logs, files, etc.).
+  
+  - You can view health, start, and stop Cloud SQL instances.
+
+### Machine Types
+
+- Machines types are templates of virtualized hardware that will be available to the VM instance. 
+
+- These resources include the CPU, Memory, Disk capabilities, and so on.
+1. **Standard machine type**
+   
+   - Ideal for typical balanced instances with respect to RAM and CPU
+   
+   - Have 3.75GB of RAM per virtual CPU
+
+2. **High-memory machine types**
+   
+   - Ideal for applications that require more memory
+   
+   - Have 6.5GB of RAM per virtual CPU
+
+3. **Shared-core machine types**
+   
+   - These machines have one virtual CPU on a single hyper-thread of a single host CPU that is running the instance. 
+   
+   - Ideal for non-resource intensive applications.
+   
+   - Very cost effective
+
+4. **Large machine types**
+   
+   - Ideal for resource-intensive workloads
+   
+   - Up to 1TB of memory
+
+5. **Custom machine types**
+   
+   - This is ideal if you have a workload that maybe requires more processing power or memory than what is offered by the Google-provided types, or if you need GPUs.
+
+6. **Preemptibility machine Types**
+   
+   - Preemptible VM is an affordable, short-lived instance ideal for batch jobs or fault-tolerant workloads.
+   
+   - They’re up to 80% cheaper than regular instances, so if your application can handle random the termination of VMs at any
+     time, then this is best option.
+   
+   - Some common applications that use preemptible VMs are modeling or simulations, rendering, media transcending, big data, continuous integration, and web crawling.
+
+### Disks
+
+- The disk you choose will be your single root disk in which your image is loaded during the boot process. Do you choose a persistent disk or a local disk?
+1. **Persistent Disks**
+   
+   - Persistent disks are network-based “disks” abstracted to appear as a block device. 
+   
+   - Data is durable, meaning the data will remain as you left it after reboots and shutdowns.
+   
+   - Available as either a standard hard disk drive or as a solid state drive (SSD), persistent disks are located independently of the VM instances, which means they can be detached and reattached to other instances.
+     
+     - **Standard persistent disks**
+       
+       - Ideal for efficient and reliable block storage
+       
+       - Max 64TB per instance
+       
+       - Only available within a single zone
+     
+     - **SSD persistent disks**
+       
+       - Ideal for fast and reliable block storage
+       
+       - Max 64TB per instance
+       
+       - Only available within a single zone
+
+### Create Custom Machine/VM/Compute Engine in GCP
+
+```
+GCP-DashBoards-Cosole-->Select Project-->Go to Hamburger Navigation menu-->compute section-->select compute Engine-->select VM instances-->create-->Name:Instance/VM name-->add labels-->Regions:Select Region & Zones:Select Zone-->Machine Configuration-->Machine Family:Genral Purpose/Memory Optimized/Compute Optimized | Series : N1,N2,E2,N2D(Genration of CPU) | Machine Type:Custom-->Cores:select vcpu | Memory:select GB-->Boot Disk-->Operating System:Select OS for VM | Version : Select Image Type or Version of OS | Boot Disk Type: Standard Persistant Disk | Size(GB):10-->select-->Identity and API access-->Service account:Select service Account | Access Scope:Seelct Access Scope-->Firewall-->checkBox:Allow HTTP,HTTPS traffics-->Mangement-->Management | Security | Disks | Networking | SoleTenancy-->Create
+```
+
+### Create Google Compute Engine/Virtual Machine
+
+```
+GCP-DashBoards-Cosole-->Select Project-->Go to Hamburger Navigation menu-->compute section-->select compute Engine-->select VM instances-->create-->Name:Instance/VM name-->add labels-->Regions:Select Region & Zones:Select Zone-->Machine Configuration-->Machine Family:Genral Purpose/Memory Optimized/Compute Optimized | Series : N1,N2,E2,N2D(Genration of CPU) | Machine Type:Custom,Micro,Small,Standard-->Boot Disk-->Operating System:Select OS for VM | Version : Select Image Type or Version of OS | Boot Disk Type: Standard Persistant Disk | Size(GB):10-->select-->Identity and API access-->Service account:Select service Account | Access Scope:Seelct Access Scope-->Firewall-->checkBox:Allow HTTP,HTTPS traffics-->Mangement-->Management | Security | Disks | Networking | SoleTenancy-->Create
+```
+
+### GKE (Google Kubernates Engine)
+
+- Kubernetes is an open source solution for managing application containers.
+
+- It is a cluster manager and orchestration system for running Docker containers in the cloud.
+
+- GKE a production-ready environment with guaranteed uptime, load balancing and included container networking features. 
+
+- It allows you to create multiple-node clusters while also providing access to all Kubernetes’ features.
+  
+  ```
+  GCP-DashBoards-Cosole-->Select Project-->Go to Hamburger Navigation menu-->compute section-->select Kubernates Engine-->clusters-->create cluster-->Name:ClusterName-->Location Type:Zonal,Regional-->Zone:Select Zone|Region:Select region-->Specify node Location:Specify Master Node Location-->Master Version:Static-->Static Version:Select Version of GKE-->Create
+  ```
+
+### Standard App Engine
+
+- Google App Engine is a Platform as a Service (PaaS) product that provides Web app developers and enterprises with access to Google's scalable hosting.
+- App Engine makes deployment, maintenance, Scalability easy so that you can focus on Innovation.
+- Especially suitable for building scalable web Applications & Mobile backends.
+- Google App Engine is free up to a certain amount of resource usage.
+- App Engine standard environment is based on container instances running on Google's infrastructure.
+  -App Engine standard environment makes it easy to build and deploy an application that runs reliably even under heavy load
+  and with large amounts of data.
+- Free Daily Quota.
+- Usage based Billing.
+- Applications run in a secure, sandboxed environment.
+- Application runs within its own secure, reliable environment that is independent of the hardware, operating system, or
+  physical location of the server.
+- Standard environment supports the following languages: Java, Python, Node.js, PHP, Ruby, Go.
+- App Engine standard environment gives you 1 GB of data storage and traffic for free, which can be increased by enabling
+  paid applications.
+- App Engine Standard Environment Runtimes - App Engine standard environment has two generations of runtime environments.
+  1. **1st Generation**
+     
+     - Supported languages: Python 2.7, Java 8, PHP 5.5, Go 1.11
+     
+     - External network access: Python 2.7 and PHP 5.5 have access via the URL Fetch API, while Java 8 and Go 1.11 have full access.
+     
+     - File system access: Python 2.7 and PHP 5.5 have no file system access, while Java 8 and Go 1.11 have read/write access to the /tmp directory.
+  
+  2. **2nd Generation**
+     
+     - Supported languages: Python 3.7, Java 11, Node.js, PHP 7.2, Ruby, and Go 1.2+
+     
+     - External network access: Full access
+     
+     - File system access: Read/write access to the /tmp directory
+  
+  It's important to note that the 1st generation of the App Engine Standard Environment is being gradually deprecated, and new applications are recommended to use the 2nd generation for better performance, security, and access to the latest language versions and features.
+
+### Flexible App Engine
+
+- Flexible App Engine overcome the constraints of Standard App Engine. 
+- App Engine allows developers to focus on what they do best: writing code. Based on Google Compute Engine, the App Engine flexible environment automatically scales your app up and down while also balancing the load. 
+- In flex App Engine, You can customize runtimes or provide your own runtime by supplying a custom Docker image or
+  Dockerfile from the open source community.
+- Features
+  - **Customizable infrastructure**
+    
+    - App Engine flexible environment instances are Compute Engine virtual machines, which means that you can take advantage of custom libraries, use SSH for debugging, and deploy your own Docker containers.
+  
+  - **Performance options**
+    
+    - You can specify how much CPU and memory each instance of your application needs, and the flexible environment will provision the necessary infrastructure for you.
+  
+  - **Native feature support**
+    
+    - Features such as microservices, authorization, SQL and NoSQL databases, traffic splitting, logging, versioning, security scanning, and content delivery networks are natively supported.
+
+### Managed virtual machines
+
+- App Engine manages your virtual machines, ensuring that:
+- Instances are health-checked, healed as necessary, and co-located with other services within the project.
+- Critical, backwards compatible updates are automatically applied to the underlying operating system.
+- VM instances are automatically located by geographical region according to the settings in your project. Google's management services ensure that all of a project's VM instances are co-located for optimal performance.
+- VM instances are restarted on a weekly basis. During restarts Google's management services will apply any necessary operating system and security updates.
+- You always have root access to Compute Engine VM instances. SSH access to VM instances in the flexible environment is disabled by default. If you choose, you can enable root access to your app's VM instances.
+- All Compute Engine needs Disk to read/write data or to operate.
+
+### Persistent Disk
+
+- Persistent Disk - Single root disk attached to VM.
+
+- Network Attached Disk. Array of multiple Disks.
+
+- Redundancy, Reliability, Performance
+
+- Benefit of RAID (Redundant Array of Independent Disks)
+  
+  - **RAID 0 (Striping)** - Stream of data is divided into multiple segments or blocks and each of those blocks is stored on
+    different disks.
+  
+  - **RAID 1 (Mirroring)** - Data is mirrored or cloned to an identical set of disks so that if one of the disks fails, the
+    other one can be used.
+
+- Very flexible and Powerful.
+
+- Independent from VM not physically attached.
+
+- Can be Detach/Move.
+
+- Can be read multiple instance at Once.
+
+- Preserve Data even after deleting Instance.
+
+- Resize, Move, Attach additional Disk- even when in-use.
+
+- Performance scale with Size.
+
+- SSD Options are available.
+
+- Encryption - Google Encryption or Custom Encryption.
+
+- Common and Default Option
+
+- Not Directly attached to Compute Engine, but Network Attached Disk
+
+- Standard and SSD options available
+
+### Local SSD
+
+- Directly attached to Compute Engine VM.
+
+- Highest Performance Disk
+
+- Physically attached to VM
+
+- Can’t be boot disk
+
+- Must create on Instance Creation
+
+- Fix in Size and attach upto 8 Disk
+
+- All Data lost in case Instance Terminate
+
+- Only Support Google Supplied Encryption.
+
+- Can attach Local SSD and Persistent Disk to same Instance
+
+### install Helm on Linux Machines
+
+```
+curl https://raw.githubusercontent.com/kubernetes/helm/master/scripts/get-helm-3 > get_helm.sh
+chmod 700 get_helm.sh
+./get_helm.sh
+```
 
 ### Any Resource in GCP either be Regional, Zonal or Global.
+
+### GCP is organized into Regions and zones.
 
 ### In a single region there will be 1,2,3 and 4 zones.
 
@@ -74,10 +509,6 @@ us-central1 [Region]
 - **ColdLine Storage** - Archival Storage at very Cheap rate.
 - **Custom Machines** - Pick any Configuration of CPU & Memory and Save Up to 48% on Compute Engine resources.
 - **Committed Use Discount** - Save up to 57% on Lock-In resources.
-
-### Google Pricing Calculator - To Calculate the Business Budget of your Project
-
-https://cloud.google.com/products/calculator
 
 ### The service account must be created before you create a firewall rule that relies on it.
 
@@ -1219,6 +1650,18 @@ steps:
   
   - Define for monitoring purpose
 
+- Update label on existing resource
+  
+  ```
+  gcloud compute instance update instance-2 --update-labels key1=value1,key2=value2
+  ```
+
+- Remove label
+  
+  ```
+  gcloud compute instance update instance-2 --remove-label "labelKey"
+  ```
+
 - Create instnace with labels
   
   ```
@@ -1247,3 +1690,886 @@ GCP-->project-->Navigation Menu-->IAM & Admin-->Quotas
   2. API rate limit Request
   
   3. API Resource Quota
+
+### GCDS (Google Cloud Directory Sync)
+
+- It is GCDS agent installed in ACtive Directory server for one way communication to google cloud identity.
+
+### Data Backup
+
+- Cloud Storage On-premises
+  
+  ```
+  gsutil -m cp -r [source directory] gs://[bucket name]
+  gsutil -m rsync -r [source directory] gs://[bucket name]
+  ```
+
+- Cloud Interconnect
+  
+  ```
+  CP-->Hamburger-->Networking-->Hybrid Connectivity-->Interconnect
+  ```
+
+- Transfer Services for Cloud
+  
+  ```
+  GCP-->Hamburger-->Storage-->Data Transfer-->[+] create transfer job-->[Source : Source Type | Destination : Bucket Name | Decription | When to overwrite | When to delete | Scheduling Option | Create ]
+  ```
+
+- Transfer Services for on-primesis data
+  
+  ```
+  GCP-->Hamburger-->Storage-->Data Transfer-->[+] create transfer job-->[ Source : Full Path to the source directory | Install Agent & Setup Connection | Destination : Bucket Name | Describe Tranfer Job | When to delete | Scheduling Option | Create ]
+  ```
+
+- Transfer appliance 
+  
+  ```
+  CP-->Hamburger-->Storage-->Data Transfer-->[ Contact Email | Amount of data to move | Business Name | Business Domain Name | Current Location of Data | Submit Request ]
+  ```
+
+- Persistant Disk backup from Take Snapshot 
+  
+  ```
+  GCP-->Hamburger-->Compute-->Compute Engine-->Storage-->Snapshot-->[+] create snapshot-->[ Name | Description | Source Disk | Location | Encryption Type | Create ]
+  ```
+
+- VM Backup from the custom Image
+  
+  ```
+  GCP-->Hamburger-->Compute-->Compute Engine-->Storage-->Image-->[+] create Image-->[ Name | Source | Location | Encryption Type | Create ]
+  ```
+
+- DataBase Backup
+  
+  - If you database is at on-primesis or Other Public Cloud
+    
+    1. For each Vendor there is method to export data services
+    
+    2. Upload to GCS
+    
+    3. Import Data to database instance
+    
+    ```
+    GCP-->Hamburger-->DataBase-->SQL-->[Backup Option Configuration in DB creation] or [Instance select]-->[+] create Backup
+    ```
+
+### WEB security Scanner
+
+- It is used for public URL Scanning to identify vulnerablities in Web Application(App Engine, Compute Engine,GKE)
+- Scan Type : Cross-site Scripting(XSS)
+- Clear Text Password
+- Invalid Header
+- Mixed Content
+- Outdated Library
+
+```
+GCP-->Hamburger-->security-->Web Secuirty Scanner-->Create a New Scan-->[Name | Strating URL | Exclude URLS | Authentication | Sign In URL | User Name | Password | Save ]-->Run Scan
+```
+
+### Secuirty Command Center
+
+- Centralize place to see security of GCP via DashBoards
+- It has number of services to analyze security
+- It has a pricing tier i.e. Standard Tier & Premium Tier
+- It works always in organization level
+
+```
+GCP-->Hamburger-->security-->Secuirty Command Center
+```
+
+### Cloud Logging
+
+```
+GCP-->Hamburger-->operation-->logging-->Logs Explorer | Logs DashBoards | Log Based Metrics | Logs Router | Logs Storage 
+```
+
+### Container Scanning API
+
+- Scanning vulnerablities inside container
+- Enable Container scanning API
+- It works with
+  1. Container Registry
+  
+  2. Artifact Registry
+  
+  ```
+  GCP-->Hamburger-->CICD-->Artifact/Container Registry-->Setting-->Enable/Disable Vulnerablity Sanning 
+  ```
+
+### Binary Authorization
+
+- policy : Ensure that trusted images are deployed to GCP
+- Enable Binary Authorization
+- It works with
+  1. GKE
+  
+  2. Cloud Run
+  
+  ```
+  GCP-->Hamburger-->Secuirty-->Binary Authorization-->Configure Policy-->[Default Rule | Custom Exemption Rule |ADD Image Path | Save Policy ]
+  ```
+
+### Forseti Security
+
+- It is a collection of community driven , open source tool to help you improve the security of GCP environment.
+- Systematically monitor your GCP resources to ensure that access control are set as you intended
+- Working Model
+  1. Inventory
+  
+  2. Scanner
+  
+  3. Enforcer
+  
+  4. Explain
+  
+  5. Notifications
+
+### Cloud SQL instance - Inside GCP
+
+1. On-demand Backup
+2. Schedules Backup
+
+### Cloud IAP - Identity Aware Proxy
+
+- With IAP you can guard access to your application and vm
+
+- It provide single point of control for managing user access to web application and cloud resources
+
+- Protect access to application hosted on Google Cloud . Other Cloud and on-primses
+
+- It works with App Engine API, Compute Engine Instance, HTTPS Load Balancer
+  
+  ```
+  GCP-->Security-->Identity-Aware Proxy-->Configure Consent Screen-->[ User type : Internal/External | Create ]-->[App Name | User support email | App Logo | App Home Page Url | [+] Add Domain | Email Address For Developer’s contact | Save & Continue]-->Security-->IAP section-->Enable IAP ON/OFF-->Add Member-->[New Member | Select Role : Cloud IAP : IAP Secured Web APP User | Save]
+  ```
+
+- if IAP not configured you can't connect with VM without External IP through SSH
+  
+  ```
+  gcloud beta compute ssh --zone "us-central1-a" "tunneling" --tunnel-through-iap --project "sawanDemo"
+  ```
+
+- manage HTTP and SSH based resources
+
+- Enable IAP
+  
+  ```
+  GCP-->security-->Identity Aware Proxy-->enable API-->SSH and TCP resources-->select instance-->Add principal-->Name principal-->Role:IAP-Secured Tunnel User-->save-->
+  ```
+
+### DLP API (Data Loss Prevention API)
+
+- fully managed service designed to help you discover, classify and protect your most sensitive data.
+- Apply API on Cloud Storage, Big Query, free from text, Structure and Unstructure data(Image) 
+- identify and de identify with Masking and Encryption of senstive data
+1. **DLP API - TEMPLATE**
+   
+   - configuration which defines for Types
+     1. inspection for jobs
+     
+     2. De-identification of jobs
+
+2. **DLP API - INFOTYPE**
+   
+   - What to scan for Built-in 120 InfoType or we can create custom InfoType also
+     1. Like Credit Card
+     
+     2. SSN
+     
+     3. Age
+
+3. **DLP API - LIKELIHOOD**
+   
+   - There are 6 categories for define it
+     1. LIKELIHOOD_UNSPECIFIED - Default Value; Same as possible
+     
+     2. VERY_UNLIKELY- It is very unlikely that the data matches the given InfoType
+     
+     3. UNLIKELY - It is unlikely that the data matches the given InfoType
+     
+     4. POSSIBLE - It is possible that the data matches the given InfoType
+     
+     5. LIKELY - It is Likely that the data matches the given InfoType
+     
+     6. VERY_LIKELY - It is very likely that the data matches the given InfoType
+
+4. Create Stored InfoType
+   
+   ```
+   GCP-->Security-->Data Loss Prevention-->create-->stored InfoType-->[ Tyep | InfoType ID | InfoType Display Name | Description | Resource Indication | Resource Preview | Regex Patters | Create ]
+   ```
+
+5. Create Template
+   
+   ```
+   GCP-->Security-->Data Loss Prevention-->create-->Template-->[ Template type : inspection/De-identify | Template ID | Display Name | Resource Location | Continue ]-->[ Manage InfoType | Select ID | Inspect Ruleset [+] Add Rule | Exclusion Rule-->InfoTypes | LikELIHOOD | Create ]
+   ```
+
+6. Create Job for Inspection
+   
+   ```
+   GCP-->Security-->Data Loss Prevention-->create-->Template-->Job or Job trigger-->Inspection-->[ Job Id | Resource Location | Location | location type | url | Percentage of included objects scanned within the buckets | Sampling Method | Limit per-object scan by | Max Byte to scan per file | File Types | Continue]-->[Template Name | InfoTypes | Confidence Threshold | Likelihood | Continue ]-->[Time Span or schedule | Trigger scan repeat | Continue]-->Review | Create ]
+   ```
+
+### GCP cloud Security Services
+
+```
+GCP Portal-->Hambutger Menu-->Security-->Security Services Available mentioned below
+```
+
+- SSC(Security Command Centre) : Help to identify all vulnerablity in Cloud Services
+- Identity Aware Proxy : It helps us to protect our application
+- Binary Authorization : It helps us to deployed only trusted docker images
+- Data Loss Prevention : Check and detect personal Data from PII(Personal Identify Information).
+- Key Management : Used to manage key to security encrypt data
+- Web Security Scanner : Used to define Vulnerablity or security risk detect in our different Web applications.
+
+### Data Encryption
+
+- Data at rest
+  - data situated at GCS and DataBases
+- Data in motion
+  - data transfer one network to another network
+  
+  - within GCP or Outside GCP
+- Data in Use
+  - Data situated in RAM
+  
+  - Memory Store , Memory data processing
+
+### Cloud KMS(Key Management System)
+
+- Google Managed Key
+- Customer Managed key
+- Customer supplied key
+
+### Cloud Secret Manager
+
+```
+pip3 install google-cloud-secret-manager
+
+from google.cloud import secretmanager
+client = secretmanager.SecretManagerServiceClient()
+name = f"projects/gcp-pse/secrets/dev-secret/versions/latest"
+response = client.access_secret_version(request={"name": name})
+payload = response.payload.data.decode("UTF-8")
+print("Plaintext: {}".format(payload))
+```
+
+```
+GCP-->security-->Secret manager-->[+] Create Secret-->[ Name | Secret value | Manually Manage location for this access | Encryption | Rotation Period | Notifications | Create ]
+```
+
+### IAM (Identity Access Management)
+
+- IAM centrally manages all authorization.
+
+- Who can do what on which resources.
+
+- *.gserviceaccount.com (create by Google default service account)
+
+### Billing + Cloud IAM
+
+- Billing Account Creator
+  
+  - Create new Organization Level billing Account
+
+- Billing Account Administratos
+  
+  - Manage billing account
+  
+  - configure Billing Export
+  
+  - Link/Unlink Project
+  
+  - Manage Billing User Roles
+
+- Billing Account User
+  
+  - Link Project with billing account
+
+- Billing Account Viewer
+  
+  - View Billing Information(Finance Team)
+
+### Logging
+
+```
+gcp-->selectProject-->navigation Menu-->Operation-->Logging 
+```
+
+### Export of log in Gcp
+
+```
+GCP-->selectProject-->navigation Menu-->operation-->logging-->Logs Router-->[Y]Create Sink-->[ Sink NAme | Sink Description | Select Sink service | Select the Service | Choose logs to include in sink : Query type of logs filter i.e. resource.type="gce_instance" | Exclusion | create sink ]
+```
+
+### Monitoring - Uptime Check
+
+```
+gcp-->selectProject-->navigation Menu-->Operation-->Monitoring-->Uptime Check-->[+] Create UPtime Check-->[ title | Target : Protocol | Select ResourceType : URL, K8s LB Service , AppEngine , Instnace , Elastic Load Balancer | Applies to : Single/ Group | Instance | Port | Check Frequency | Response Timeout | Alert & Notifications : Create An alert | Name | Duration | Manage Notifications channel : Select Notifications Channel Email, SMS etc. | Add New | Select Email | Create ]
+```
+
+### Generate load on VM
+
+```
+sudo yum install -y epel-release
+sudo yum install -y stress
+sudo stress --cpu 2 --timeout 10m
+```
+
+### Genarate alert incident
+
+```
+gcp-->navigation menu-->operation-->monitoring-->Alerting-->[+] CREATE POLICY-->[ what do you want to track [add condition : Metrics | Find Resource type and metrics | Add filter | Group By | Aggregator | period | Configuration : condition triggers if | condition | Threshold | for | ADD] | Notifications Channel | Select email | Notify on Incident closure | time | Alert Name | Description | Save ]
+```
+
+### VPC Layers Security
+
+- Some Cloud Native Solution
+- Subnet
+- Firewall Rules
+- Ingress/Egress Traffic
+- Cloud Armor
+
+### Operation
+
+- Logging , Monitoring , Trace , Profiling
+
+### Cloud Identity (Ways to Interact with GCP ) IDAAS (Identity as a services) It Mangaes users and groups in Google Cloud.
+
+- Google Account
+- Service Account
+- Google Workspace
+- Cloud Identity Domain
+- Google Groups
+
+### Setup google cloud identity for Organization domain level
+
+https://workspace.google.com/ 
+
+### Register domain with Google
+
+https://domains.google/
+
+### GCDS(Google Cloud Directory Sync)
+
+- It helps you can synchorize the data in your Google Account with Microsoft AD or LDAP server.
+
+### Resource Hierarchy
+
+```
+Organization(Company)
+   |________Folder(Teams)
+              |______Project(Project for Dev,Test, Production)
+                       |________Resources(GKE , App Engine , Bucket etc)
+```
+
+### Create Organization Hierarchy with create folder, Project
+
+```
+GCP-->Hamburger Menu-->Manage Resources-->Create Folder
+```
+
+### To see organinzation Policies
+
+- we need to select any project first.
+
+- We can create policy according to our requirements on hierachal level like project , organization and folder level.
+
+- Use case of Policy
+  
+  1. Disable Service Account Creation
+  
+  2. Enforce uniform bucket-level access
+  
+  3. Skip default network creation
+  
+  ```
+  gcp-->select project-->hamburger menu-->IAM & Admin-->organinzation policies
+  ```
+
+### skip default network creation policy in organinzation level
+
+- There will be no VPC network will be created in New project after apply below policy
+  
+  ```
+  gcp-->select project-->hamburger menu-->IAM & Admin-->Organization policies-->search & select-->skip default network creation policy-->click Edit-->[ applies to : Customize | Enforcement : On | save ]
+  ```
+
+### IAM (Identity and Access Management)
+
+- WHO can do WHAT on WHICH resources
+  
+  - **WHO**: Identity Member Email
+  
+  - **WHAT** : Roles (Collection of Permissions)
+  
+  - **WHICH**: Resources (Compute AppEngine BigQuery) etc.
+  
+  ```
+  i.e. X(who) can CreateVM(what) in ComputeEngine(which)
+  ```
+
+### Roles (Collection of permission)
+
+- **Primitive**: Owner, Editor, Viewer
+  - Viewer : read only permission for all resources inside the project | Only view all resources in gcp
+  
+  - Editor : Reader + Modification | Modify all resources and No access to IAM billing
+  
+  - Owner: Editor + manage user, group , billing | Modify all Resources and Manage IAM & Billing
+  
+  - Assign Primitive Roles to Users
+  
+  ```
+  gcp-->selectProject-->hamburgerMenu-->IAM&Admin-->IAM-->Member-->[+]ADD-->[ New Member | Select Role : Editor | Save ]
+  ```
+- **PreDefined**: Roles in single services i.e. Compute admin, Network viewer, Big Query Job user
+  - GCP defined Role & Maintained by GCP & For each product/services - Different sets of Roles defined
+  
+  - i.e. Compute Admin, Network Viewer , BigQuery Job User
+  
+  ```
+  gcp-->selectProject-->hamburgerMenu-->IAM&Admin-->IAM-->Member-->Select User-->Edit Permissions-->[ Member | Project | Role : Storage Admin | Save ]
+  ```
+- **CustomRole**: Customised Role, Can be Created from Pre-defined Role
+  - Combined/Remove/Add permission from multiple pre-defined roles
+  
+  ```
+  gcp-->selectProject-->hamburgerMenu-->IAM&Admin-->Roles-->Create From Role-->[ Title | Description | ID : CustomStorageObjectAdmin | Role launch Stage : Alpha | Select Permissions | Create ]
+  gcp-->selectProject-->hamburgerMenu-->IAM&Admin-->IAM-->Member-->Select User-->Edit Permissions-->[ Member | Project | Role : CustomRoleTitle | Save ]
+  ```
+
+### Permissions
+
+- **Structure Of Permissions** : <Services>.<ResourceType>.<Verb>
+- **Example of Permissions** : BigTable.tables.get | cloudfunction.function.list | storage.object.delete | compute.disk.create
+
+### Assign Role at Organization & Folder Level
+
+- The child can not override parent level assigned role to user.
+  
+  ```
+  gcp-->selectProject-->Switch to Organization-->IAM-->Permissions-->[+]ADD-->[ New Member | Role | Save ]
+  ```
+
+### Service Account
+
+- For non humman like Apps, Services
+- It is identity for compute Engines i.e. VM
+- SA keys for authentication 
+- Max 10 key Per Service Account
+- Max 100 Service Account per Project
+- Assign role to SA like identity
+- Types of Service Account
+  - Google Managed SA
+  
+  - BuildIn SA i.e. Compute Engine, App Engine & Default SA 
+  
+  - User created custom SA
+- Create Service Account
+  
+  ```
+  gcp-->selectProject-->hamburgerMenu-->IAM&Admin-->Service Accounts-->[+] Create Service Account-->[ SA Name | SA ID | SA description | Create and Continue | Grant this SA access to Project - Select Role | Continue | Grant User access to this SA - SA user role | SA admin role | Done ]
+  ```
+- Create Service Account with Virtual Machine
+  - Select SA during creation of VM.
+  
+  - To check SA associated with VM by login to VM by SSH from GCP
+    
+    ```
+    gcloud auth list
+    ```
+
+### Cloud API Access Scopes
+
+- Allow default access
+- Allow full access to all cloud APIs
+- Set Access for each API
+- Drawback : 
+  - Machine Must be Stopped after changing access Scope
+
+### Service Account RSA Private Key
+
+- key is the password for SA 
+- Keys can used for Authentication
+- Genarate key from cloud console
+  
+  ```
+  gcp-->selectProject-->hamburgerMenu-->IAM&Admin-->Service Account-->Select Service Account-->Keys-->ADD key-->Json-->save to local Machine
+  ```
+- Activate SA by key by command
+  
+  ```
+  gcloud auth activate-service-account --key-file=rsa private keys.json
+  ```
+
+### RFC 1918 : Standard for Private IP addressing
+
+- **Class A** - 10.0.0.0-10.255.255.255 - 10.0.0.0/8
+
+- **Class B** - 172.16.0.0-171.31.255.255 - 172.16.0.0/12
+
+- **Class C** - 192.168.0.0-192.168.255.255 - 10.0.0.0/16
+
+### CIDR Notation- Classless Inter-Domain Routing or supernetting
+
+- **123.52.36.0/24** - 24 bits are fixed-8 bits are available-Total IP address - 2(Power of)8=256
+- **123.52.36.0/28** - 28 bits are fixed-4 bits are available-Total IP address - 2(Power of)4=16
+- **123.52.36.0/31** - 31 bits are fixed-1 bits are available-Total IP address - 2(Power of)1=2
+- **0.0.0.0/32** - 32 bits are fixed-0 bits are available-Total IP address - 2(Power of)0=1
+- **0.0.0.0/0** - 0 bits are fixed -32 bits are available -Total IP address - 2(Power of)32=4,294,967,296
+- `Each region` have `1 subnet` it must for communication between different regions.
+
+### VPC(virtual Private Cloud) - `Global Entity` but Subnet - `Region based Entity`
+
+### `default VPC` is created by GCP by enabling `Compute Engine API`
+
+- skip `default VPC` creation
+  
+  ```
+  GCP-->IAM & Admin-->Organization Policies-->search(skip default network creation)-->select Policy-->Disable
+  ```
+
+### list of vpc
+
+```
+gcloud compute network list
+```
+
+### list of subnet
+
+```
+gcloud compute network subnet list
+```
+
+#### protcol used in networking mostly
+
+- **SSH** - Secure Shell - port(22)
+- **ICMP** - Internet Control Managed Protocol - Ping
+- **Http** - Hypertext Transfer protocol - Port(80)
+- **Https** - Hypertext Transfer protocol - Port(443)
+- **RDP** - Remote Desktop Protocol(3389)
+
+### Firewall : It is a door for incoming or outgoing traffic to an instance
+
+- default rule : **Allow** all outgoing traffic(egress)
+- default rule : **Deny** all incoming traffic(ingress)
+
+### Shared VPC
+
+- Shared VPC allows an organization to connect resources from multiple projects to a common VPC.
+
+- Using shared VPC resources in multiple Project can communicate each other on internal IPs without any extra router, VPN or Tunnel.
+
+- When you use Shared VPC, you designate a project as a host project and attach one or more other service projects to it. The VPC networks in the host project are called Shared VPC networks.
+
+- Host project contains one or more Shared VPC networks. A Shared VPC Admin must first enable a project as a host project. After that, a Shared VPC
+  Admin can attach one or more service projects to it.
+
+- Service project is any project that has been attached to a host project by a Shared VPC Admin. It's a common practice to have multiple service projects operated and administered by different departments or teams in your organization.A project cannot be both a host and a service project simultaneously. Thus, a service project cannot be a host project to further service projects.
+
+- A project cannot be both a host and a service project simultaneously. Thus, a service project cannot be a host project to further service projects.
+
+- User can create and use multiple host projects; however, each service project can only be attached to a single host project.
+
+- When a host project is enabled, all of its existing VPC networks become Shared VPC networks, and any new network created in it will automatically be a Shared VPC network as well.
+
+- **Host-Project** 
+  
+  - this project will be a hosted project where shared VPC will be configured.
+  
+  - When you create shared VPC in first project you need to enabled that project as HOST project.
+
+- **ServiceA Project**
+  
+  - This is a Service /Consumer Project.
+
+- **My First Project**
+  
+  - This is a Service /Consumer Project.
+
+- It is used to oprate or shared subnet from VPC between multiple projects.
+
+- **enable permission :**
+  
+  - You can put these permissions in a custom role and can be attached to your account.
+    
+    ```
+    compute.organizations.disableXpnHost
+    compute.organizations.disableXpnResource
+    compute.organizations.enableXpnHost
+    compute.organizations.enableXpnResource
+    compute.projects.get
+    resourcemanager.projects.get
+    resourcemanager.projects.getIamPolicy
+    resourcemanager.projects.list
+    ```
+  
+  ```
+  GCP-->IAM & Admin-->Roles-->compute.organization.enableXpnHost-->copy:compute Shared VPC Admin-->IAM-->chnage the permission to Organization level-->Select User-->edit user-->add role : compute Shared VPC Admin-->save
+  
+  GCP-->VPC Network-->Shared VPC-->SetUP shared VPC-->Save&Continue-->select Subnet-->continue-->attach the project where you want to use this subnet-->select user role : Compute Network Admins-->Save
+  ```
+
+### DNSSEC (Domain Name System Security)
+
+- It is an security extension for DNS security provided by google
+  
+  ```
+  GCP-->Networking-->Network-->Cloud DNS-->Select DNS-->DNSSEC-->ON/OFF
+  ```
+
+### Google API Private Access
+
+- Private Access allow different subnetwork to use GCP Services privately
+- It will configured on Subnet level make -- Private Google Option -->ON/OFF
+
+### create VM from gcloud cli
+
+```
+gcloud compute instances create VM_NAME --image-project IMAGE_PROJECT --image IMAGE_NAME --subnet SUBNET_NAME
+```
+
+### create multiple vm instances with same configuration from gcloud cli
+
+```
+gcloud compute instances create VM_NAME-1 VM_NAME-2 VM_NAME-3 --image-project IMAGE_PROJECT --image IMAGE_NAME --subnet SUBNET_NAME
+```
+
+### install ping command
+
+```
+sudo apt-get install iputils-ping
+```
+
+### find ipaddress for cloud cli
+
+```
+curl https://api.ipify.org
+```
+
+### create firewall rule with tags also for communication
+
+- add network tag : learntag //in compute instnace
+- select Source & Target with Tags instead of IP address
+
+### we need to allow google.api in access for accessing services to each other communication
+
+- This communication will be public access only through external IP
+
+### private google access
+
+- This communication will be private access by private IP
+  
+  ```
+  GCP-->VPC network-->subnet-->edit-->private google access:on-->save
+  ```
+
+### serverless private vpc services
+
+- app engine
+
+- cloud run
+
+- cloud function
+
+### cloud function communication with serverless vpc private access
+
+```
+GCP-->vpc network-->serverless vpc access-->connector-->cloud function-->connection-->egress setting-->select VPC connectors-->Route only request to private IPs through the VPC connectors-->next-->code-->deploy
+```
+
+### Types of IP
+
+- **Internal Private IP** : Access from Private Network inside GCP
+- **External Public IP** : Access from anywhere on internet
+- **Ephermal Temporal Dynamic IP** : Once we start resource , new IP will be assigned
+- **Static Permanent IP** : Can be assigned from one resource to another resource
+- Max NIC can be attached to one instance - **8** 
+
+### install kubectl in VM
+
+```
+gcloud components install kubectl
+apt-get install kubectl
+```
+
+### set access scope in VM
+
+- Access Scopes - Allow full access to all cloud APIs
+
+### Cloud Load Balancer
+
+- A load balancer distributes user traffic across multiple instances of your applications.
+- By spreading the load, load balancing reduces the risk that your applications experience performance issues.
+- Cloud Load Balancing is a fully distributed
+- Software defined managed GCP service.
+- It isn't hardware based, so you don't need to manage a physical load balancing infrastructure
+- Health check
+  - route traffic to only healthy instance
+  
+  - maintain minimum number of instances
+- Auto scaling based on traffic
+- High availability
+- Single anycast IP
+
+### There are different type of load Balancer
+
+- **Global LB** : Use global load balancing when your backends are distributed across multiple regions. You can provide access by using a single anycast IP address.
+  - `Global load balancing` requires that you use the `Premium Tier of Network Service Tiers`.
+- **Regional LB** : Use regional load balancing when your backends are in one region, and you only require IPv4.
+  - For `regional load balancing`, you can use `Standard Tier`.
+- **Internal LB** : Distribute traffic to instances inside of Google Cloud.
+- **External LB** : Distribute traffic coming from the internet to your Google Cloud Virtual Private Cloud (VPC) network. 
+- **SSL Proxy LB**: The SSL Proxy LB terminates the SSL/TLS connection from the client and establishes a new SSL/TLS connection with the backend server.
+
+### cloud Run
+
+- ### Serverless deployment for application with docker images etc like fargate containers.
+
+### Http/Https Load Balancer
+
+```
+GCP-->Networking-->Network Services-->Load Balancing-->Create Load Balancer-->Select Load balancing Solution(Https,TCP & UDP)-->Select Https Load Balancer-->Start configuration-->Internet facing or Internal Only : From internet to my vm and serverless services-->Global & Regional : Global Http LB-->continue-->[ Name : LB Name | Backend Configuration-->
+
+{Create Backend Services|Name: Backend Services Name | Backend Type : Select Backend Types|Protocol : https| New Backend | Create serverless network endpoint group|Name: backend Name | Region : select region | Serverless network endpoint group : cloud Run | select service : service name -->create}-->create-->OK-->
+
+{Host & Path Rule | mode : simple host & path rule | backend1* : select backend services created earlier}-->{Frontend Configuration | New Frontend IP and Port : Name | protocol : http | Network service tier : Premium | IP version : IPv4 | IP address : Create Reserve IP address | Port : 80-->done}-->
+
+Review and finalization-->create
+```
+
+### Cloud DNS
+
+- DNS Address book for internet
+  - www.google.com 74.125.29.101
+- Highly Scalable , Reliable and Managed Domain Name System (DNS) service on GCP infrastructure
+- 100% SLA
+- Manage millions of DNS zones and records
+- Cloud DNS
+  - Public Zone
+  
+  - Private Zone
+- get Domain free `https://freenom.com`
+- check DNS record `https://dnschecker.org`
+
+### Public CLoud DNS With Load Balancer
+
+```
+GCP-->Networking-->network services-->[ Cloud Domain-->Buy Domain-->fill details-->get domain
+
+[ GCP-->Networking-->network services-->Cloud DNS-->create Zone { Zone Type : Public | Zone Name : Name | DNS Name : DNS or domain name | DNSSEC : ON | Cloud Logging : ON-->create}]--> Select DNS Name with Type : NS-->Copy Name Server--> Update it on Name server in Domain Register Website | Copy Public IP address | Add records set in Cloud DNS | DNS Name : domain | Resource Record Type : A | TTL : 5 | TTL Unit : Minute | Routing Policy : select Routing Method | IPv4 Address : paste your public IP Address-->Create } Add records set in Cloud DNS | DNS Name : www.domain.com | Resource Record Type : CNAME | TTL : 5 | TTL Unit : Minute | Routing Policy : select Routing Method | Canonical name : domain name-->Create } ]
+```
+
+### update existing public internet facing LB with Https
+
+```
+GCP-->Networking-->network services-->Load Balancing-->select Load Balancer-->Frontend IP Configuration-->Add Frontend IP and Port-->Name : https | protocol : HTTPS | IPv4 version : IPv4 | IP Address : Select IP address | Port : 443 | Certificate : Upload Certificate or Create New certificate | name : my-certificate-name | Create Mode : Upload or Create Google Managed Certificate | Domains : Add your all domain-->Create-->Update
+```
+
+### Private cloud DNS
+
+-  Its doesn't required any public domain because it is internal to the network
+  
+  ```
+  [ GCP-->Networking-->network services-->Cloud DNS-->create Zone { Zone Type : Private | Zone Name : Anything Name | DNS Name : dns-my-sawan.com(any thing) | Network : vpc name}-->Create | Copy Private IP address VPC | Add records set in Private Cloud DNS | DNS Name : vm1.domain.com | Resource Record Type : A | TTL : 5 | TTL Unit : Minute | Routing Policy : select Routing Method | IPv4 Address : paste your private IP Address-->Create } Add records set in Cloud DNS | DNS Name : www.domain.com | Resource Record Type : CNAME | TTL : 5 | TTL Unit : Minute | Routing Policy : select Routing Method | Canonical name : domain name-->Create }]
+  ```
+
+### Redirect http to https in LB
+
+- Enable Flag "redirect to Https" in HOSt configuration in LB.
+
+### Cloud CDN : Content Delivery Network
+
+- It works with https load balancer only
+- It Helps to deliver network quick to user by cache hit and miss mechanism through nearest CDN centre
+
+### Cloud CDN Enabled in LB
+
+```
+GCP-->networking-->Network services-->Load Balancing-->select HTTP Load Balancer-->edit-->Beckend configuration-->backend buckets-->edit-->Enable Cloud CDN flag-->update-->Update
+```
+
+### Cloud Armor : It is advanced and more secured firewall services just like VPC firewall
+
+- WAF(Web application firewall) + DDos Attack prevention
+
+- Works layer 3 to layer 7
+
+- ML based Adaptive filtering
+
+- Works with Cloud Load Balancer
+
+- Need to have Org Node 
+
+- Deny All Traffic rule
+  
+  ```
+  GCP-->Networking-->Network Security-->Cloud Armor-->Create Policy [ name : name | policy type : Backend security policy | Default rule action : Deny(error type) ]-->add policy to target [ type 1 : load balancer backend services | backend services target : backend service type ]-->create policy
+  ```
+
+- Allow All Traffic rule
+  
+  ```
+  GCP-->Networking-->Network Security-->Cloud Armor-->rules-->add rule[ description : allow all | mode : basic mode | match : 0.0.0.0/0(for all) | action : allow | priority : 1000(less than deny rule)]-->add
+  ```
+
+- Allow from cloud shell only not local machines
+  
+  ```
+  GCP-->Networking-->Network Security-->Cloud Armor-->rules-->add rule[ description : Cloud shell | mode : basic mode | match : 32.45.67.9/32(for cloud shell IP) | action : allow | priority : 900(less than deny rule)]-->add
+  ```
+
+- Allow from local machine only not cloud shell
+  
+  ```
+  GCP-->Networking-->Network Security-->Cloud Armor-->rules-->add rule[ description : local machine | mode : basic mode | match : 10.46.68.9/32(for local VM IP) | action : deny | priority : 800(less than deny rule)]-->add
+  ```
+
+- Crete custom expression : allow or deny based on path expression
+  
+  ```
+  GCP-->Networking-->Network Security-->Cloud Armor-->rules-->add rule[ description : allow good path | mode : advanced mode | match : request.path.contains("goodpath")(for expression in URL) | action : allow | priority : 700(less than deny rule)]-->add 
+  ```
+
+### Network Service Tier
+
+- **premium tier** : fast network, take less time to reach google network , use less hop(i.e 11) to reach google network
+- **standard tier** : moderate network, take more time to reach google network , use more hop(1.e.18) to reach google network
+
+### Logging VPC flow logs : Enabled Flag in Subnet level i.e [Flow Logs : on]
+
+```
+GCP-->Cloud Logging-->search Logging in GCP-->logs explorer-->Query[logname:("projects/gcp-network-349067/compute.googleapis.com%2Fvpc_flows") AND resource.labels.subnetwork_id:(4567890543)]-->Query Run
+```
+
+### GCP SQL storage keeps growing
+
+[Google Cloud SQL - Postgresql storage keeps growing - Stack Overflow](https://stackoverflow.com/questions/63013896/google-cloud-sql-postgresql-storage-keeps-growing)
+
+### The following command will create a new JSON key and download it
+
+```
+gcloud iam service-accounts keys create my-service-account.json --iam-account <EMAIL ADDRESS>
+```
+
+### Install a new plugin binary to support Kubectl access to GKE clusters-v1.25+
+
+- Install using `gcloud components install`
+  
+  ```
+  gcloud components install gke-gcloud-auth-plugin
+  ```
+- Install using `apt-get install` for DEB based systems
+  
+  ```
+  apt-get install google-cloud-sdk-gke-gcloud-auth-plugin
+  ```
+- Install using `yum install` for RPM based systems
+  
+  ```
+  yum install google-cloud-sdk-gke-gcloud-auth-plugin
+  ```

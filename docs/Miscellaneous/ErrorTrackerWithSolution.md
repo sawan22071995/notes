@@ -286,3 +286,19 @@ systemctl disable sisipsutildaemon;
 ps -ef | grep -i sdcs;
 
 ```
+### 7. Error
+
+docker error "error:0A000086:SSL routines:tls_post_process_server_certificate:certificate verify failed:ssl/statem/statem_clnt.c:1889" in dockerfile while downloading installing packages
+
+##### Explanation:
+
+We faced this while installing package in dockerimage
+
+##### Solution:
+
+```
+RUN apk add --no-cache \
+    --repository http://dl-cdn.alpinelinux.org/alpine/v3.15/main \
+    ca-certificates
+RUN update-ca-certificates
+```
