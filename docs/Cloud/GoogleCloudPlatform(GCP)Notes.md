@@ -466,7 +466,355 @@ GCP-DashBoards-Cosole-->Select Project-->Go to Hamburger Navigation menu-->compu
 
 - Can attach Local SSD and Persistent Disk to same Instance
 
-### install Helm on Linux Machines
+### Create Disk
+
+```
+GCP-DashBoards-Cosole-->Select Project-->Go to Hamburger Navigation menu-->compute section-->Storage-->Disk-->create disk-->Name:Disk Name-->Select Zone|region(Remember VM instnace and disk must be in same zone for attchment)-->Disk Source type:Blank Disk-->Disk Type:Balanced persistent disk-->Size:100GB-->encryption-->Google Managed Encryption-->Create
+```
+
+### Snapshots in GCP
+
+- Reducing activity while backup disk.
+- Prepare disk for better consistency.
+  - Pause application that write the data
+  
+  - If possible, unmount the disk completely
+  
+  - For windows, use VSS snapshot
+  
+  - For Linux, use ext4 snapshot
+- Take only one snapshot per disk.
+- Scheduling during off hours.
+- Run fstrim before snapshot to cleanup space.
+- This are Disk BackUps.
+- **SnapShot Disk**
+  
+  ```
+  GCP-DashBoards-Cosole-->Select Project-->Go to Hamburger Navigation menu-->compute section-->Storage-->Disk-->create SnapShot-->
+  Name:SnapShot-1-->Source Disk:Select Disk-->Location:Multiregional|regional-->Select Location:Location-->Create
+  
+  ```
+- Snapshot is useful for periodic BackUps.
+- Can be created on Running Instance Disk.
+- Share across the Projects.
+- You can create Instance Copy in another Zone as well.
+- You can create SnapShot of Boot disk or Secondary Disk.
+
+### Cloud Storage Bucket - Infinite Space
+
+- No Block Storage allowed
+- Can't be a Boot Disk
+- Most Flexible, Durable, Scalable Disk Options
+- Lower Performance then Other Disk Options
+- Global accessibility
+  - Instance multiple region/zone can use the same bucket.
+
+### Access storage class for bucket
+
+1. **Standard** - best for short term storage and frequently access data
+2. **Nearline** - best for backup and data access less than once a month
+3. **Coldline** - Best for disaster recovery and data access less than once a quarter
+4. **Archive** - Best for long term preservation of data access less than once a year
+- make bucket `publically access`
+  
+  ```
+  gcp-->navigation menu-->storage-->bucket-->select bucket-->select file-->edit metadata-->[Entity : User | Name : allUsers | Access : Reader | Save ]
+  ```
+
+- Google Cloud Storage is a RESTful online file storage web service for storing and accessing data on Google Cloud Platform infrastructure.
+  
+  - It is an Infrastructure as a Service (IaaS), comparable to Amazon S3 online storage service.
+  
+  - Cloud Storage is unified object storage service.
+  
+  - Cloud Storage is a persistent storage, it is durable, replicated and also made globally available via HTTP URL.
+  
+  - Cloud Storage is auto scalable service.
+  
+  - Cloud Storage is not a File System, because each item in cloud storage have unique URL.
+
+### GCP Buckets
+
+Basic containers that hold your data. Everything that you store in Google Cloud Storage must be contained in a bucket. You can use buckets to organize your data and control access to your data, but unlike directories and folders, you
+cannot nest buckets.
+
+- **Bucket names**
+  
+  - Should be unique as the name of the buckets stored in single Cloud Storage namespace. 
+  
+  - Also, bucket names can be used with a CNAME redirect, which means they need to conform to DNS naming conventions.
+
+- **Bucket labels**
+  
+  - Bucket labels are key:value metadata pairs that allow you to group your buckets along with other Google Cloud.
+
+- **Objects**
+  
+  - Objects are the individual pieces of data that you store in Google Cloud Storage.
+
+- **Objects have two components**
+  
+  - object data and object metadata.
+    
+    - The object data component is usually a file that you want to store in Google Cloud Storage
+    
+    - The object metadata component is a collection of name-value pairs that describe various object qualities
+
+- There is no limit on the number of objects that you can create in a bucket.
+
+- Cloud Storage objects are immutable.
+
+- Cloud Storage allow to version the stored objects.
+
+- Object Versioning needs to be enable explicitly, in absence of Object Versioning, new objects terminates the old.
+
+- Cloud Storage offers life cycle management policy for the objets in bucket.
+
+- **Create Bucket**
+  
+  ```
+  GCP-DashBoards-Cosole-->Select Project-->Go to Hamburger Navigation menu-->storage-->browse-->create bucket-->bucket name(globally unique)-->location type-->default storage class-->retention policy-->Labels-->create
+  ```
+
+- **Make file publically accessable over the internet**
+  
+  ```
+  GCP-DashBoards-Cosole-->Select Project-->Go to Hamburger Navigation menu-->storage-->browse-->select bucket-->select file-->edit metadata-->Entity:User,Name:allUsers,Access:Reader-->save
+  ```
+
+### GCP Bucket `gsutil` commands
+
+- Create Bucket
+  
+  ```
+  gsutil mb gs://<bucket-name>
+  gsutil mb gs://my-first-bucket-001
+  ```
+
+- upload file using cmd
+  
+  ```
+  gsutil cp filename.jpg <bucket uri>
+  gsutil cp filename.jpg gs://my-first-bucket-001
+  ```
+
+- make file public
+  
+  ```
+  gsutil acl ch -u <userdetails>:<permission> <bucket_Uri>/<filename>
+  gsutil acl ch -u AllUsers:R gs://my-first-bucket-001/filename.jpg
+  ```
+
+- copy data from one bucket to another
+  
+  ```
+  gsutil cp gs://<source-bucket-name>/<filename> gs://<destination-bucket-name>
+  gsutil cp gs://my-first-bucket-src/sawan.jpg gs://my-first-bucket-dest
+  ```
+
+- List the content of the Bucket
+  
+  ```
+  gsutil ls <bucket uri>
+  gsutil ls gs://my-first-bucket-001
+  ```
+
+- Enable the versioning in bucket
+  
+  - **Remarks**
+    
+    - we cant enable the versoning in bucket if retention policy is exist
+    
+    - we cant enable lifecycle and versioning from console or portal
+  
+  ```
+  gsutil versioning set on gs://my-first-bucket-001
+  ```
+
+- get the last version of file in bucket
+  
+  ```
+  gsutil lifecycle set lifecycle-filename.json gs://my-first-bucket-001
+  ```
+
+- update the lifecycle for the bucket by json file
+  
+  ```
+  gsutil lifecycle set lifecycle-filename.json gs://my-first-bucket-001
+  ```
+
+- get the lifecycle for the bucket
+  
+  ```
+  gsutil lifecycle get gs://my-first-bucket-001
+  ```
+
+### Create `Cloud Spanner`
+
+```
+gcp-->navigation menu-->Storage-->Spanner-->[+] create Instance-->[ Instance Name | InstanceId | Regional/Multi-Region | Configuration | Allocate Nodes | Create ]
+```
+
+### ### Execute Cloud SQL DB
+
+1. Connect with CLOUD SQL DB
+   
+   ```
+   gcloud sql connect <INSTANCE_NAME> --user=root
+   ```
+2. Create Database.
+   
+   ```
+   create database [databasename];
+   ```
+3. Use Specific DataBase.
+   
+   ```
+   use [db name];
+   ```
+4. List all databases on the sql server.
+   
+   ```
+   show databases;
+   ```
+5. To see all the tables in the db.
+   
+   ```
+   show tables;
+   ```
+6. To see table's field formats.
+   
+   ```
+   describe [table name];
+   ```
+7. To delete a db.
+   
+   ```
+   drop database [database name];
+   ```
+8. To delete a table.
+   
+   ```
+   drop table [table name];
+   ```
+9. Show all data from a table.
+   
+   ```
+   SELECT * FROM [table name];
+   ```
+10. To return columns and column information.
+    
+    ```
+    show columns from [table name];
+    ```
+11. Create the table "products".
+    
+    ```
+    CREATE TABLE products (
+    productIDINT UNSIGNEDNOT NULL AUTO_INCREMENT,
+    productCodeCHAR(3) NOT NULL DEFAULT '',
+    name VARCHAR(30) NOT NULL DEFAULT '',
+    quantity INT UNSIGNEDNOT NULL DEFAULT 0,
+    priceDECIMAL(7,2)NOT NULL DEFAULT 99999.99,
+    PRIMARY KEY(productID)
+    );
+    ```
+12. Show all the tables to confirm that the "products" table has been created
+    
+    ```
+    SHOW TABLES;
+    ```
+13. Describe the fields (columns) of the "products" table
+    
+    ```
+    DESCRIBE products;
+    ```
+14. Show the complete CREATE TABLE statement used by MySQL to create this table
+    
+    ```
+    SHOW CREATE TABLE products \G
+    ```
+15. Insert a row with all the column values
+    
+    ```
+    INSERT INTO products VALUES (1001, 'PEN', 'Pen Red', 5000, 1.23);
+    INSERT INTO products VALUES
+    (NULL, 'PEN', 'Pen Blue',8000, 1.25),
+    (NULL, 'PEN', 'Pen Black', 2000, 1.25);
+    INSERT INTO products (productCode, name, quantity, price) VALUES
+    ('PEC', 'Pencil 2B', 10000, 0.48),
+    ('PEC', 'Pencil 2H', 8000, 0.49);
+    INSERT INTO products (productCode, name) VALUES ('PEC', 'Pencil HB');
+    SELECT * FROM products;
+    ```
+16. Sample MySQL DataSet from github.
+    
+    ```
+    https://github.com/datacharmer/test_db.git
+    ```
+17. Run SQL file on your MySQL Instace.
+    
+    ```
+    gcloud sql connect <INSTANCE_NAME> --user= root < <SQL_FILE_NAME>
+    ```
+
+### ### SetUp Cloud Storage CLI (gsutil) in VM
+
+1. Create Instance
+
+2. Create a Service Account
+- Assign Role Product Editor
+3. Get the Private key of Service Account
+
+4. Create a Cloud Storage Bucket
+
+5. SSH the VM Instance
+
+6. Copy the Service Account Private key
+
+7. Use Service Account to Interact with Project using CLI
+   
+   ```
+   gcloud auth activate-service-account --key-file <JSON_FILE>
+   ```
+
+8. Reset Local profile on Instance and Initialize API
+   
+   ```
+   gcloud init
+   ```
+
+9. Copy Few Files to Bucket
+
+10. Get ACL of file or Bucket
+    
+    ```
+    gsutil acl get <BUCKET_NAME/FILE_NAME> > <FILE_TO_SAVE>
+    ```
+
+11. Set File as Private
+    
+    ```
+    gsutil acl set private <BUCKET_NAME/FILE_NAME>
+    ```
+
+12. Make File accessible to everyone
+    
+    ```
+    gsutil acd ch -u AllUsers:R <BUCKET_NAME/FILE_NAME>
+    ```
+
+### What kind of Storage suppose to use for What use Case
+
+| Block Storage for GCP VMs | Persistent Disk             |
+| ------------------------- | --------------------------- |
+| **Immutable Blobs**       | **Cloud Storage**           |
+| **RDBMS**                 | **CloudSQL & CloudSpanner** |
+| **NoSQL Database**        | **Datastore**               |
+| **NoSQL Key-Value DB**    | **BigTable**                |
+| **Import Data in Cloud**  | **Transfer Service**        |
+
+### Install Helm on Linux Machines
 
 ```
 curl https://raw.githubusercontent.com/kubernetes/helm/master/scripts/get-helm-3 > get_helm.sh
