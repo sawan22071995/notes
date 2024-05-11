@@ -1,5 +1,5 @@
 - Cloud
-  - [Google+Cloud+Platform+Notes](cloud/GoogleCloudPlatform(GCP)Notes.md)
+  - [Google+Cloud+Platform+Notes](Cloud/GoogleCloudPlatform(GCP)Notes.md)
   - [EKS+NLB+ALB+Ingress](Cloud/EKS+NLB+ALB+Ingress.md)
   - [LAMBDA+EC2+RDS+StartStopOperation+Hourly](Cloud/lambda+ec2+rds+start+stop+aws.md)
   - [GKE+ALB+Ingress](Cloud/GKE+ALB+Ingress.md)
