@@ -344,21 +344,33 @@ GCP-DashBoards-Cosole-->Select Project-->Go to Hamburger Navigation menu-->compu
 ### Standard App Engine
 
 - Google App Engine is a Platform as a Service (PaaS) product that provides Web app developers and enterprises with access to Google's scalable hosting.
+
 - App Engine makes deployment, maintenance, Scalability easy so that you can focus on Innovation.
+
 - Especially suitable for building scalable web Applications & Mobile backends.
+
 - Google App Engine is free up to a certain amount of resource usage.
+
 - App Engine standard environment is based on container instances running on Google's infrastructure.
   -App Engine standard environment makes it easy to build and deploy an application that runs reliably even under heavy load
   and with large amounts of data.
+
 - Free Daily Quota.
+
 - Usage based Billing.
+
 - Applications run in a secure, sandboxed environment.
+
 - Application runs within its own secure, reliable environment that is independent of the hardware, operating system, or
   physical location of the server.
+
 - Standard environment supports the following languages: Java, Python, Node.js, PHP, Ruby, Go.
+
 - App Engine standard environment gives you 1 GB of data storage and traffic for free, which can be increased by enabling
   paid applications.
+
 - App Engine Standard Environment Runtimes - App Engine standard environment has two generations of runtime environments.
+  
   1. **1st Generation**
      
      - Supported languages: Python 2.7, Java 8, PHP 5.5, Go 1.11
@@ -380,10 +392,14 @@ GCP-DashBoards-Cosole-->Select Project-->Go to Hamburger Navigation menu-->compu
 ### Flexible App Engine
 
 - Flexible App Engine overcome the constraints of Standard App Engine. 
+
 - App Engine allows developers to focus on what they do best: writing code. Based on Google Compute Engine, the App Engine flexible environment automatically scales your app up and down while also balancing the load. 
+
 - In flex App Engine, You can customize runtimes or provide your own runtime by supplying a custom Docker image or
   Dockerfile from the open source community.
+
 - Features
+  
   - **Customizable infrastructure**
     
     - App Engine flexible environment instances are Compute Engine virtual machines, which means that you can take advantage of custom libraries, use SSH for debugging, and deploy your own Docker containers.
@@ -475,7 +491,9 @@ GCP-DashBoards-Cosole-->Select Project-->Go to Hamburger Navigation menu-->compu
 ### Snapshots in GCP
 
 - Reducing activity while backup disk.
+
 - Prepare disk for better consistency.
+  
   - Pause application that write the data
   
   - If possible, unmount the disk completely
@@ -483,21 +501,30 @@ GCP-DashBoards-Cosole-->Select Project-->Go to Hamburger Navigation menu-->compu
   - For windows, use VSS snapshot
   
   - For Linux, use ext4 snapshot
+
 - Take only one snapshot per disk.
+
 - Scheduling during off hours.
+
 - Run fstrim before snapshot to cleanup space.
+
 - This are Disk BackUps.
+
 - **SnapShot Disk**
   
   ```
   GCP-DashBoards-Cosole-->Select Project-->Go to Hamburger Navigation menu-->compute section-->Storage-->Disk-->create SnapShot-->
   Name:SnapShot-1-->Source Disk:Select Disk-->Location:Multiregional|regional-->Select Location:Location-->Create
-  
   ```
+
 - Snapshot is useful for periodic BackUps.
+
 - Can be created on Running Instance Disk.
+
 - Share across the Projects.
+
 - You can create Instance Copy in another Zone as well.
+
 - You can create SnapShot of Boot disk or Secondary Disk.
 
 ### Cloud Storage Bucket - Infinite Space
@@ -512,8 +539,11 @@ GCP-DashBoards-Cosole-->Select Project-->Go to Hamburger Navigation menu-->compu
 ### Access storage class for bucket
 
 1. **Standard** - best for short term storage and frequently access data
+
 2. **Nearline** - best for backup and data access less than once a month
+
 3. **Coldline** - Best for disaster recovery and data access less than once a quarter
+
 4. **Archive** - Best for long term preservation of data access less than once a year
 - make bucket `publically access`
   
@@ -662,51 +692,61 @@ gcp-->navigation menu-->Storage-->Spanner-->[+] create Instance-->[ Instance Nam
    ```
    gcloud sql connect <INSTANCE_NAME> --user=root
    ```
+
 2. Create Database.
    
    ```
    create database [databasename];
    ```
+
 3. Use Specific DataBase.
    
    ```
    use [db name];
    ```
+
 4. List all databases on the sql server.
    
    ```
    show databases;
    ```
+
 5. To see all the tables in the db.
    
    ```
    show tables;
    ```
+
 6. To see table's field formats.
    
    ```
    describe [table name];
    ```
+
 7. To delete a db.
    
    ```
    drop database [database name];
    ```
+
 8. To delete a table.
    
    ```
    drop table [table name];
    ```
+
 9. Show all data from a table.
    
    ```
    SELECT * FROM [table name];
    ```
+
 10. To return columns and column information.
     
     ```
     show columns from [table name];
     ```
+
 11. Create the table "products".
     
     ```
@@ -719,21 +759,25 @@ gcp-->navigation menu-->Storage-->Spanner-->[+] create Instance-->[ Instance Nam
     PRIMARY KEY(productID)
     );
     ```
+
 12. Show all the tables to confirm that the "products" table has been created
     
     ```
     SHOW TABLES;
     ```
+
 13. Describe the fields (columns) of the "products" table
     
     ```
     DESCRIBE products;
     ```
+
 14. Show the complete CREATE TABLE statement used by MySQL to create this table
     
     ```
     SHOW CREATE TABLE products \G
     ```
+
 15. Insert a row with all the column values
     
     ```
@@ -747,11 +791,13 @@ gcp-->navigation menu-->Storage-->Spanner-->[+] create Instance-->[ Instance Nam
     INSERT INTO products (productCode, name) VALUES ('PEC', 'Pencil HB');
     SELECT * FROM products;
     ```
+
 16. Sample MySQL DataSet from github.
     
     ```
     https://github.com/datacharmer/test_db.git
     ```
+
 17. Run SQL file on your MySQL Instace.
     
     ```
@@ -1191,16 +1237,19 @@ steps:
   ```
   gcloud config set project <myProject>
   ```
+
 - Set the zone property in the compute section
   
   ```
   gcloud config set compute/zone us-east1-b
   ```
+
 - Create the VPC
   
   ```
   gcloud compute networks create k8s-cluster --subnet-mode custom
   ```
+
 - Create the k8s-nodes subnet in the k8s-cluster VPC network
   
   ```
@@ -1208,6 +1257,7 @@ steps:
   --network k8s-cluster \
   --range 10.240.0.0/24
   ```
+
 - Create a firewall rule that allows internal communication across TCP, UDP, ICMP and IP in IP.
   
   ```
@@ -1216,6 +1266,7 @@ steps:
   --network k8s-cluster \
   --source-ranges 10.240.0.0/24
   ```
+
 - Create a firewall rule that allows external SSH, ICMP, and HTTPS
   
   ```
@@ -1224,6 +1275,7 @@ steps:
   --network k8s-cluster \
   --source-ranges 0.0.0.0/0
   ```
+
 - Create the controller VM (Master Node)
   
   ```
@@ -1240,6 +1292,7 @@ steps:
     --zone us-east1-b \
     --tags k8s-cluster,master-node,controller
   ```
+
 - Create Two worker VMs
   
   ```
@@ -1258,6 +1311,7 @@ steps:
     --tags k8s-cluster,worker
   done
   ```
+
 - Install Docker on the controller VM and each worker VM.
   
   ```
@@ -1266,6 +1320,7 @@ steps:
   sudo systemctl enable docker.service
   sudo apt install -y apt-transport-https curl
   ```
+
 - Install kubeadm, kubelet, and kubectl on the controller VM and each worker VM.
   
   ```
@@ -1277,11 +1332,13 @@ steps:
   sudo apt-get install -y kubelet kubeadm kubectl
   sudo apt-mark hold kubelet kubeadm kubectl
   ```
+
 - Create the controller node of a new cluster. On the controller VM, execute:
   
   ```
   sudo kubeadm init --pod-network-cidr 192.168.0.0/16
   ```
+
 - To set up kubectl for the ubuntu user, run:
   
   ```
@@ -1289,16 +1346,19 @@ steps:
   sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
   sudo chown $(id -u):$(id -g) $HOME/.kube/config
   ```
+
 - On Worker Nodes Execute the Join Command
   
   ```
   kubeadm join --discovery-token abcdef.1234567890abcdef --discovery-token-ca-cert-hash sha256:1234..cdef 1.2.3.4:6443
   ```
+
 - Verify the Cluster Status
   
   ```
   kubectl get nodes
   ```
+
 - On the controller, install Calico from the manifest:
   
   ```
@@ -1407,7 +1467,7 @@ nginx.ingress.kubernetes.io/configuration-snippet: |
       more_set_headers "X-Content-Type-Options: nosniff";
       more_set_headers "X-Frame-Options: DENY";
       more_set_headers "X-XSS-Protection: 1; mode=block";
-	  more_set_headers "Strict-Transport-Security: max-age=31536000; includeSubDomains; preload"
+      more_set_headers "Strict-Transport-Security: max-age=31536000; includeSubDomains; preload"
 ```
 
 ### logs explorere query for specific time to find logs
@@ -1502,16 +1562,16 @@ sudo chmod go+rw /mnt/test
   
   ```
   {
-  	"binding": [
-  	{
-  		members: [
-  			"user:raha@example.com"
-  		],
-  		"role": "roles/storage.objectViewer"
-  	  }
-  	]
-  	"etag": "wjehqoi"
-  	"version": 1
+      "binding": [
+      {
+          members: [
+              "user:raha@example.com"
+          ],
+          "role": "roles/storage.objectViewer"
+        }
+      ]
+      "etag": "wjehqoi"
+      "version": 1
   }
   ```
 
@@ -1580,6 +1640,7 @@ kubectl rollout restart deployment $app_name -n $namespace --message="version up
 ### Access private rdp VM through IAP tunnel user
 
 - use IAP-Desktop application
+
 - Create Firewall rule
   
   ```
@@ -1629,31 +1690,37 @@ https://chimbu.medium.com/access-cloud-storage-buckets-as-volumes-in-gke-c2e405a
   ```
   gcloud container clusters update tyhpockubernetes --update-addons GcsFuseCsiDriver=ENABLED --region=asia-south1
   ```
+
 - Create service account
   
   ```
   kubectl create serviceaccount k8s-gcs --namespace default
   ```
+
 - Create an IAM service account for your application or use an existing IAM service account instead
   
   ```
   gcloud iam service-accounts create k8s-gcs-bucket --project=tyh-dev-tyolpo
   ```
+
 - You can grant the role to your IAM service account to only access a specific Cloud Storage bucket
   
   ```
   gcloud storage buckets add-iam-policy-binding gs://tyh-dev-response-001 --member "serviceAccount:k8s-gcs-bucket@tyh-dev-tyolpo.iam.gserviceaccount.com" --role "editor"
   ```
+
 - Allow the Kubernetes service account to impersonate the IAM service account by adding an IAM policy binding between the two service accounts
   
   ```
   gcloud iam service-accounts add-iam-policy-binding k8s-gcs-bucket@tyh-dev-tyolpo.iam.gserviceaccount.com --role roles/iam.workloadIdentityUser --member "serviceAccount:tyh-dev-tyolpo.svc.id.goog[default/k8s-gcs]"
   ```
+
 - Annotate the Kubernetes service account with the email address of the IAM service account
   
   ```
   kubectl annotate serviceaccount k8s-gcs --namespace default iam.gke.io/gcp-service-account=k8s-gcs-bucket@tyh-dev-tyolpo.iam.gserviceaccount.com
   ```
+
 - Configure resources for the sidecar container overwrite deafult value
   
   ```
@@ -1666,6 +1733,7 @@ https://chimbu.medium.com/access-cloud-storage-buckets-as-volumes-in-gke-c2e405a
     gke-gcsfuse/memory-limit: 100Mi
     gke-gcsfuse/ephemeral-storage-limit: 50Gi
   ```
+
 - Consume the CSI ephemeral storage volume in a Pod
   
   ```
@@ -1695,6 +1763,7 @@ https://chimbu.medium.com/access-cloud-storage-buckets-as-volumes-in-gke-c2e405a
         bucketName: tyh-dev-response-001
         mountOptions: "implicit-dirs"
   ```
+
 - Disable the Cloud Storage FUSE CSI driver
   
   ```
@@ -1719,6 +1788,7 @@ https://upendra-kumarage.medium.com/gcp-filestore-as-a-persistent-storage-in-goo
   FileStoreFileShare Name : volume1
   FileStore Server IP     : 10.0.0.1 
   ```
+
 - create a Kubernetes Persistent Volume nfs-pv.yaml
   
   ```
@@ -1735,6 +1805,7 @@ https://upendra-kumarage.medium.com/gcp-filestore-as-a-persistent-storage-in-goo
     path: /volume1
     server: 10.0.0.1
   ```
+
 - create a Kubernetes Persistent Volume Claim nfs-pvc.yaml
   
   ```
@@ -1751,6 +1822,7 @@ https://upendra-kumarage.medium.com/gcp-filestore-as-a-persistent-storage-in-goo
     requests:
       storage: 20Gi
   ```
+
 - create a Pod and mount the created volume sample-nginx-pod.yaml
   
   ```
@@ -1838,9 +1910,9 @@ gcp portal-->create GKE-->security-->[checkbox] enable binary authorization
 ```
 docker system prune --all
 steps:
-	# Step 2: Run Docker system prune --all
-	- name: 'gcr.io/cloud-builders/docker'
-	  args: ['system', 'prune', '--all', '--force']
+    # Step 2: Run Docker system prune --all
+    - name: 'gcr.io/cloud-builders/docker'
+      args: ['system', 'prune', '--all', '--force']
 ```
 
 ### Google Deployment Manager
@@ -2030,9 +2102,13 @@ GCP-->project-->Navigation Menu-->IAM & Admin-->Quotas
 ```
 
 - Capping limit on resources that you create
+
 - It will assigned as project wise
+
 - It prevent unexpected spikes in the resources
+
 - Types:
+  
   1. Resource per project
   
   2. API rate limit Request
@@ -2135,8 +2211,11 @@ GCP-->Hamburger-->operation-->logging-->Logs Explorer | Logs DashBoards | Log Ba
 ### Container Scanning API
 
 - Scanning vulnerablities inside container
+
 - Enable Container scanning API
+
 - It works with
+  
   1. Container Registry
   
   2. Artifact Registry
@@ -2148,8 +2227,11 @@ GCP-->Hamburger-->operation-->logging-->Logs Explorer | Logs DashBoards | Log Ba
 ### Binary Authorization
 
 - policy : Ensure that trusted images are deployed to GCP
+
 - Enable Binary Authorization
+
 - It works with
+  
   1. GKE
   
   2. Cloud Run
@@ -2161,8 +2243,11 @@ GCP-->Hamburger-->operation-->logging-->Logs Explorer | Logs DashBoards | Log Ba
 ### Forseti Security
 
 - It is a collection of community driven , open source tool to help you improve the security of GCP environment.
+
 - Systematically monitor your GCP resources to ensure that access control are set as you intended
+
 - Working Model
+  
   1. Inventory
   
   2. Scanner
@@ -2209,11 +2294,14 @@ GCP-->Hamburger-->operation-->logging-->Logs Explorer | Logs DashBoards | Log Ba
 ### DLP API (Data Loss Prevention API)
 
 - fully managed service designed to help you discover, classify and protect your most sensitive data.
+
 - Apply API on Cloud Storage, Big Query, free from text, Structure and Unstructure data(Image) 
+
 - identify and de identify with Masking and Encryption of senstive data
 1. **DLP API - TEMPLATE**
    
    - configuration which defines for Types
+     
      1. inspection for jobs
      
      2. De-identification of jobs
@@ -2221,6 +2309,7 @@ GCP-->Hamburger-->operation-->logging-->Logs Explorer | Logs DashBoards | Log Ba
 2. **DLP API - INFOTYPE**
    
    - What to scan for Built-in 120 InfoType or we can create custom InfoType also
+     
      1. Like Credit Card
      
      2. SSN
@@ -2230,6 +2319,7 @@ GCP-->Hamburger-->operation-->logging-->Logs Explorer | Logs DashBoards | Log Ba
 3. **DLP API - LIKELIHOOD**
    
    - There are 6 categories for define it
+     
      1. LIKELIHOOD_UNSPECIFIED - Default Value; Same as possible
      
      2. VERY_UNLIKELY- It is very unlikely that the data matches the given InfoType
@@ -2276,12 +2366,17 @@ GCP Portal-->Hambutger Menu-->Security-->Security Services Available mentioned b
 ### Data Encryption
 
 - Data at rest
+  
   - data situated at GCS and DataBases
+
 - Data in motion
+  
   - data transfer one network to another network
   
   - within GCP or Outside GCP
+
 - Data in Use
+  
   - Data situated in RAM
   
   - Memory Store , Memory data processing
@@ -2463,6 +2558,7 @@ GCP-->Hamburger Menu-->Manage Resources-->Create Folder
 ### Roles (Collection of permission)
 
 - **Primitive**: Owner, Editor, Viewer
+  
   - Viewer : read only permission for all resources inside the project | Only view all resources in gcp
   
   - Editor : Reader + Modification | Modify all resources and No access to IAM billing
@@ -2474,7 +2570,9 @@ GCP-->Hamburger Menu-->Manage Resources-->Create Folder
   ```
   gcp-->selectProject-->hamburgerMenu-->IAM&Admin-->IAM-->Member-->[+]ADD-->[ New Member | Select Role : Editor | Save ]
   ```
+
 - **PreDefined**: Roles in single services i.e. Compute admin, Network viewer, Big Query Job user
+  
   - GCP defined Role & Maintained by GCP & For each product/services - Different sets of Roles defined
   
   - i.e. Compute Admin, Network Viewer , BigQuery Job User
@@ -2482,7 +2580,9 @@ GCP-->Hamburger Menu-->Manage Resources-->Create Folder
   ```
   gcp-->selectProject-->hamburgerMenu-->IAM&Admin-->IAM-->Member-->Select User-->Edit Permissions-->[ Member | Project | Role : Storage Admin | Save ]
   ```
+
 - **CustomRole**: Customised Role, Can be Created from Pre-defined Role
+  
   - Combined/Remove/Add permission from multiple pre-defined roles
   
   ```
@@ -2506,23 +2606,33 @@ GCP-->Hamburger Menu-->Manage Resources-->Create Folder
 ### Service Account
 
 - For non humman like Apps, Services
+
 - It is identity for compute Engines i.e. VM
+
 - SA keys for authentication 
+
 - Max 10 key Per Service Account
+
 - Max 100 Service Account per Project
+
 - Assign role to SA like identity
+
 - Types of Service Account
+  
   - Google Managed SA
   
   - BuildIn SA i.e. Compute Engine, App Engine & Default SA 
   
   - User created custom SA
+
 - Create Service Account
   
   ```
   gcp-->selectProject-->hamburgerMenu-->IAM&Admin-->Service Accounts-->[+] Create Service Account-->[ SA Name | SA ID | SA description | Create and Continue | Grant this SA access to Project - Select Role | Continue | Grant User access to this SA - SA user role | SA admin role | Done ]
   ```
+
 - Create Service Account with Virtual Machine
+  
   - Select SA during creation of VM.
   
   - To check SA associated with VM by login to VM by SSH from GCP
@@ -2542,12 +2652,15 @@ GCP-->Hamburger Menu-->Manage Resources-->Create Folder
 ### Service Account RSA Private Key
 
 - key is the password for SA 
+
 - Keys can used for Authentication
+
 - Genarate key from cloud console
   
   ```
   gcp-->selectProject-->hamburgerMenu-->IAM&Admin-->Service Account-->Select Service Account-->Keys-->ADD key-->Json-->save to local Machine
   ```
+
 - Activate SA by key by command
   
   ```
@@ -2752,16 +2865,25 @@ apt-get install kubectl
 ### Cloud Load Balancer
 
 - A load balancer distributes user traffic across multiple instances of your applications.
+
 - By spreading the load, load balancing reduces the risk that your applications experience performance issues.
+
 - Cloud Load Balancing is a fully distributed
+
 - Software defined managed GCP service.
+
 - It isn't hardware based, so you don't need to manage a physical load balancing infrastructure
+
 - Health check
+  
   - route traffic to only healthy instance
   
   - maintain minimum number of instances
+
 - Auto scaling based on traffic
+
 - High availability
+
 - Single anycast IP
 
 ### There are different type of load Balancer
@@ -2793,15 +2915,23 @@ Review and finalization-->create
 ### Cloud DNS
 
 - DNS Address book for internet
+  
   - www.google.com 74.125.29.101
+
 - Highly Scalable , Reliable and Managed Domain Name System (DNS) service on GCP infrastructure
+
 - 100% SLA
+
 - Manage millions of DNS zones and records
+
 - Cloud DNS
+  
   - Public Zone
   
   - Private Zone
+
 - get Domain free `https://freenom.com`
+
 - check DNS record `https://dnschecker.org`
 
 ### Public CLoud DNS With Load Balancer
@@ -2820,7 +2950,7 @@ GCP-->Networking-->network services-->Load Balancing-->select Load Balancer-->Fr
 
 ### Private cloud DNS
 
--  Its doesn't required any public domain because it is internal to the network
+- Its doesn't required any public domain because it is internal to the network
   
   ```
   [ GCP-->Networking-->network services-->Cloud DNS-->create Zone { Zone Type : Private | Zone Name : Anything Name | DNS Name : dns-my-sawan.com(any thing) | Network : vpc name}-->Create | Copy Private IP address VPC | Add records set in Private Cloud DNS | DNS Name : vm1.domain.com | Resource Record Type : A | TTL : 5 | TTL Unit : Minute | Routing Policy : select Routing Method | IPv4 Address : paste your private IP Address-->Create } Add records set in Cloud DNS | DNS Name : www.domain.com | Resource Record Type : CNAME | TTL : 5 | TTL Unit : Minute | Routing Policy : select Routing Method | Canonical name : domain name-->Create }]
@@ -2911,13 +3041,1678 @@ gcloud iam service-accounts keys create my-service-account.json --iam-account <E
   ```
   gcloud components install gke-gcloud-auth-plugin
   ```
+
 - Install using `apt-get install` for DEB based systems
   
   ```
   apt-get install google-cloud-sdk-gke-gcloud-auth-plugin
   ```
+
 - Install using `yum install` for RPM based systems
   
   ```
   yum install google-cloud-sdk-gke-gcloud-auth-plugin
   ```
+
+### GCP HYbrid Interconnect
+
+- steps to perform
+  
+  - Create Two Custom VPC Network
+  - Create Firewall Rules in both VPC
+  - Create Instance Each using one VPC
+  - Verify Connectivity
+  - Create Two VPN one for each Network
+  - Create Static IP one for each Network
+  - Set Forwarding Rules for each VPN Gateway
+  - Create Tunnel between each Gateway
+  - Create Route for Each Network
+
+- Create Two VPN one for each Network 
+  
+  ```
+  gcloud compute target-vpn-gateways create myvpn-1 --network <NETWORK_NAME> --region <SUBNET_REGION>
+  ```
+
+- Create Static IP one for each Network for each VPN
+  
+  ```
+  gcloud compute addresses create --region <SUBNET_REGION> <STATIC_IP NAME>
+  ```
+
+- List Static IP, you just created
+  
+  ```
+  gcloud compute list addresses list
+  ```
+
+- Set Forwarding Rules for each VPN Gateway
+  
+  - Set Forwarding Rule to SetUp send IP Address traffic to VPN gateway
+    
+    ```
+    gcloud compute forwarding-rules create <RULE_NAME> --region <STATIC_IP_REGION> --ip-protocol ESP --address <YOUR_IP_ADDRESS> --target-vpn-gateway <GATEWAY_NAME>
+    ```
+    
+    - Redirect UDP Traffic
+      
+      ```
+      gcloud compute forwarding-rules create <RULE_NAME> --region <STATIC_IP_REGION> --ip-protocol UDP --ports 500 --address <YOUR_IP_ADDRESS> --target-vpn-gateway <GATEWAY_NAME>
+      ```
+    
+    - Redirect UDP Traffic
+      
+      ```
+      gcloud compute forwarding-rules create <RULE_NAME> --region <STATIC_IP_REGION> --ip-protocol UDP --ports 4500 --address <YOUR_IP_ADDRESS> --target-vpn-gateway <GATEWAY_NAME>
+      ```
+    
+    - Create the Second Gateway with similar commands
+    
+    - list forwarding-rules list
+      
+      ```
+      gcloud compute forwarding-rules list
+      ```
+
+- **NOTE** : Follow All the above commands with new Values for VPN-2
+
+- List VPN Gateways
+  
+  ```
+  gcloud compute target-vpn-gateways list
+  ```
+
+- Create Tunnel between each Gateway
+  
+  - Create a Tunnel between each VPC network. Create a Tunnel from First Gateway to Second Gateway VPC1-->VPC2
+    
+    ```
+    gcloud compute vpn-tunnels create <TUNNEL_NAME> --peer-address <STATIC_IP_SECOND_GATEWAY> --region <REGION_FIRST_GATEWAY_SUBNET> --ike-version 2 --shared-secret <SECRET> --target-vpn-gateway <FIRST_VPN> --local-traffic-selector 0.0.0.0/0 --remote-traffic-selector 0.0.0.0/0
+    ```
+  
+  - Create Second Tunnel, Direct traffic from the second VPC to First VPC VPC2-->VPC1
+    
+    ```
+    gcloud compute vpn-tunnels create <TUNNEL_NAME> --peer-address <STATIC_IP_FIRST_GATEWAY> --region <REGION_SECOND_GATEWAY_SUBNET> --ike-version 2 --shared-secret <SAME_SECRET> --target-vpn-gateway <SECOND_VPN> --local-traffic-selector 0.0.0.0/0 --remote-traffic-selector 0.0.0.0/0
+    ```
+  
+  - Get Tunnels list
+    
+    ```
+    gcloud compute vpn-tunnels list
+    ```
+
+- Create Route for Each Network
+  
+  - Create a Static Router for both networks. The route goes out from First to Second Network
+    
+    ```
+    gcloud compute routes create <ROUTE_NAME> --network <SOURCE_NETWORK> --next-hop-vpn-tunnel <FIRST_TUNNEL> --next-hop-vpn-tunnel-region <FIRST_TUNNEL_REGION> --destination-range <SECOND_NETWORK_SUBNET>
+    ```
+  
+  - Create Second Route-
+    
+    ```
+    gcloud compute routes create <ROUTE_NAME> --network <SOURCE_NETWORK> --next-hop-vpn-tunnel <SECOND_TUNNEL> --next-hop-vpn-tunnel-region <SECOND_TUNNEL_REGION> --destination-range <FIRST_NETWORK_SUBNET>
+    ```
+  
+  - get the list of all routes
+    
+    ```
+    gcloud compute routes list
+    ```
+
+### Hybrid Networking : It means connect google cloud with on-primesis data centre
+
+1. **Cloud VPN - IPSEC** 
+
+2. **Cloud Interconnect** : Dedicated interconnect , Partner Interconnect
+
+3. **peering with Google** : Direct , Carrier
+- connect instance with iap without public address "--tunnel-through-iap"
+  
+  ```
+  gcloud compute ssh --zone "asia-southest1-b" "without-public" --tunnel-through-iap --project "gcp-network-349067"
+  ```
+
+- **Cloud Router**
+  
+  - It enables user to dynamically exchange routes between your VPC and on-primesis network.
+  - Cloud Router is a fully distributed and managed Google Cloud service that uses the Border Gateway Protocol ( BGP ) to advertise IP address ranges
+  - Router detect all changes and create new optimal routes like Google Maps
+  - It makes intelligent decision and exchange information in network
+  - Discovery of remote networks
+
+- **Cloud VPN** : GCP connect with own private network
+  
+  - It connect peer network to google VPC through IPSec VPN
+  - It works between google cloud and On-prim datacentre or google cloud with other cloud network like Azure,AWS etc.
+  - Traffic between hybrid cloud is encrypted with One VPN gateway and Decrypted with Other VPN gateway.
+  - Traffic Travelled over public Internet.
+  - Single Cloud tunnel can support upto 3Gbps bandwidth.
+
+- **Action to perform**Action to perform
+  
+  - Create Two VPC Network
+  
+  - Create Instance Each using one VPC
+  
+  - Verify Connectivity
+  
+  - Create Cloud Router for Each VPC
+  
+  - Create Static IP one for each Network
+  
+  - Create VPN Connection for Routers & Networks
+
+### Cloud VPN with Static Routing
+
+- Illustration :
+  
+  ```
+  GCP VPC ++++++++++> CloudVPN <=========> Public Internet <=============> Router +++++++++> Office-On-Primesis-Network
+  ```
+
+- Cloud VPN with Static Routing but static IP address is required
+  
+  ```
+  GCP-->Networking-->Create VPC+Subnet-->Firewall-->Allow SSH,ICMP protocol-->create static IP address
+  ```
+
+### Cloud VPN with Dynamic Routing
+
+- Illustration :
+  
+  ```
+  GCP VPC || Cloud Router ++++> CloudVPN <====> Public Internet + BGP Protocol <======> Router ++++++> Office-On-Primesis-Network
+  ```
+
+- Cloud VPN with Dynamic Routing but No static IP address is required
+  
+  ```
+  GCP-->Networking-->Create VPC+Subnet-->Firewall-->Allow SSH,ICMP protocol
+  ```
+1. **Create VPN Connection for Routers & Networks**
+   
+   - Cloud VPN Tunnel And Gateway
+     
+     ```
+     GCP-->Networking-->Hybrid-Connectivity-->VPN-->Create VPN connection-->Classic VPN-->Continue-->[ GCP Conpute Engine VPN Gateway Configuration Section-->Name : VPN-GCP | Network : VPC Network | Region : Select Region(Static IP exist) | IP address : Select Static IP ]-->[Tunnel(We can create Multiples tunnel also)Configuration Section-->Name : Tunnel Name | Remote Peer IP Address : On-prim Network Static IP address | IKE version : IKEv2 | IKE Pre-Shared Key : Genarate or copy key/use existing key or create own key(Required for connection in on prim)|Routing Option : Route Based(Select any Routing Option)|Remote network IP address range : on-primesis network IP/CIDR ]-->Done-->Create 
+     ```
+   
+   - When the tunnel created one Tunnel VPN Gateway route automatically created
+     
+     ```
+     GCP-->Networking-->Routes-->VPN Gateway Route exist(If not please create Route with Destination IP ranges,1000 priority,Next HOp destination Tunnel Route,Network network-on-primesis)
+     ```
+   
+   - After VPN gateway created Static IP address att to it.
+   
+   - There is always problem with Static routing when new subnet added in existing VPC network so recommended is use Dynamic Routing
+
+2. **Cloud VPN and Cloud Router**
+   
+   - Create Cloud Router for Each VPC
+     
+     ```
+     GCP-->Networking-->Hybrid-Connectivity-->Cloud Router-->Create Router--> Name : Cloud Router Name | Network : Select GCP VPC | Region : Select Region | Google ASN : 64512(default Google recommended Value) | Advertise Routes : Advertise all subnet visible to the cloud Router-->create
+     ```
+
+3. **Create VPN Connection for Routers & Networks**
+   
+   - Create VPN gateway
+     
+     ```
+     GCP-->Networking-->Hybrid-Connectivity-->VPN-->Create VPN connection-->Select High Availablity-->Continue-->[ GCP Cloud HA VPN Gateway Configuration Section-->Name : VPN-GCP | Network : VPC Network | Region : Select Region(Static IP exist) | VPN Tunnel inner IP Stack Type : Select IP type IPv4 ]-->Create & Contine-->
+     ```
+     
+     ```
+     [ Tunnel(We can create Multiples tunnel also)Configuration Section-->Add VPN Tuunel | Name : Tunnel Name | Interface : 0:Ip address1 1:Ip Address2 | Peer VPN Gateway : On-prim & GCP If GCP | select Gateway : Peer Gateway Name | High Availablity : Create a pair of VPN tunnel | Routing Option : Dynamic(BGP) | Cloud Router : Select Cloud Router--> 
+     ```
+     
+     ```
+     { VPN Tunnel-1 | Associate Cloud VPN Gateway Interface : 0:IP address1| Associate Peer VPN Gateway Interface : 0:Peer IP address1 | Name : Name of Tunnel-1| IKE : IKEv2| IKE Pre-Shared Key : Genarate or copy key/use existing key or create own key(Required for connection in on prim)}-->
+     ```
+     
+     ```
+     { VPN Tunnel-2 | Associate Cloud VPN Gateway Interface : 1:IP address1| Associate Peer VPN Gateway Interface : 1:Peer IP address2 | Name : Name of Tunnel-1| IKE : IKEv2| IKE Pre-Shared Key : Genarate or copy key/use existing key or create own key(Required for connection in on prim)
+     }]--> Create & Continue-->
+     ```
+     
+     ```
+     Configuration BGP Session For Tunnel-1-->Name : BGP Session Name | peer ASN Name : Remote Peer Cloud Router ASN | Multiprotocol BGP | Allocate BGP IPv4 Address : Automatically--> Save BGP Configuration-->Save Reminder ScreeShot-->OK
+     ```
+     
+     ```
+     Configuration BGP Session For Tunnel-2-->Name : BGP Session Name | peer ASN Name : Remote Peer Cloud Router ASN | Multiprotocol BGP | Allocate BGP IPv4 Address : Automatically--> Save BGP Configuration-->Save Reminder ScreeShot-->OK
+     ```
+   
+   - Dynamic Routing VPN Gateway routes doesn't Change and can't be edit like immutable
+
+### Cloud NAT : Cloud Network Address Translation
+
+- It is the solution which allow VM to connect internet without External IP
+
+- It is bind to VPC-Region
+  
+  ```
+  GCP-->Networking-->Network Services-->Cloud NAT-->Get Started-->Gateway Name : Name of Cloud NAT | Select Cloud Router |
+  Network : SelectVPC | Region : Select Region | [ Create Cloud Router-->Name : Cloud Router Name | Network : SelectVPC | 
+  Region : Select VPC region-->Create ] | Cloud NAT Mapping | Sources : Primary & Secondary ranges for all subnets | Cloud NAT IP Address : Automatic(recommended)-->Create
+  ```
+
+### Cloud Interconnect
+
+- Extend your on premises VPC to GCP network
+
+- highly available, low latency connection
+
+- Cloud VPN use Public internet.
+
+- Access resource with Internal IP address only
+
+- Require time for initial setup
+
+- Once setup, it works with very low latency & with Internal IP address
+
+- No encryption while traffic travelled
+
+- **We can use partner interconnect also with third party services provider like tata communication etc.**
+
+- Illustration
+  
+  ```
+  on-primesis ++++++++++++++++++++++> Service Provider +++++++++++++++++++++++++> GCP VPC Network
+  ```
+  
+  ```
+  GCP-->Networking-->Hybrid-Connectivity-->Interconnect-->Get Started-->Dedicated Interconnect Connection-->Continue-->Order new Dedicated interconnect Connection-->Continue-->[ Name : ConnectionName | Location : Location |
+  Capacity : Speed of Connection | Create Redundant Interconnect | Create second Interconnect for Redundancy + SLA |Contact Information | Review | create ---> AFter some day Google representative Call you 
+  ```
+
+### BigQuery
+
+- It is google serverless cloud storage platform designed for large data sets. 
+- It in Non-RDBMS column base DataBase in Google Cloud Infra.
+- It is an enterprise data warehouse built using BigTable.
+- It works great with all size of data, from 100 rows Excel spreadsheet to several petabyte of data.
+- It is fully managed solution for companies who need a fully-managed and cloud based interactive query service for massive dataset.
+- It is superfast and execute search on millions of rows in seconds.
+- it is great alternative for Apache Hive and used in analytics.
+- It is ideal for BigData Solution.
+
+### Lab BigTable
+
+- Update the Packages
+  
+  ```
+  sudo apt-get update
+  ```
+
+- Install Java 8 to work with BiTable
+  
+  ```
+  sudo apt-get install openjdk-8-jdk-headless
+  ```
+
+- Export Environment Variable JAVA_HOME
+  
+  ```
+  export JAVA_HOME=$(update-alternatives --list java | tail -1 | sed -E 's/\/bin\/java//')
+  ```
+
+- Clone the Cloud Project to Set-Up HBASE Terminal
+  
+  ```
+  git clone https://github.com/GoogleCloudPlatform/cloud-bigtable-examples.git
+  ```
+
+- Start the HBASE Terminal
+  
+  ```
+  cd cloud-bigtable-examples/quickstart
+  ./quickstart.sh
+  ```
+
+### Lab CSV Data Handling in BigQuery
+
+- Website to download the Data:
+  https://population.un.org/wpp/Download/Standard/CSV/
+
+- Queries :
+  
+  ```
+  Select * from [TABLE] LIMIT 10000;
+  Selct Top Contries via Population Variant wise:
+  Select location, Time, PopTotal 
+  FROM [TABLE] 
+  WHERE Variant = '*****'
+  ORDER BY PopTotal DESC LIMIT 20;
+  Select Medium Variant Population of Each Country in 2021:
+  Select location, Time, PopTotal 
+  FROM [TABLE] 
+  WHERE Variant = '*****' 
+  AND Time = 2021;
+  ```
+
+### Lab - JSON Data Handling in BigQuery
+
+- Command to Convert JSON to NewLine Delimited JSON
+  
+  ```
+  sudo apt-get update -y
+  sudo apt-get install -y jq
+  cat mysample.json | jq -c '.[]' > mysampleNDJSON.json
+  ```
+
+### Lab - BigQuery via CLI
+
+1. Get Help in BigQuery
+   
+   ```
+   bq help
+   ```
+
+2. Include a command name to get information about a specific command
+   
+   ```
+   bq help query
+   ```
+
+3. Examine a Table in any DataSet
+   
+   ```
+   bq show bigquery-public-data:samples.shakespeare
+   ```
+
+4. Execute SQL Query from CLI
+   
+   ```
+   bq query --use_legacy_sql=false \
+   'SELECT
+   word,
+   SUM(word_count) AS count
+   FROM
+   `bigquery-public-data`.samples.shakespeare
+   WHERE
+   word LIKE "%the%"
+   GROUP BY
+   word'
+   ```
+
+5. Find default project has any existing datasets.
+   
+   ```
+   bq ls
+   ```
+
+6. Download Sample Data 
+   http://www.ssa.gov/OACT/babynames/names.zip
+
+7. create a new dataset.
+   
+   ```
+   bq mk baby_names
+   ```
+
+8. Verify DataSet Created
+   
+   ```
+   bq show baby_names
+   ```
+
+9. Upload a Table
+   
+   ```
+   bq load --source_format=CSV baby_names.names_2016 <BUCKET_URL> name:string,gender:string,count:integer
+   ```
+
+10. List Tables
+    
+    ```
+    bq ls baby_names
+    bq show baby_names.names_2016
+    ```
+
+11. Run Some Quries
+    
+    ```
+    bq query "SELECT name,count FROM baby_names.names_2016 WHERE gender = 'F' ORDER BY count DESC LIMIT 10"
+    bq query "SELECT name,count FROM baby_names.names_2016 WHERE gender = 'M' ORDER BY count ASC LIMIT 10"
+    ```
+
+12. CleanUp a DataSet
+    
+    ```
+    bq rm -r baby_names.names_2016
+    bq rm -r baby_names
+    ```
+    
+    ### Lab - WikiData in BigQuery
+- Create Schema
+  
+  ```
+  bq mk wiki_data
+  ```
+
+- Create Table and Load Data:
+  
+  ```
+  bq load \
+  --source_format CSV \
+  --field_delimiter " " \
+  --quote "" \
+  --max_bad_records 3 \
+  $GOOGLE_CLOUD_PROJECT:wiki_data.wiki_page_set1 \
+  gs://cloud-samples-data/third-party/wikimedia/pageviews/pageviews-20190410-140000.gz \
+  wiki,title,requests:integer,zero:integer
+  ```
+
+- Perform Query in BigQuery
+  
+  ```
+  SELECT title, SUM(requests) requests
+  FROM wiki_data.wiki_page_set1
+  WHERE
+  wiki = "en"
+  AND REGEXP_CONTAINS(title, 'Red.*t')
+  GROUP BY title
+  ORDER BY requests DESC
+  ```
+  
+  ```
+  SELECT title, SUM(requests) requests
+  FROM wiki_data.wiki_page_set1
+  WHERE
+  wiki = "en"
+  GROUP BY title
+  ```
+  
+  ```
+  SELECT title, requests
+  FROM wiki_data.wiki_page_set1
+  WHERE
+  wiki = "en"
+  ```
+
+### Install kubectl or gloucd components operations
+
+- To install specific component
+  
+  ```
+  gcloud components install kubectl 
+  ```
+
+- To list all available installed or not installed component
+  
+  ```
+  gcloud components list
+  ```
+
+- To reinstall the component
+  
+  ```
+  gcloud components reinstall kubectl
+  ```
+
+- To remove the component
+  
+  ```
+  gcloud components remove kubectl
+  ```
+
+- To restore component 
+  
+  ```
+  gcloud components restore
+  ```
+
+- To update the all installed modules
+  
+  ```
+  gcloud components update
+  ```
+
+- Check gke logs for pod it return snapshot of previous terminated ruby container logs from pod web-1
+  
+  ```
+  kubectl logs -p -c ruby web-1
+  ```
+
+- Check gke logs for pod it return begin streaming the logs of the ruby container logs from pod web-1
+  
+  ```
+  kubectl logs -f -c ruby web-1
+  ```
+
+- Check gke logs for pod it return most recent 20 lines of outputs in pod nginx
+  
+  ```
+  kubectl logs -tail=20 nginx
+  ```
+
+- Check gke logs for pod it return last 1 hour ruby container logs from pod web-1
+  
+  ```
+  kubectl logs --since=1h nginx
+  ```
+
+### Kubernetes headless service
+
+- When using headless service we should use not the "Service port and Target port" is same.
+- To create headless service we need to define "clusterIP=None" in service
+
+### GKE private cluster
+
+- In network "private cluster flag" should be enabled.
+- "control plane authorized network enabled" for private cluster kubeapi server (kubectl get pod) access from specific network.
+- It will hide the all GKE node behind VPC and all other k8s component(schedular etc.) communicate by VPC peering.
+- To access private cluster for download dockerimages from dockerhub we need to create Cloud NAT for k8s ccommunication with internet.
+
+### create and restore PVC by volume snapshot for GKE by volumesnapshotclass for persistent disk
+
+- We can find the snapshot details in GCP by compute engine-->snapshots-->your snapshot name
+
+### Create mysql external service name with CloudSQL for database by its external name with public IP and private IP
+
+- mysql-externalName-Service.yaml 
+  
+  ```
+  apiVersion: v1
+  kind: Service
+  metadata: 
+      name: mysql-externalName-service
+  spec:
+      type: ExternalName
+      externalName: 35.167.78.98 #External IP for CLoudSQL MySQL Database Server
+  ```
+
+- mysql-externalName-Service.yaml 
+  
+  ```
+  apiVersion: v1
+  kind: Service
+  metadata: 
+      name: mysql-externalName-service
+  spec:
+      type: ExternalName
+      externalName: 10.0.1.9 #Internal IP for CLoudSQL MySQL Database Server
+  ```
+
+- myapp.yaml
+  
+  ```
+  apiVersion: apps/v1
+  kind: Deployment 
+  metadata:
+    name: usermgmt-webapp
+    labels:
+      app: usermgmt-webapp
+  spec:
+    replicas: 1
+    selector:
+      matchLabels:
+        app: usermgmt-webapp
+    template:  
+      metadata:
+        labels: 
+          app: usermgmt-webapp
+      spec:
+        #To check the DataBase connection availablity before start container
+        initContainers:
+          - name: init-db
+            image: busybox:1.31
+            command: ['sh', '-c', 'echo -e "Checking for the availability of MySQL Server deployment"; while ! nc -z mysql-externalname-service 3306; do sleep 1; printf "-"; done; echo -e "  >> MySQL DB Server has started";']      
+        containers:
+          - name: usermgmt-webapp
+            image: stacksimplify/kube-usermgmt-webapp:1.0.0-MySQLDB
+            imagePullPolicy: Always
+            ports: 
+              - containerPort: 8080           
+            env:
+              - name: DB_HOSTNAME
+                value: "mysql-externalname-service"            
+              - name: DB_PORT
+                value: "3306"            
+              - name: DB_NAME
+                value: "webappdb"            
+              - name: DB_USERNAME
+                value: "root"            
+              - name: DB_PASSWORD
+                valueFrom:
+                  secretKeyRef:
+                    name: mysql-db-password
+                    key: db-password
+  ```
+
+- MySQL Client 8.0: Replace External Name Service, Username and Password
+  
+  ```
+  kubectl run -it --rm --image=mysql:8.0 --restart=Never mysql-client -- mysql -h mysql-externalname-service -u root -pKalyanReddy13
+  ```
+
+### filestore CSI driver is running as daemonset in each node of GKE
+
+```
+kubectl -n kube-system get ds | grep file
+O/P : 
+filestore-node kubernetes.io/os=linux  2d1h 3 3 3 3 3
+```
+
+### Ingress Classes & Annotation for Load Balancer setting
+
+- External Ingress
+  
+  ```
+  annotation:
+      kubernetes.io/ingress.class:"gce"
+  ```
+
+- Internal Ingress
+  
+  ```
+  annotation:
+      kubernetes.io/ingress.class:"gce-internal"
+  ```
+
+- Multicluster Ingress
+  
+  - k8s Services : 
+    1. **MultiClusterService** 
+    2. **MultiClusterServiceIngress**
+
+- Third Party Ingress(Nginx)
+  
+  ```
+  kubernetes.io/ingress.class:"nginx"
+  ```
+
+### Ingress context path base routing for GCE kubernestes cluster
+
+- Ingress Route.yaml
+  
+  ```
+  apiVersion: networking.k8s.io/v1
+  kind: Ingress
+  metadata:
+    name: ingress-cpr
+    annotations:
+      # External Load Balancer  
+      kubernetes.io/ingress.class: "gce"  
+  spec: 
+    defaultBackend:
+      service:
+        name: app3-nginx-nodeport-service
+        port:
+          number: 80                            
+    rules:
+      - http:
+          paths:           
+            - path: /app1
+              pathType: Prefix
+              backend:
+                service:
+                  name: app1-nginx-nodeport-service
+                  port: 
+                    number: 80
+            - path: /app2
+              pathType: Prefix
+              backend:
+                service:
+                  name: app2-nginx-nodeport-service
+                  port: 
+                    number: 80
+  ```
+
+- To get ingress accessing IP or DNS Name
+  
+  ```
+  kubectl get ingress
+  ```
+
+### Create ingress with External IP pre-defined so it will not changed and make it reserve static
+
+- Create External IP Address
+  
+  ```
+  gcloud compute addresses create ADDRESS_NAME --global
+  gcloud compute addresses create gke-ingress-extip1 --global
+  ```
+
+- Describe External IP Address 
+  
+  ```
+  gcloud compute addresses describe ADDRESS_NAME --global
+  gcloud compute addresses describe gke-ingress-extip1 --global
+  ```
+
+- List External IP Address
+  
+  ```
+  gcloud compute addresses list
+  ```
+
+- Verify
+  
+  ```
+  Go to VPC Network -> IP Addresses -> External IP Address 
+  ```
+
+- Add RECORDSET Google Cloud DNS for this External IP
+  
+  ```
+  - Go to Network Services -> Cloud DNS -> sawanchouksey.com -> **ADD RECORD SET**
+  - DNS NAME: demo1.sawanchouksey.com
+  - **IPv4 Address:** <EXTERNAL-IP-RESERVERD-IN-STEP-02>
+  - Click on **CREATE**
+  ```
+
+- nslookup test
+  
+  ```
+  nslookup demo1.sawanchouksey.com
+  ```
+
+- Create Ingress-external-ingress-ip.yaml
+  
+  ```
+  apiVersion: networking.k8s.io/v1
+  kind: Ingress
+  metadata:
+    name: ingress-external-ip
+    annotations:
+      # External Load Balancer
+      kubernetes.io/ingress.class: "gce"  
+      # Static IP for Ingress Service
+      kubernetes.io/ingress.global-static-ip-name: "gke-ingress-extip1"   
+  spec: 
+    defaultBackend:
+      service:
+        name: app3-nginx-nodeport-service
+        port:
+          number: 80                            
+    rules:
+      - http:
+          paths:           
+            - path: /app1
+              pathType: Prefix
+              backend:
+                service:
+                  name: app1-nginx-nodeport-service
+                  port: 
+                    number: 80
+            - path: /app2
+              pathType: Prefix
+              backend:
+                service:
+                  name: app2-nginx-nodeport-service
+                  port: 
+                    number: 80
+  ```
+
+### Create google managed certificate for ingress in GCP
+
+- Google Managed Certificates for GKE Ingress
+
+- Ingress SSL
+
+- Certificate Validity: 90 days
+
+- 30 days before expiry google starts renewal process. We dont need to worry about it.
+
+- Google-managed certificates are only supported with GKE Ingress using the external HTTP(S) load balancer. Google-managed certificates do not support third-party Ingress controllers.
+
+- Registered Domain using Google Cloud Domains
+
+- DNS name for which SSL Certificate should be created should already be added as DNS in Google Cloud DNS (Example: demo1.sawanchouksey.com)
+
+- Create manage-certificate-ssl.yaml
+  
+  ```
+  apiVersion: networking.gke.io/v1
+  kind: ManagedCertificate
+  metadata:
+    name: managed-cert-for-ingress
+  spec:
+    domains:
+      - demo1.sawanchouksey.com
+  ```
+
+- Create Ingress-SSL.yaml
+  
+  ```
+  apiVersion: networking.k8s.io/v1
+  kind: Ingress
+  metadata:
+    name: ingress-ssl
+    annotations:
+      # External Load Balancer
+      kubernetes.io/ingress.class: "gce"  
+      # Static IP for Ingress Service
+      kubernetes.io/ingress.global-static-ip-name: "gke-ingress-extip1"   
+      # Google Managed SSL Certificates
+      networking.gke.io/managed-certificates: managed-cert-for-ingress
+  spec: 
+    defaultBackend:
+      service:
+        name: app3-nginx-nodeport-service
+        port:
+          number: 80                            
+    rules:
+      - http:
+          paths:           
+            - path: /app1
+              pathType: Prefix
+              backend:
+                service:
+                  name: app1-nginx-nodeport-service
+                  port: 
+                    number: 80
+            - path: /app2
+              pathType: Prefix
+              backend:
+                service:
+                  name: app2-nginx-nodeport-service
+                  port: 
+                    number: 80
+  ```
+
+- List Managed Certificate
+  
+  ```
+  kubectl get managedcertificate
+  ```
+
+- Describe managed certificate
+  
+  ```
+  kubectl describe managedcertificate managed-cert-for-ingress
+  ```
+
+- Verify SSL Certificates from Certificate Tab in Load Balancer
+  
+  ```
+  GCP-->search-->load balancing-->Network services-->Load Balancing-->Load Balancer-->click on "load balancing components view"-->click on "certificates" tab-->select certificate
+  ```
+
+- Http to https redirecting ingress services
+
+- Create frontendconfig.yaml
+  
+  ```
+  apiVersion: networking.gke.io/v1beta1
+  kind: FrontendConfig
+  metadata:
+    name: my-frontend-config
+  spec:
+    redirectToHttps:
+      enabled: true
+      #responseCodeName: RESPONSE_CODE
+  ```
+
+- Create Ingress-SSL.yaml
+  
+  ```
+  apiVersion: networking.k8s.io/v1
+  kind: Ingress
+  metadata:
+    name: ingress-ssl
+    annotations:
+      # External Load Balancer
+      kubernetes.io/ingress.class: "gce"  
+      # Static IP for Ingress Service
+      kubernetes.io/ingress.global-static-ip-name: "gke-ingress-extip1"   
+      # Google Managed SSL Certificates
+      networking.gke.io/managed-certificates: managed-cert-for-ingress
+      # SSL Redirect HTTP to HTTPS
+      networking.gke.io/v1beta1.FrontendConfig: "my-frontend-config"    
+  spec: 
+    defaultBackend:
+      service:
+        name: app3-nginx-nodeport-service
+        port:
+          number: 80                            
+    rules:
+      - http:
+          paths:           
+            - path: /app1
+              pathType: Prefix
+              backend:
+                service:
+                  name: app1-nginx-nodeport-service
+                  port: 
+                    number: 80
+            - path: /app2
+              pathType: Prefix
+              backend:
+                service:
+                  name: app2-nginx-nodeport-service
+                  port: 
+                    number: 80
+  ```
+
+### Enable external DNS for LoadBalancer type service
+
+```
+annotations:
+    external-dns.alpha.kubernestes.io/hostname: extdns.k8s.svc.demo.sawan.com
+```
+
+### Ingress with IAP(Identity Aware Proxy)
+
+- IAP enable Centralize authentication and authorization accessed using HTTPS
+- with IAP, we can enforce Access control policies to our applications
+- With IAP we can enable group based application access i.e. A specific resource application can given access to only employess not for contractors.
+
+### Add approval in CICD pipeline
+
+- Enable cloud build approvals in GCP pipeline and enable with email id.
+  
+  ```
+  IAM-->Service account-->edit-->add role-->cloudbuild approver.
+  ```
+
+### Defined resource Quata for namespace
+
+```
+apiVersion: v1
+kind: ResourceQuota
+metadata:
+  name: qa-namespace-resource-quota
+  namespace: qa
+spec:
+  hard:
+    requests.cpu: "1"
+    requests.memory: 1Gi
+    limits.cpu: "2"
+    limits.memory: 2Gi  
+    pods: "3"    
+    configmaps: "3" 
+    persistentvolumeclaims: "3" 
+    secrets: "3" 
+    services: "3"
+```
+
+### Define limitrange quota for namespace
+
+```
+apiVersion: v1
+kind: ResourceQuota
+metadata:
+  name: qa-namespace-resource-quota
+  namespace: qa
+spec:
+  hard:
+    requests.cpu: "1"
+    requests.memory: 1Gi
+    limits.cpu: "2"
+    limits.memory: 2Gi  
+    pods: "3"    
+    configmaps: "3" 
+    persistentvolumeclaims: "3" 
+    secrets: "3" 
+    services: "3" 
+---    
+apiVersion: v1
+kind: LimitRange
+metadata:
+  name: default-cpu-mem-limit-range
+  namespace: qa
+spec:
+  limits:
+    - default:
+        cpu: "400m"  # If not specified default limit is 1 vCPU per container     
+        memory: "256Mi" # If not specified the Container's memory limit is set to 512Mi, which is the default memory limit for the namespace.
+      defaultRequest:
+        cpu: "200m" # If not specified default it will take from whatever specified in limits.default.cpu      
+        memory: "128Mi" # If not specified default it will take from whatever specified in limits.default.memory
+      max: 
+        cpu: "500m"
+        memory: "500Mi"
+      min:       
+        cpu: "100m"
+        memory: "100Mi"
+      type: Container
+```
+
+### LimitRange quota with minMax in namespace
+
+```
+apiVersion: v1
+kind: LimitRange
+metadata:
+  name: default-cpu-mem-limit-range
+  namespace: qa
+spec:
+  limits:
+    - default:
+        cpu: "400m"  # If not specified default limit is 1 vCPU per container     
+        memory: "256Mi" # If not specified the Container's memory limit is set to 512Mi, which is the default memory limit for the namespace.
+      defaultRequest:
+        cpu: "200m" # If not specified default it will take from whatever specified in limits.default.cpu      
+        memory: "128Mi" # If not specified default it will take from whatever specified in limits.default.memory
+      max: 
+        cpu: "500m"
+        memory: "500Mi"
+      min:       
+        cpu: "100m"
+        memory: "100Mi"
+      type: Container
+```
+
+### Ingress with SSL certificate with existing IP
+
+- Create application with NodePort service type 
+
+- update application with readiness probe for health
+
+- Create External IP Address
+  
+  ```
+  gcloud compute addresses create poc-ip --global
+  ```
+
+- Certificate creation with pfx certificate
+  
+  ```
+  openssl pkcs12 -in NewSSL2024.pfx -nocerts -out server-en.key (give cert password)
+  openssl pkcs12 -in NewSSL2024.pfx -clcerts -nokeys -out app1-ingress.crt
+  openssl rsa -in server-en.key -out app1-ingress.key (give PEM pass password)
+  ```
+
+- Create a certificate resource in your Google Cloud project
+  
+  ```
+  gcloud compute ssl-certificates create app1-ingress --certificate app1-ingress.crt  --private-key app1-ingress.key
+  ```
+
+- List certificate
+  
+  ```
+  gcloud compute ssl-certificates list
+  ```
+
+- Http to https redirecting ingress services
+  
+  - frontendconfig.yaml
+    
+    ```
+    apiVersion: networking.gke.io/v1beta1
+    kind: FrontendConfig
+    metadata:
+      name: my-frontend-config
+    spec:
+      redirectToHttps:
+        enabled: true
+    ```
+  
+  - create secret for ingress SSL certificate `Ingress-tls-secret.yaml`
+    
+    ```
+    apiVersion: v1
+    kind: Secret
+    metadata:
+      name: ingress-tls-secret
+      namespace: default
+    type: kubernetes.io/tls
+    data: 
+      tls.crt: "base64 encoded cert"
+      tls.key: "base64 encoded key"
+    ```
+  
+  - Create Ingress Route File `Ingress-Route.yaml`
+    
+    ```
+    apiVersion: networking.k8s.io/v1
+    kind: Ingress
+    metadata:
+      name: ingress-route
+      annotations:
+        # External Load Balancer
+        kubernetes.io/ingress.class: "gce"
+        #Name of load balancer
+        networking.gke.io/load-balancer-name: my-load-balancer-name
+        # SSL Redirect HTTP to HTTPS
+        #networking.gke.io/v1beta1.FrontendConfig: "my-frontend-config"
+        #redirect ingress to ssl
+        #ingress.kubernetes.io/ssl-redirect: "true"
+        # Static IP for Ingress Service
+        kubernetes.io/ingress.global-static-ip-name: "gke-ingress-uat-ip"   
+        # SSL Redirect HTTP to HTTPS
+        networking.gke.io/v1beta1.FrontendConfig: "my-frontend-config"   
+        # Pre-shared certificate resources  
+        ingress.gcp.kubernetes.io/pre-shared-cert: "app1-ingress"
+    spec:
+    #  tls:
+    #  - hosts:
+    #    - dev.tyh.poc.com
+    #    secretName: ingress-tls-secret
+      rules:
+        - http:
+            paths:
+            - path: /api
+              pathType: Prefix
+              backend:
+                service:
+                  name: tyh-test-uat
+                  port:
+                    number: 4001
+    spec:
+      rules:
+        - host: dev.tyh.poc.com
+          http:
+            paths:
+              - path: /patient(/|$)(.*)
+                pathType: prefix
+                backend:
+                  service:
+                    name: tyh-webui-poc
+                    port:
+                      number: 3000
+              - path: /api(/|$)(.*)
+                pathType: Prefix
+                backend:
+                  service:
+                    name: tyh-test-poc
+                    port:
+                      number: 4001
+        #- host: qa.tyh.poc.com
+        #  http:
+        #    paths:
+        #      - path: /pat(/|$)(.*)
+        #        pathType: prefix
+        #        backend:
+        #          service:
+        #            name: tyh-webui-poc
+        #            port:
+        #              number: 3000
+        #      - path: /api(/|$)(.*)
+        #        pathType: Prefix
+        #        backend:
+        #          service:
+        #           name: tyh-test-poc
+        #            port:
+        #             number: 4001
+    ```
+
+### get ip only from gcloud describe command
+
+```
+gcloud compute addresses describe ingress-dev  --region asia-south1 --format=json | jq -r '.address'
+```
+
+### Use substitution variable in GCP cloud build pipeline
+
+```
+variableName = _SONAR_TOKEN
+UseInYamlfile= ${_SONAR_TOKEN}
+```
+
+### Terraform with google cloud
+
+- provider configuration
+  
+  ```
+  terraform {
+      required_providers{
+          google = {
+              source = "hashicorp/google"
+              version= "3.84.0"
+              } 
+          }
+      }
+  }
+  provider "google" {
+      project = "my-project-id"
+      region  = "us-central1"
+      zone    = "us-central1-a"
+  }
+  ```
+
+- Connect Terraform with GCP by username/password run command with gcloud
+  
+  ```
+  gcloud auth application-default login
+  ```
+
+- list of gcloud account
+  
+  ```
+  gcloud auth list
+  ```
+
+- connect terraform with cloudshell VM
+
+- Connect terraform with GCP with service account - preferred in production
+  
+  ```
+  gcp-->IAM and Admin-->select service-account-->manage keys-->ADD KEY-->create key-->key type :JSON-->create-->downloaded keys.json file for this project-->
+  ```
+
+- give access to "editor" role for the service-account
+
+- move "keys.json" file to folder where main.tf exist for root module
+  
+  ```
+  provider "google" {
+      project = "my-project-id"
+      region  = "us-central1"
+      zone    = "us-central1-a"
+      credentials = "keys.json"
+  }
+  ```
+
+### Delete an ip address
+
+```
+gcloud compute addresses delete address-name --region regionName | --global
+gcloud compute addresses delete gke-ingress-uat-ip --global
+```
+
+### Cloud Run
+
+- It is used to deploy complete application in GCP
+- It is works as similar way like serverless container application like ACI in azure.
+- It is help to focus developers on development instead of maintenance and deployment of application.
+
+### Uptime check and manage notification
+
+```
+gcp-->monitoring-->uptime check-->configure HTTP URL and mnagae Chnannel notification for it
+```
+
+### Logging available in GCP
+
+| Logs Details        | Enable                | Days Retention | Activities Capture          |
+| ------------------- | --------------------- | -------------- | --------------------------- |
+| Admin Activity logs | Enable By default     | 400 days       | Generated by activities     |
+| System logs         | Enable By default     | 400 days       | Generated by google System  |
+| data access logs    | By default Not Enable | 30 days        | -                           |
+| Policy Logs         | Enable By default     | 30 days        | Generated by Policy Changes |
+
+### log collection
+
+- **by agent**
+  
+  - Log Agent for Compute engine VM | AWS VM | Azure VM 
+  - Legacy Agent | Ops Agent
+
+- **by Cloud SDK**
+  
+  ```
+  gcloud logging write log-name "log info message"
+  gcloud logging write log-name '{"key":"value"} --payload-type=json --severity CRITICAL 
+  ```
+
+- Automatically on Cloud Run, GKE, App Engine
+
+- **Cloud Logging API**
+  
+  - Python/Java SDK
+  - From on-premises
+
+- Logs Storage is used for store logs data in customize bucket.
+
+- logs router used to sync and route data to logs storage buckets by creating synk between gcp service and bucket.
+
+### DevOps tool
+
+- **Cloud Error Reporting** -  detect error
+  
+  ```
+  GCP-->Operation-->Error reporting(App Engine)
+  ```
+
+- **Cloud Debugger** - Find state of running application
+  
+  ```
+  GCP-->Operation-->Debugger(App Engine)
+  ```
+
+- **Cloud Trace** - Latency
+  
+  ```
+  GCP-->Operation-->Trace(App Engine)
+  ```
+
+- **Cloud Profiler** - How much resource consumed
+  
+  ```
+  GCP-->Operation-->Profiles(App Engine)
+  ```
+
+### Pre-emptible VM
+
+- Up to **80% discount**
+
+- max life is **24 hours**
+
+- Goggle give **30 sec** warning before **auto shutdown**
+  
+  ```
+  GCP-->ComputeEngine-->create instance-->Management Secuirty-->Availablity Policy-->Preemptibility(off(recommended))-->change to on
+  ```
+
+### SSL certificate in gcloud cli error
+
+```
+gcloud components update
+```
+
+### Download file from cloud shell
+
+```
+cloudshell download cluster.sh
+```
+
+### **Apache beam** - Dataflow service
+
+- Apache Beam is helpful to create the the DataProcessing Pipeline.
+
+- Beam is a framework with bindings in both Python and Java that allows you to represent a data processing pipeline with actions for inputs and outputs as well as a variety of built-in data transformations.
+
+- Pipeline is unit which collects the Data, process the data and produce the output.
+
+- Data that flows through the pipeline called PCollections.
+
+- Manipulations happens on data in pipeline called Transformation.
+  
+  ```
+        +---------------+
+        |   Input Data  |
+        +-------+-------+
+                |
+                v
+        +-------+-------+
+        | Data Ingestion|
+        +-------+-------+
+                |
+                v
+        +-------+-------+
+        |   Transform   |
+        +-------+-------+
+                |
+                v
+        +-------+-------+
+        | PCollection 1 |
+        +-------+-------+
+                |
+                v
+        +-------+-------+
+        |   Transform   |
+        +-------+-------+
+                |
+                v
+        +-------+-------+
+        | PCollection 2 |
+        +-------+-------+
+                |
+                v
+        +-------+-------+
+        |   Transform   |
+        +-------+-------+
+                |
+                v
+        +-------+-------+
+        | PCollection 3 |
+        +-------+-------+
+                |
+                v
+        +-------+-------+
+        |    Write      |
+        +-------+-------+
+                |
+                v
+        +-------+-------+
+        |  Output Data  |
+        +---------------+
+  ```
+
+### **Pipeline** :
+
+- A pipeline refers to the high-level container of a bunch of data processing operations. Pipelines encapsulate all of the input and output data as well as the transformation steps that manipulate data from the input to the desired output.
+
+- Pipelines themselves can have lots of configuration options, which allows them to be somewhat customizable.
+
+- **PCollections** : 
+  
+  - PCollections, the data in your pipeline, act as a way to represent intermediate chunks or streams of data as they flow through a
+    pipeline. User can create them either by reading from some raw data points or by applying some transformation to another PCollection.
+  - The data could be of any size, ranging from a few rows that you add to your pipeline code to an enormous amount of data distributed across lots of
+    machines. In some cases, the data could even be an infinite stream of incoming data that may never end.
+  - PCollection can be either bounded or unbounded. Bounded, you may not know the exact size. A bounded PCollection is one that you’re sure won’t go on forever.
+  - Unbounded PCollection is one that has no predefined finite size and may go on forever. The typical example of an unbounded PCollection
+    is a stream of data that’s being generated in real time, such as the temperature sensor.
+  - PCollection can’t be share in between Pipelines. User always create a PCollection within a pipeline, and it must stay within that pipeline.
+    You can’t create a PCollection inside one pipeline and then reference it from another.
+  - PCollections themselves are immutable. Once you create a PCollection, you can’t change its data.
+
+- **Transforms** : 
+  
+  - Transforms are the way you take chunks of input data and mutate them into chunks of output data.
+  - Transforms are the way to take PCollections and turn them into other PCollections.
+  - Transforms can do a variety of things, and Beam comes with quite a few built-in transforms to help make it easy to manipulate data in your pipelines without writing a lot of boilerplate code.
+  - Filter out unwanted data that you’re not interested.
+  - Split the data into separate chunks.
+  - Group the data by a certain property.
+  - Join together two (or more) chunks of data.
+  - Enrich the data by calculating something new.
+
+### Lab - Running Python DataFlow
+
+1. Enable Cloud Data Flow API from API Manager
+
+2. Create a Standard Google Cloud Storage Bucket
+
+3. Download the Code from below shared Bucket.
+   https://github.com/GoogleCloudPlatform/training-data-analyst.git and 
+   
+   ```
+   - run sudo ./install_package.sh
+   - run python3 grep.py
+   - run gsutil cp ../javahelp/..../javahelp/*.java gs://bucketName
+   ```
+
+4. Change Project and Bucket name in grepc.py file. It will do all above steps automatically give region in input variable
+
+5. Identify the Service Account and provide the DataFlow Admin and Worker Role to Service Account.
+
+6. If Job is failing with write permission in Storage then in Storage permission Section, identify your Service Account and provide the right of Storage Admin.
+
+### Lab - Provision DataProc Cluster with Command Line
+
+- SetUp DataProc Cluster Using GCloud
+  
+  1. Enable the DataProc Cloud API if already Not enabled.
+  
+  2. Open Cloud Shell and verify the Project
+     
+     ```
+     gcloud config list project
+     echo $GOOGLE_CLOUD_PROJECT
+     ```
+  
+  3. Set Project if not already set.
+     
+     ```
+     gcloud config set project <PROJECT_ID>
+     ```
+  
+  4. Import the Zone which you want to use.
+     
+     ```
+     gcloud config set compute/zone us-central1-c
+     ```
+  
+  5. Choose Cluster Name
+     
+     ```
+     CLUSTERNAME=${USER}-levelup
+     ```
+  
+  6. Start a New Cluster
+     
+     ```
+     gcloud dataproc clusters create ${CLUSTERNAME} --region us-central1 --subnet default --zone us-central1-c --master-machine-type n1-standard-1 --master-boot-disk-size 50 --num-workers 2 --worker-machine-type n1-standard-1 --worker-boot-disk-size 50 --image-version 1.4-debian10 --project ${GOOGLE_CLOUD_PROJECT}
+     ```
+  
+  7. Submit a Spark job to your cluster
+     
+     ```
+     gcloud dataproc jobs submit spark --cluster ${CLUSTERNAME} \
+     --class org.apache.spark.examples.SparkPi \
+     --jars file:///usr/lib/spark/examples/jars/spark-examples.jar -- 1000
+     ```
+  
+  8. Get the List of Jobs
+     
+     ```
+     gcloud dataproc jobs list --cluster ${CLUSTERNAME}
+     ```
+  
+  9. Get the Output of any Job
+     
+     ```
+     gcloud dataproc jobs wait jobId
+     ```
+  
+  10. Describe your DataProc Cluster
+      
+      ```
+      gcloud dataproc clusters describe ${CLUSTERNAME}
+      ```
+  
+  11. Resize the Cluster
+      
+      ```
+      gcloud dataproc clusters update ${CLUSTERNAME} --num-preemptible-workers=2
+      gcloud dataproc clusters describe ${CLUSTERNAME}
+      ```
+  
+  12. SSH into Cluster Master Node
+      
+      ```
+      gcloud compute ssh ${CLUSTERNAME}-m --zone=us-central1-c
+      hostname
+      ```
+  
+  13. List Cluster and Logout
+      
+      ```
+      gcloud dataproc clusters list --region us-central1
+      logout
+      ```
+  
+  14. Delete the Cluster
+      
+      ```
+      gcloud dataproc clusters delete ${CLUSTERNAME}
+      ```
+
+### Lab - Pub/Sub using CLI
+
+1. Reinitialize Cloud SDK and follow the instructions
+   
+   ```
+   gcloud init
+   ```
+
+2. Create topic in Pub/Sub
+   
+   ```
+   gcloud pubsub topics create <Topic_Name>
+   ```
+
+3. Publish a Message to Topic
+   
+   ```
+   gcloud pubsub topics publish foodmart --message="hello foodies" --attribute="locale=english,username=gcp"
+   ```
+
+4. Create Subscriber in PubSub
+   
+   ```
+   gcloud pubsub subscriptions create --topic <Topic_Name> <Subscriber_Name>
+   ```
+
+5. Check if Subcriber received the earlier message published on Topic
+   
+   ```
+   gcloud pubsub subscriptions pull --auto-ack <Subscriber_Name>
+   ```
+
+### Lab - Setting Up Pub/Sub Using Python
+
+1. Clone python-docs-samples and change directory to the sample directory you want to use.
+   git clone https://github.com/googleapis/python-pubsub.git
+
+2. Create a virtualenv. Samples are compatible with Python 3.6+.
+   
+   ```
+   virtualenv env
+   source env/bin/activate
+   ```
+
+3. Install the dependencies needed to run the samples.
+   
+   ```
+   pip install -r requirements.txt
+   ```
+
+4. Run Samples
+   
+   ```
+   - python publisher.py
+   ```
+
+5. positional arguments for `publisher.py`
+   
+   | Arguments                      | Description                                                            |
+   | ------------------------------ | ---------------------------------------------------------------------- |
+   | project_id                     | Your Google Cloud project ID                                           |
+   | list                           | Lists all Pub/Sub topics in the given project.                         |
+   | create                         | Create a new Pub/Sub topic.                                            |
+   | delete                         | Deletes an existing Pub/Sub topic.                                     |
+   | publish                        | Publishes multiple messages to a Pub/Sub topic.                        |
+   | publish-with-custom-attributes | Publishes multiple messages with custom attributes to a Pub/Sub topic. |
+   | publish-with-error-handler     | Publishes multiple messages to a Pub/Sub topic with an error handler.  |
+   | publish-with-batch-settings    | Publishes multiple messages to a Pub/Sub topic with batch settings.    |
+   | publish-with-retry-settings    | Publishes messages with custom retry settings.                         |
+
+6. Subscribe the publisher data
+   
+   ```
+   python subscriber.py
+   ```
+
+7. positional arguments for `subscriber.py`
+   
+   | Arguments                               | description                                                                                                                                                    |
+   | --------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+   | project_id                              | Your Google Cloud project ID                                                                                                                                   |
+   | list-in-topic                           | Lists all subscriptions for a given topic.                                                                                                                     |
+   | list-in-project                         | Lists all subscriptions in the current project.                                                                                                                |
+   | create                                  | Create a new pull subscription on the given topic.                                                                                                             |
+   | create-with-dead-letter-policy          | Create a subscription with dead letter policy.                                                                                                                 |
+   | create-push                             | Create a new push subscription on the given topic.                                                                                                             |
+   | delete                                  | Deletes an existing Pub/Sub topic.                                                                                                                             |
+   | update-push                             | Updates an existing Pub/Sub subscription's push endpoint URL. Note that certain properties of a           subscription, such as its topic, are not modifiable. |
+   | update-dead-letter-policy               | Update a subscription's dead letter policy.                                                                                                                    |
+   | remove-dead-letter-policy               | Remove dead letter policy from a subscription.                                                                                                                 |
+   | receive                                 | Receives messages from a pull subscription.                                                                                                                    |
+   | receive-custom-attributes               | Receives messages from a pull subscription.                                                                                                                    |
+   | receive-flow-control                    | Receives messages from a pull subscription with flow control.                                                                                                  |
+   | receive-synchronously                   | Pulling messages synchronously.                                                                                                                                |
+   | receive-synchronously-with-lease        | Pulling messages synchronously with lease management                                                                                                           |
+   | listen-for-errors                       | Check for if any error exist while pulling                                                                                                                     |
+   | receive-messages-with-delivery-attempts | Support Me                                                                                                                                                     |
+
+### Support Me
+
+**If you find my content useful or enjoy what I do, you can support me by buying me a coffee. Your support helps keep this website running and encourages me to create more content.**
+
+[![Buy Me a Coffee](https://www.buymeacoffee.com/assets/img/custom_images/orange_img.png)](https://www.buymeacoffee.com/sawanchokso)
+
+**Your generosity is greatly appreciated!**
+
+##### Thank you for your support!💚
