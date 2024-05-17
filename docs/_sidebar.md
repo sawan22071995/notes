@@ -13,7 +13,7 @@
   - [Jenkins+eks+containerd+nerdctl+agent](Cloud/Jenkins+eks+containerd+nerdctl+agent.md)
 
 - DevOps
-  
+  - [Nginx+Install+Src+Package+HttpHeaderMoreFilterModule](DevOps/nginx-install-src-v1.26.0.md)
   - [DevOps+Cloud+Interview+QA](DevOps/DevOps+Cloud+Interview+QA.md)
   - [bash+script+reference](DevOps/bash+script+reference.md)
   - [cicd+Jenkins+Ansible+k8s](DevOps/cicd+Jenkins+Ansible+k8s.md)
