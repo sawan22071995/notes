@@ -1,5 +1,15 @@
-### Windows Commands List
-
+# Windows Commands List
+### Create Alias in Windows OS for terminal
+   1.Create a folder called C:\Aliases
+   2.Add C:\Aliases to your path (so any files in it will be found every time)
+   3.Create a .bat file in C:\Aliases for each of the aliases you want
+   4.For instance, I have a file called k.bat with the following in it:
+      ```
+      @echo off
+      echo.
+      kubectl %*
+      ```
+   5. add `PATH` Variable for Your Account as `C:\Aliasas` 
 ### For hostname
 
 ```
