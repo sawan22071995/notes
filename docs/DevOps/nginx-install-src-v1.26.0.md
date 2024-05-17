@@ -188,7 +188,7 @@ Here are some key benefits of Nginx:
 23. Lets configure our `ngx_http_headers_more_filter_module` and some parameters to prevent our nginx server details from exposing in internet.
     
     ```
-    - stop nginx server
+       - stop nginx server
        systemctl stop nginx
        
        - open nginx.conf file
