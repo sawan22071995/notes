@@ -142,6 +142,7 @@ Here are some key benefits of Nginx:
     ![diagram](https://github.com/sawan22071995/notes/blob/main/docs/DevOps/nginx-server-expose.png?raw=true)
 22. As we noticed by default its exposing our `nginx server details` in internet which will help `hackers to find vulenrablities and exploit our server or application` deployed in nginx as well.
 23. Lets configure our `ngx_http_headers_more_filter_module` and some parameters to prevent our nginx server details from exposing in internet.
+
    ```
    - stop nginx server
    systemctl stop nginx
@@ -167,7 +168,7 @@ Here are some key benefits of Nginx:
    
    - start nginx service
    systemctl start nginx
-        
+
    ```
 24. Lets again check now our server details will not be exposed and visible in internet
    ![diagram](https://github.com/sawan22071995/notes/blob/main/docs/DevOps/disable-nginx-server-expose.png?raw=true)
