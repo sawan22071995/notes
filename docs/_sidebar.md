@@ -1,5 +1,8 @@
 - Cloud
   - [**GoogleCloudPlatform(GCP)+Notes**](Cloud/GoogleCloudPlatform(GCP)Notes.md)
+  - [**MicrosoftAzureCloud(Azure)+Notes**](Cloud/MicrosoftAzureCloud(Azure)Notes.md)
+  - [**AmazonWebServices(AWS)+Notes**](Cloud/AmazonWebServices(AWS)Notes.md)
+  - [**Kubernetes(k8s)+Notes**](Cloud/Kubernetes(k8s)Notes.md)
   - [EKS+NLB+ALB+Ingress](Cloud/EKS+NLB+ALB+Ingress.md)
   - [LAMBDA+EC2+RDS+StartStopOperation+Hourly](Cloud/lambda+ec2+rds+start+stop+aws.md)
   - [GKE+ALB+Ingress](Cloud/GKE+ALB+Ingress.md)
