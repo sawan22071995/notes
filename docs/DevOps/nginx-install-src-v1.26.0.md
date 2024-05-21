@@ -218,6 +218,12 @@ Here are some key benefits of Nginx:
 24. Lets again check now our server details will not be exposed and visible in internet
     ![diagram](https://github.com/sawan22071995/notes/blob/main/docs/DevOps/disable-nginx-server-expose.png?raw=true)
 
+25. Enable `Nginx Service` on autostart during reboot server
+    
+    ```
+    systemctl enable nginx
+    ```
+
 ### Now our installation complete . Please fine the `nginx.conf` for sample
 
 ```
