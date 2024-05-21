@@ -148,6 +148,7 @@ Here are some key benefits of Nginx:
 16. As we configured `nginx` user for managing `nginx service` lets create user,group `nginx`
     
     ```
+    groupadd nginx
     adduser nginx --system --no-create-home -g nginx
     ```
 
