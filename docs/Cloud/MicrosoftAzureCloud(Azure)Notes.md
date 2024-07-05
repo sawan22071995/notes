@@ -1,5 +1,184 @@
 # Microsoft Azure Cloud (Azure) Notes
 
+### Azure Solution Architect (AZ-305) Points to remember before giving exams
+
+- When dividing 10 VMs across 3 Update Domains (UDs), the distribution would be:
+  - UD1: 4 VMs
+  - UD2: 3 VMs
+  - UD3: 3 VMs
+  - During maintenance, only one Update Domain is taken offline at a time. This means that in the worst-case scenario (when the largest UD is being updated), you would have:
+```
+10 total VMs - 4 VMs in the offline UD = 6 VMs still running
+Therefore, the least number of running VMs during maintenance would be 6, not 7 as the statement suggests.
+```
+- When you back up a key vault object, such as a secret, key, or certificate, the backup operation will download the object as an encrypted blob. This blob can't be decrypted outside of Azure. To get usable data from this blob, you must always restore the blob into a key vault within the same Azure subscription and Azure geography.
+
+- With `PTA(Pass-Through Authentication)`, AD security and password policies can be enforced, ensuring that authentication requests comply with the organization's security standards and policies.
+
+- `PHS (Password Hash Synchronization)` is the correct choice for synchronizing Active Directory (AD) and Entra ID to fulfill the requirement of allowing users to access corporate machines without entering a password. PHS synchronizes password hashes from on-premises AD to Azure AD, allowing for seamless authentication without the need for users to re-enter their passwords.
+
+- `PTA (Pass-Through Authentication)` is another correct choice for synchronizing AD and Entra ID to enable users to access corporate machines without entering a password. PTA allows for authentication requests to be passed through to on-premises AD, providing a seamless login experience for users without the need to store passwords in the cloud.
+
+- A company has 10 Virtual Machines created in their Azure subscription. They want to ensure that an IT administrator receives an email whenever certain operations are performed on the Virtual Machine. These operations include:
+  - Restarting the machine
+  - Deallocating the machine
+  - Powering off the machine.
+  - You need to determine the minimum number of rules and action groups required in Azure Monitor to fulfill this requirement.
+```
+1. Three rules are required because each operation (restarting, deallocating, and powering off the machine) needs to be monitored separately to trigger the email notification to the IT administrator. Each rule will be responsible for detecting a specific operation.
+2. One action group is sufficient to define the email notification settings for all three operations (restarting, deallocating, and powering off the machine). The action group can be configured to send an email to the IT administrator whenever any of the specified operations occur.
+```
+- `Azure Monitor` is the best fit for ensuring that IT administrators receive alerts based on critical conditions met in the application. It provides a comprehensive solution for collecting, analyzing, and acting on telemetry data from applications and infrastructure. With Azure Monitor, administrators can set up alerts based on specific metrics, logs, and events to proactively respond to critical conditions.
+
+- `Azure Log Analytics` is a service that collects and analyzes data from various sources, including Azure resources and applications. It can be used to correlate Azure resource usage and performance data with the actual application configuration and performance data, making it the best choice for fulfilling this requirement.
+
+- `Azure Activity Log` records all activities that occur in an Azure subscription, providing a detailed history of resource operations. By reviewing the Activity Log, you can track resource deployments, modifications, and deletions, making it a suitable choice for generating a monthly report detailing all resources deployed to the subscription.
+
+- `Application Insights` is the best-suited Azure service for providing the testing team with the ability to view the different components of the application and see the calls being made between them. It offers real-time monitoring, analytics, and diagnostics to help track application performance, detect issues, and analyze dependencies between different components.
+
+- `Microsoft Entra ID Protection` is a comprehensive solution that focuses on enhancing endpoint threat detection and remediation capabilities. It provides advanced security features such as identity protection, threat intelligence, and automated response mechanisms to help protect against security threats. This solution aligns well with the company's requirement to enhance its endpoint security posture.
+
+- `Azure Synapse Analytics`, formerly known as Azure SQL Data Warehouse, is a cloud-based data warehousing service that combines big data and data warehousing capabilities. It is designed for running complex queries on large datasets and can handle both relational and non-relational data. It is the most suitable choice for hosting the data warehouse in this scenario.
+
+- `Azure Data Factory` is a cloud-based data integration service that allows you to create, schedule, and manage data pipelines for moving and transforming data. While it can be used to orchestrate data movement from on-premises SQL Server to Azure, it is not specifically designed to host a data warehouse for analytical processing.
+
+- `Azure Databricks` is an Apache Spark-based analytics platform optimized for Azure. While it provides capabilities for data engineering and analytics, it is not a data warehouse solution. It is more focused on data processing, machine learning, and collaborative data science workflows.
+
+- `Azure Data Lake Gen2 Storage accounts` provide a scalable and secure data lake storage solution for big data analytics. While it can be used to store and manage large volumes of data from various sources, it is not a data warehouse service. It is more suitable for storing raw data in its native format for further processing.
+
+- Configuring the maximum number of CPU cores ensures that the Azure SQL Managed Instance can handle the workload demands by providing the necessary processing power to execute queries and operations efficiently.
+
+- Defining the maximum allocated storage is essential to ensure that the Azure SQL Managed Instance has enough storage capacity to store the application data and handle the workload demands without running out of storage space.
+
+- The `SQL API in Azure Cosmos DB` is the most appropriate choice for accommodating a JSON document. It allows you to store JSON data natively and query it using SQL syntax, making it a versatile option for handling JSON documents efficiently.
+
+- Deploying the databases to an `Azure SQL database-managed instance` will meet the requirement of supporting server-side transactions across both mydb1 and mydb2. Azure SQL database-managed instance provides a fully managed SQL Server instance in the cloud, offering features like high availability, automatic backups, and support for distributed transactions, which will enable server-side transactions across multiple databases.
+
+- A `vCore-based Azure SQL Database` offers more flexibility and control over resources compared to a DTU-based database. It allows for scaling resources based on workload requirements and provides options for performance optimization. In this scenario, where metrics recording, analysis, minimal downtime, and database backups are critical requirements, a vCore-based Azure SQL Database is the recommended choice.
+
+- A fixed size `DTU-based Azure SQL database` provides a set amount of resources based on the Database Transaction Units (DTUs) selected. While this option may be cost-effective for predictable workloads, it may not offer the flexibility and scalability needed for the database migration in this scenario. A vCore-based Azure SQL Database allows for more control over resources and performance scaling.
+
+- An Azure `SQL database elastic pool` is a pool of shared resources that allows multiple databases to share and use the resources efficiently. However, in this scenario, where the database needs to be migrated to Azure with specific requirements for metrics recording, analysis, and minimal downtime, a dedicated vCore-based Azure SQL Database would be more suitable.
+
+- Running a `SQL server on a virtual machine` in Azure would provide more control over the server environment. However, it would require more management and maintenance compared to a PaaS solution like Azure SQL Database. In this case, where PaaS deployments are preferred and database downtime needs to be minimized, a vCore-based Azure SQL Database is a better choice.
+
+- `Always On availability groups` is a feature in Azure SQL databases that provides high availability and disaster recovery by automatically failing over to a secondary replica in case of a primary replica failure. It helps in maintaining continuous availability of your databases and is a suitable choice for ensuring high availability.
+
+- `Active geo-replication` is a feature that allows you to replicate your databases to different regions for disaster recovery purposes. While it helps in ensuring data redundancy and disaster recovery, it is not specifically designed for maintaining high availability within a single region.
+
+- `Auto-failover groups` is a feature in Azure SQL databases that automatically triggers failover to a secondary replica in case of a primary replica failure. While it helps in ensuring automatic failover and continuous availability, it is not as comprehensive as Always On availability groups in terms of high availability for your databases.
+
+- `Auto failover groups` can have a potential data loss of up to 5 seconds during failover. This means that any transactions that occurred within the last 5 seconds before the failover may not be replicated to the secondary server, leading to potential data loss.
+
+- `Long-term backup retention` is a feature that allows you to store backups of your databases for an extended period. While it is important for data protection and compliance, it does not directly contribute to maintaining high availability for your databases in case of failures.
+
+- The solution suffices because creating an Azure Recovery Services vault and installing the Azure Backup agent to schedule backups ensures that data loss is prevented in case the file server fails. The Azure Backup agent will regularly back up the data from the file server to the Recovery Services vault, providing a reliable backup and recovery solution.
+
+- While creating a Recovery Services vault and configuring a backup using Windows Server Backup is a good step towards data protection, it's insufficient to prevent data loss in case the file server fails. The Windows Server Backup helps you create local backups and store them locally, on the volume or the shared network folder. Additional measures, such as implementing a high-availability solution or using redundant storage options, are necessary to ensure comprehensive data protection and prevent potential data loss scenarios.
+
+- Server Level IP Firewall rules in Azure SQL Database allow you to control access to the database based on specific IP addresses or ranges. By configuring these rules at the server level, you can restrict access to only certain workstations with static Public IP addresses.
+
+- we can use the Azure Migrate service to migrate Hyper-V virtual machines to Azure. Azure Migrate provides a centralized hub for discovering, assessing, and migrating on-premises servers, apps, and data to Azure.
+
+- An `Azure Event Grid` trigger is essential in the Logic App to monitor and respond to events related to the virtual machine in the specified resource group. It acts as the starting point for the Logic App and triggers the workflow when the settings of the virtual machine are modified.
+
+- `Network Security Groups (NSGs)` with service tags allow you to define security rules based on predefined Azure service tags. By configuring NSGs with service tags, you can restrict traffic to only come from Azure Front Door and implement load balancing across virtual machines. This option aligns with the requirement provided in the question.
+
+- `Azure Container Registry (Premium SKU)` provides advanced features such as geo-replication, which allows for automatic replication of container images across multiple Azure regions. This makes it the ideal choice for the company's requirement of deploying applications on multiple AKS clusters in different Azure regions while ensuring that updated container images are replicated across all clusters.
+
+- `Azure Container Registry (Basic SKU)` offers a basic container registry service with limited features compared to the Premium SKU. It does not include the functionality needed to automatically replicate updated container images across multiple AKS clusters, making it unsuitable for this requirement.
+
+- `Azure Container Registry (Standard SKU)` provides a basic container registry service without the advanced features required for automatic replication of container images across multiple AKS clusters. It does not offer the necessary capabilities for this specific requirement.
+
+- While a blob is in the archive access tier, it's considered offline and can't be read or modified. To read or modify data in an archived blob, you must first rehydrate the blob to an online tier, either the hot or cool tier. There are two options for rehydrating a blob that is stored in the archive tier.
+
+- Azure Databricks is a fully managed Apache Spark-based analytics platform optimized for Azure. It provides an interactive workspace for data engineers to collaborate and develop notebooks in Scala, R, and Python for data analysis tasks. Azure Databricks is the ideal choice for implementing a managed Spark cluster for analyzing data stored in the SQL data warehouse.
+
+- Defining the maximum of Database Transaction Units (DTUs) is crucial for ensuring effective scaling of the database to meet workload demands. DTUs are a measure of the performance and resources allocated to the database, and setting a maximum limit helps in dynamically scaling resources based on workload requirements.
+
+- Azure Storage account can be used to store backups created by Automated Backup for virtual machines. It allows for encryption of the backups at rest, meets the recovery point objective of 15 minutes, and supports a retention period of 30 days. This choice aligns with all the specified requirements for the backup process.
+
+- Assigning the Azure Web App to a Basic App Service Plan allows for auto-scaling based on demand. The Basic plan supports auto-scaling, which means the application's capacity can adjust dynamically according to the incoming traffic without manual intervention. This helps in optimizing costs by scaling up or down as needed.
+
+- Multitenant Azure Logic Apps has a default limit on the number of actions that run every 5 minutes. To raise the default value to the maximum, you can enable high throughput mode. Alternatively, you can distribute the workload across multiple logic apps and workflows rather than relying on a single logic app and workflow.
+
+- Creating a new node pool is the correct first step to take in order to deploy a new containerized application to specific nodes with specific sizes. By creating a new node pool, you can define the size and number of nodes that meet the requirements of the new application, ensuring that it runs on four nodes of size "DS3 v2" as specified.
+
+- An Internal Azure Standard Load Balancer is the recommended choice as it supports port forwarding, HTTPS health probes, and has an availability set as the backend pool. It is suitable for load balancing traffic between the web front end and the application tier within the Azure environment while meeting all the specified requirements.
+
+- Enabling system-assigned Managed Identities in App Services allows the web app to authenticate securely with other Azure services without needing to store credentials in the code. By granting permissions to access Key Vault secrets, the web app can retrieve the database connection string and password as needed, following the principle of least privilege and avoiding hardcoding passwords.
+
+- Azure Synapse Analytics service, formerly known as Azure SQL Data Warehouse, is a cloud-based analytics service that combines big data and data warehousing capabilities. It allows you to analyze large volumes of data and provides integration with Azure Data Lake Storage and Azure Data Factory. Given the need for a data warehouse and big data analytics system in the desired target state, Azure Synapse Analytics service is the most appropriate choice.
+
+- Traffic Manager is a DNS-based traffic management service that can help with distributing user traffic to specific endpoints based on various routing methods. Application Insights is an application performance monitoring tool that can provide detailed insights into the performance of your application. Together, these components can help meet the disaster recovery, application monitoring, and geographic load balancing requirements outlined by the business.
+
+- Functions, specifically Azure Functions, are a serverless compute service that allows you to run event-triggered code without managing infrastructure. They are ideal for short-lived processes, responding to database changes, and running scheduled tasks, making them a perfect fit for the Gaming Company's workload requirements.
+
+- Azure Migrate is the correct choice as it is specifically designed to assess on-premises infrastructure and provide insights into the TCO of the migration, as well as recommendations for the appropriate size of Virtual Machines required for Azure. Azure Database Migration Service complements this by focusing on migrating databases to Azure, ensuring a comprehensive migration strategy for the university.
+
+- `Kubenet` is a simple and cost-effective networking plugin for Azure Kubernetes Service. It allows pods to receive IP addresses from a different address space than the node pool's subnet, helping to avoid IPv4 exhaustion. Additionally, Kubenet supports NAT (Network Address Translation) between workloads deployed in pods and other Azure components, meeting the security consultants' requirements.
+
+- `Microsoft Network Routing`:
+This option routes traffic between your Azure Storage account and other Azure services through Microsoft's internal network backbone.
+  - Key points:
+    - Generally provides better performance and lower latency
+    - Traffic stays within Microsoft's network as much as possible
+    - Can be more secure as it minimizes exposure to the public internet
+    - Typically preferred for communication between Azure services
+
+- `Internet Routing`:
+This option routes traffic over the public internet.
+  - Key points:
+    - Uses public IP addresses for communication
+    - May have higher latency compared to Microsoft Network Routing
+    - Can be useful when you need to access storage from outside Azure
+    - Might be necessary for certain scenarios or legacy applications
+
+- Azure Cosmos DB offers multiple APIs and corresponding endpoints. Here's a concise overview:
+	1. Core (NoSQL) API:
+	   - Default API
+	   - Uses SQL-like query language
+	   - Endpoint: https://<account-name>.documents.azure.com
+
+	2. MongoDB API:
+	   - Compatible with MongoDB wire protocol
+	   - Endpoint: https://<account-name>.mongo.cosmos.azure.com
+
+	3. Cassandra API:
+	   - Compatible with Apache Cassandra
+	   - Endpoint: https://<account-name>.cassandra.cosmos.azure.com
+
+	4. Gremlin (Graph) API:
+	   - For graph databases
+	   - Endpoint: https://<account-name>.gremlin.cosmos.azure.com
+
+	5. Table API:
+	   - Compatible with Azure Table Storage
+	   - Endpoint: https://<account-name>.table.cosmos.azure.com
+
+	6. PostgreSQL API
+	   - Compatible with PostgreSQL 12 and later
+	   - Endpoint: <server-name>.postgres.cosmos.azure.com
+
+- `Object replication` in Azure Storage is a feature that allows you to automatically copy blobs from one storage account to another. Here's a concise.
+  - Key points:
+    1. Asynchronous copying of block blobs between source and destination accounts
+    2. Supports copying between general-purpose v2 or premium block blob accounts
+    3. Can replicate within the same region or across regions
+    4. Uses rules to define which blobs to replicate and where
+  - Benefits:
+    - Reduced latency for read requests
+    - Improved data redundancy
+    - Optimized data distribution for analytics
+  - Setup involves:
+    1. Configuring source and destination accounts
+    2. Setting up replication rules
+    3. Enabling versioning on both accounts
+  - Considerations:
+    - Only new and updated blobs are replicated after setup
+    - Deletion of source blobs doesn't propagate to destination
+    - Supports one-way replication only
+
 ### Azure conatiner instnace tutoria
 
 ```
