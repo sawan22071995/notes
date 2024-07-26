@@ -71,8 +71,8 @@ done <<< "$HPA_LIST"
 𝗰𝗿𝗼𝗻𝘁𝗮𝗯 -𝗲
 ```
 
-4. Add the following line to run the script every 10 minutes:
-```bash
+4. Add the following line to run the script every 10 minutes
+```
 */𝟭𝟬 * * * * /𝗵𝗼𝗺𝗲/𝗮𝘄𝘀𝘂𝘀𝗲𝗿/𝘂𝗽𝗱𝗮𝘁𝗲_𝗮𝗹𝗹_𝗵𝗽𝗮𝘀.𝘀𝗵 >> /𝘃𝗮𝗿/𝗹𝗼𝗴/𝗵𝗽𝗮_𝘂𝗽𝗱𝗮𝘁𝗲.𝗹𝗼𝗴 𝟮>&𝟭
 ```
 
