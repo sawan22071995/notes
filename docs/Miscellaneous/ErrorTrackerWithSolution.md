@@ -284,8 +284,8 @@ systemctl disable sisamddaemon;
 systemctl stop sisipsutildaemon; 
 systemctl disable sisipsutildaemon;
 ps -ef | grep -i sdcs;
-
 ```
+
 ### 7. Error
 
 docker error "error:0A000086:SSL routines:tls_post_process_server_certificate:certificate verify failed:ssl/statem/statem_clnt.c:1889" in dockerfile while downloading installing packages
@@ -302,3 +302,72 @@ RUN apk add --no-cache \
     ca-certificates
 RUN update-ca-certificates
 ```
+
+### 8. Error
+
+failed to get cpu utilization: unable to get metrics for resource cpu: unable to fetch metrics from resource metrics API: the server could not find the requested resource (get pods.metrics.k8s.io)
+
+```
+kubectl get hpa -n uat-app | grep app-test
+app-test               Deployment/app-test              <unknown>/70%, <unknown>/70%   1         3         1          142d
+```
+
+##### Explanation:
+
+The error is occurring when trying to get CPU utilization.
+It's unable to fetch metrics from the resource metrics API.
+The server couldn't find the requested resource, specifically "pods.metrics.k8s.io".
+This error typically occurs when the Metrics Server is not properly installed or configured in your Kubernetes cluster. The Metrics Server is responsible for collecting resource metrics from kubelets and exposing them through the Metrics API for use by the Horizontal Pod Autoscaler and other components.
+
+##### Solution:
+
+- Check API resources: List all available API resources in your cluster:
+  
+  ```
+  kubectl api-resources
+  ```
+
+- Check API versions: List all available API versions:
+  
+  ```
+  kubectl api-versions | grep metrics.k8s.io
+  ```
+
+- `metrics.k8s.io/v1beta1` api missing in eks kubectl api-versions. EKS doesn't come with the Metrics Server pre-installed. You can install it using the following steps: a. Download the Metrics Server manifest:
+  
+  ```
+  wget https://github.com/kubernetes-sigs/metrics-server/releases/latest/download/components.yaml
+  ```
+
+- Edit the file to add the necessary flags for EKS: Open the components.yaml file and find the Metrics Server deployment. Add these flags to the container args:
+  
+  ```
+  --kubelet-insecure-tls
+  --kubelet-preferred-address-types=InternalIP
+  ```
+
+- Apply the manifest:
+  
+  ```
+  kubectl apply -f components.yaml
+  ```
+
+- Verify the installation: After installation, check if the Metrics Server pod is running:
+  
+  ```
+  kubectl get pods -n kube-system | grep metrics-server
+  ```
+
+- Wait for the API to become available: It may take a few minutes for the API to become available. You can check its status with:
+  
+  ```
+  kubectl get apiservice v1beta1.metrics.k8s.io
+  ```
+
+- Test the metrics API: Once available, try accessing the metrics:
+  
+  ```
+  kubectl top nodes
+  kubectl get hpa -n uat-app | grep app-test
+  app-test               Deployment/app-test              3%/70%, 23%/70%   1         3         1          142d
+  ```
