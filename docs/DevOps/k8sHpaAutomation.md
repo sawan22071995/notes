@@ -25,7 +25,7 @@ while read -r line; do
             NEW_DESIRED_REPLICAS=$((DESIRED_REPLICAS + 2))
 
             # Update the HPA
-            echo 'kubectl patch hpa $HPA_NAME -n $NAMESPACE --patch "{\"spec\":{\"maxReplicas\":$NEW_DESIRED_REPLICAS}}"'
+            kubectl patch hpa $HPA_NAME -n $NAMESPACE --patch "{\"spec\":{\"maxReplicas\":$NEW_DESIRED_REPLICAS}}"
 
             echo "Updated HPA to have $NEW_DESIRED_REPLICAS max replicas."
             echo "------------------------"
@@ -45,7 +45,7 @@ while read -r line; do
             NEW_DESIRED_REPLICAS=$((DESIRED_REPLICAS + 2))
 
             # Update the HPA
-            echo 'kubectl patch hpa $HPA_NAME -n $NAMESPACE --patch "{\"spec\":{\"maxReplicas\":$NEW_DESIRED_REPLICAS}}"'
+            kubectl patch hpa $HPA_NAME -n $NAMESPACE --patch "{\"spec\":{\"maxReplicas\":$NEW_DESIRED_REPLICAS}}"
 
             echo "Updated HPA to have $NEW_DESIRED_REPLICAS max replicas."
             echo "------------------------"
