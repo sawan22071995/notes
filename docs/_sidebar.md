@@ -12,6 +12,7 @@
   - [AWS+ElastiCache+IAM+Authentication+Redis](Cloud/elastiCache+database+authentication+AWS+IAM+Role.md)
   - [AWS+GatewayAPI+EKS+gatewayApiController](Cloud/gatewayAPI+EKS+AWS.md)
   - [AWS+Secret+Manager+EKS+EKS+POD](Cloud/SecreteManager+EKS+AWS.md)
+  - [AWS+EC2+Nginx+LogShipping+CloudWatch](Cloud/ec2NginxLogsShipCloudWatch.md)
   - [karpenter+aws+eks](Cloud/karpenter+aws+eks.md)
   - [Jenkins+eks+containerd+nerdctl+agent](Cloud/Jenkins+eks+containerd+nerdctl+agent.md)
 
