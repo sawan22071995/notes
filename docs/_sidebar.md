@@ -14,6 +14,7 @@
   - [AWS+Secret+Manager+EKS+EKS+POD](Cloud/SecreteManager+EKS+AWS.md)
   - [AWS+EC2+Nginx+LogShipping+CloudWatch](Cloud/ec2NginxLogsShipCloudWatch.md)
   - [karpenter+aws+eks](Cloud/karpenter+aws+eks.md)
+  - [Jenkins+eks+containerd+dind+agent](Cloud/Jenkins+eks+containerd+dind+agent.md)
   - [Jenkins+eks+containerd+nerdctl+agent](Cloud/Jenkins+eks+containerd+nerdctl+agent.md)
 
 - DevOps
