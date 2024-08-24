@@ -20,7 +20,6 @@
 - DevOps
   - [Nginx+Install+Src+Package+HttpHeaderMoreFilterModule](DevOps/nginx-install-src-v1.26.0.md)
   - [k8s+HPA+Replica+Increase+Automation+Monitoring](DevOps/k8sHpaAutomation.md)
-  - [DevOps+Cloud+Interview+QA](DevOps/DevOps+Cloud+Interview+QA.md)
   - [bash+script+reference](DevOps/bash+script+reference.md)
   - [cicd+Jenkins+Ansible+k8s](DevOps/cicd+Jenkins+Ansible+k8s.md)
   - [Git](DevOps/Git.md)
@@ -30,17 +29,14 @@
   - [Windows+Command+Notes](DevOps/Windows+Command+Notes.md)
   - [nomad](DevOps/nomad.md)
 
-- IAC
-  
-  - [terraform+certification+Q&A](IAC/terraform+certification+Q&A.md)
-
 - Miscellaneous
-  
+  - [**DevOps+Cloud+Interview+QA**](Miscellaneous/DevOps+Cloud+Interview+QA.md)
+  - [**Error+Solution+Cloud+DevOps**](Miscellaneous/ErrorTrackerWithSolution.md)  
   - [misc. documents](Miscellaneous/misc.md)
-  - [Error+Solution+Cloud+DevOps](Miscellaneous/ErrorTrackerWithSolution.md)
 
-- Monitoring
-  
-  - [Linux+Promotheus+Grafana](Monitoring/Linux+Promotheus+Grafana.md)
-  
+- IAC  
+  - [terraform+certification+Q&A](IAC/terraform+certification+Q&A.md)
+    
+- Monitoring  
+  - [Linux+Promotheus+Grafana](Monitoring/Linux+Promotheus+Grafana.md)  
   - [Elasticsearch+Logstash+filebeat+Kibana.md](Monitoring/Elasticsearch+Logstash+filebeat+Kibana.md)

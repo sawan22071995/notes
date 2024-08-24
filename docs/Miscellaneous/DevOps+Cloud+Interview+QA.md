@@ -1,5 +1,451 @@
 # DevOps & Cloud & Python Basic & Interview & QA
 
+##### Q. Describe the difference between rebase and merge in git. when would you use one over the others?
+**Merge**
+- What It Does:
+Combines the histories of two branches.
+Creates a new commit (a merge commit) that reconciles the differences between the branches.
+
+- How It Works:
+Suppose you have a feature branch and a main branch.
+If you merge main into feature, Git will create a new merge commit on the feature branch that has two parents: the current tip of feature and the tip of main.
+The history of both branches is preserved, and you get a clear record of when the branches were merged.
+
+- Pros:
+Maintains the history of both branches, which can be useful for tracking changes and understanding the context of the development.
+Provides a clear and explicit record of when and where branches were integrated.
+
+- Cons:
+Can lead to a cluttered history with many merge commits, especially if used frequently.
+
+- When to Use:
+When you want to preserve the exact history of both branches.
+When you’re working in a collaborative environment and want to clearly document integration points.
+
+**Rebase**
+- What It Does:
+Reapplies commits from one branch onto another, effectively rewriting the commit history.
+
+- How It Works:
+Suppose you have a feature branch and a main branch.
+If you rebase feature onto main, Git will take the commits from feature, temporarily remove them, apply the commits from main, and then reapply the feature commits on top of main.
+This results in a linear history as if the feature branch had been developed directly from the latest commit on main.
+
+- Pros:
+Produces a cleaner, linear history without merge commits, making it easier to navigate and understand.
+Can make the integration of feature branches into the main branch simpler by avoiding merge conflicts.
+
+- Cons:
+Rewrites history, which can be problematic if the branch has already been shared with others. You need to be cautious about rebasing shared branches to avoid confusion and conflicts.
+
+- When to Use:
+When you want to maintain a clean, linear project history.
+Before merging a feature branch into main to simplify the integration and avoid unnecessary merge commits.
+When working on a feature branch locally and want to update it with the latest changes from main without cluttering the history.
+
+**Summary**
+Use merge when you want to integrate changes while preserving the full history and maintaining a record of when branches were merged.
+Use rebase when you want to create a clean, linear history and are working with local branches or want to tidy up a branch before merging it.
+
+##### Q. How would you resolve a complex merge conflicts that spans multiple files and involves multiple team members?
+**Understand the Conflict**
+- Review Conflicted Files: Identify which files have conflicts. Git will mark these files in the working directory and indicate conflicts within the files.
+- Assess the Context: Determine what changes were made in the conflicting branches. Look at the commits involved to understand why the conflicts might have occurred.
+
+**Communicate with Your Team**
+- Discuss the Conflicts: Communicate with the team members who made conflicting changes. Understanding their intentions can help in resolving conflicts more effectively.
+
+- Coordinate Resolution Efforts: Decide who will handle which parts of the conflicts if the resolution process needs to be divided among team members.
+
+**Manual Conflict Resolution**
+- Open Conflicted Files: Look for conflict markers (<<<<<<, ======, >>>>>>) in the files.
+- Edit the Files: Resolve conflicts by editing the files to combine or select the correct changes. Remove the conflict markers after resolving.
+- Test Changes: After resolving conflicts, test your code to ensure it works as expected.
+
+**Using a Merge Tool**
+- Graphical Merge Tools: Tools like KDiff3, Beyond Compare, or the merge tool integrated into IDEs (like VS Code or IntelliJ) can provide a visual interface for resolving conflicts.
+- Launch Merge Tool: Use Git commands to open the merge tool, e.g., git mergetool. This allows you to resolve conflicts in a more interactive way.
+
+##### Q. Explain the concept of Git `Detach HEAD` state. How can you recover from this state if necessary?
+The Git `detached HEAD` state occurs when you checkout a commit directly, rather than a branch. This state is useful for certain tasks, but it requires understanding how to manage it to avoid confusion.
+
+**What is a `Detached HEAD` State?**
+HEAD in Git is a reference to the current commit your working directory is based on. Normally, HEAD points to a branch, which in turn points to the latest commit on that branch. In a `detached HEAD` state:
+  - Detached HEAD: Instead of pointing to a branch, HEAD points directly to a specific commit. This can happen when you checkout a commit directly (e.g., `git checkout <commit-hash>`), a tag, or a remote branch without creating a local branch.
+
+**How to Recover from `Detached HEAD` State?**
+1. **Create a New Branch**
+If you’ve made changes or new commits while in a detached HEAD state, you should create a new branch to preserve these changes:
+  - `Check Current Commit`: Verify that you’re on the commit you want to base your new branch on.
+    ```
+    git log --oneline
+
+    ```
+
+  - `Create a Branch`: Use `git checkout -b <new-branch-name>` to create a new branch from the current commit. This moves you out of the detached HEAD state and attaches the new branch to your current commit.
+    ```
+    git checkout -b my-new-branch
+
+    ```
+
+2. **Stash Changes**
+If you’ve made changes to the working directory but haven’t committed them yet:
+  - `Stash Changes`: Save your uncommitted changes to a stash.
+    ```
+    git stash
+
+    ```
+
+  - `Checkout a Branch`: Switch to an existing branch where you want to apply these changes.
+    ```
+    git checkout main
+
+    ```
+  
+  - `Apply Stash`: Reapply your stashed changes.
+    ```
+    git stash apply
+
+    ```
+
+3. **Checkout a Branch**
+If you haven’t made any changes or commits and just want to get back to your previous branch:
+  - `Checkout a Branch`: Simply switch back to a branch where you want to work.
+    ```
+    git checkout main
+
+    ```
+
+4. **Discard Changes**
+If you’ve decided that the changes made in the detached HEAD state are not needed:
+  - `Checkout a Branch`: Switch to an existing branch, which will discard any uncommitted changes in the detached HEAD state.
+    ```
+    git checkout main
+
+    ```
+
+  - `(Optional) Clean Working Directory`: If needed, clean up any untracked files.
+    ```
+    git clean -f
+
+    ```
+**Summary**
+- `Detached HEAD` occurs when HEAD points directly to a commit rather than a branch.
+- `To recover`:
+  - Create a new branch if you want to keep changes.
+  - Stash changes if they’re uncommitted and then reapply them after switching branches.
+  - Simply checkout a branch if you want to discard changes.
+- `Use carefully`: It’s a powerful state for temporary work or exploration but needs careful handling to avoid losing changes.
+
+##### Q. What are the Git submodules and when would you use them? How do you manage updates and synchorization for submodules?
+`Git submodules` are a feature that allows you to include and manage external repositories within a parent Git repository. They are useful for incorporating libraries, tools, or other dependencies into your project while keeping their histories and development separate.
+
+**What Are Git Submodules?**
+A Git submodule is essentially a Git repository embedded within another Git repository. When you add a submodule, Git tracks a specific commit from the submodule repository. This means the parent repository knows which version of the submodule to use.
+
+**When to Use Git Submodules?**
+- Submodules are useful in the following scenarios:
+  1. `Third-Party Libraries`: When you want to include a third-party library or dependency in your project but still need to maintain a separate version history for it.
+  2. `Shared Code`: For shared code that is used across multiple projects but needs to be managed and updated independently.
+  3. `Modular Projects`: When working on modular projects where different components are developed and maintained in separate repositories but need to be combined for the main project.
+
+**Adding a Submodule**
+To add a submodule to your repository, use the git submodule add command:
+```
+git submodule add <repository-url> [path]
+
+```
+
+- `<repository-url>`: URL of the submodule repository.
+- `[path] (optional)`: The directory where the submodule will be placed
+
+Example:
+```
+git submodule add https://github.com/example/library.git lib/library
+
+```
+
+This command will:
+
+  1. Clone the submodule repository into the specified path.
+  2. Add a new entry to the .gitmodules file, which records the submodule’s URL and path.
+  3. Stage the changes to the parent repository.
+
+**Managing Submodules**
+1. `Cloning a Repository with Submodules`
+When you clone a repository that contains submodules, the submodules are not automatically cloned. To initialize and clone submodules, use:
+
+```
+git clone <repository-url>
+cd <repository-directory>
+git submodule update --init --recursive
+
+```
+
+- `--init`: Initializes the submodules.
+- `--recursive`: Updates all nested submodules.
+
+2. `Updating Submodules`
+To fetch updates from the submodule repository and update the submodule to the latest commit on the tracked branch:
+  - `Update Submodules to Latest Commit`:
+    ```
+    git submodule update --remote
+
+    ```
+    This fetches changes from the submodule's remote repository and updates the submodule.
+
+  - `Commit the Changes`: After updating, you need to commit the changes to the submodule reference in the parent repository:
+    ```
+    git add <submodule-path>
+    git commit -m "Updated submodule to latest commit"
+
+    ```
+
+3. `Synchronizing Submodules`
+If the URL or other settings of a submodule have changed, you can synchronize the `.gitmodules` file with the submodule configuration:
+
+```
+git submodule sync
+
+```
+
+This updates the submodule configuration based on the .gitmodules file.
+
+4. `Removing a Submodule`
+  - `Deinitialize the Submodule:`
+    ```
+    git submodule deinit <submodule-path>
+
+    ```
+
+  - `Remove the Submodule Directory:`
+    ```
+    rm -rf <submodule-path>
+
+    ```
+
+  - Remove Submodule Entry from `.gitmodules:` Edit the `.gitmodules` file to remove the section related to the submodule and then delete the submodule entry:
+    ```
+    git rm --cached <submodule-path>
+
+    ``` 
+
+  - `Commit Changes:`
+    ```
+    git commit -m "Removed submodule"
+
+    ```
+
+**Summary**
+- `Git Submodules` are used to include and manage external repositories within a parent repository.
+- `Use Cases` include integrating third-party libraries, managing shared code, and modular projects.
+- `Managing Submodules` involves adding, cloning, updating, synchronizing, and removing submodules.
+
+**Commands**
+- `git submodule add` for adding.
+- `git submodule update` for updating.
+- `git submodule sync` for synchronization.
+- `git submodule deinit` for removing.
+
+##### Q. How do you handle large binaries files in a Git repository? What are some strategies or tools you might use?
+Handling large binary files in a Git repository can be challenging because Git is optimized for handling text files and source code, not large binary files. Including large binaries directly in a Git repository can lead to performance issues, increased repository size, and slower operations.
+
+1. **Git Large File Storage (LFS)**
+`Git LFS` is an extension for Git that is specifically designed to handle large files.
+  - `Installation`: You need to install Git LFS on your system.
+  
+  ```
+  git lfs install
+
+  ```
+
+  - `Track Files`: Use Git LFS to track large files by specifying patterns in `.gitattributes`.
+  
+  ```
+  git lfs track "*.psd"
+
+  ```
+
+  - `Add and Commit`: After configuring LFS tracking, add and commit files as usual.
+  
+  ```
+  git add .gitattributes
+  git add path/to/largefile
+  git commit -m "Add large file with LFS"
+
+  ```
+
+  - `Push Changes`: Push changes to the remote repository. Git LFS will handle uploading and storing large files in a separate storage system.
+  
+  ```
+  git push origin main
+
+  ```
+
+  - `Cloning and Pulling`: When cloning or pulling, Git LFS will automatically fetch the large files.
+  
+  ```
+  git clone <repository-url>
+
+  ```
+
+**Pros:**
+- Optimized for large files.
+- Keeps repository history manageable.
+- Supports versioning of large files.
+
+**Cons:**
+- Requires additional setup and configuration.
+- May incur costs if using hosted LFS services with limits.
+
+**Summary**
+1. `Git LFS`: Ideal for managing large binary files with Git. Provides seamless integration but requires setup.
+2. `Git-Annex`: Offers flexibility in managing large files with various storage backends.
+3. `External Storage`: Good for handling large files outside Git, using cloud or file hosting services.
+4. `Submodules/Subtrees`: Useful for managing large files in separate repositories.
+5. `Archiving`: Simple method for static large files, but lacks version control integration.
+
+##### Q. Disscuss the implications of Git internal storage mechanism(objects,blobs,trees and commits) on a repository performance?
+Git’s internal storage mechanism significantly impacts repository performance. Large blobs, complex trees, and extensive commit histories can all contribute to slower operations and increased disk usage. By understanding these components and employing strategies such as Git LFS, regular maintenance, and efficient history management, you can maintain optimal performance in your Git repositories.
+
+**Git Internal Storage Mechanism**
+1. `Objects`
+  - `Types of Objects`: In Git, there are four main types of objects: blobs, trees, commits, and tags.
+  - `Object Storage`: Git stores these objects in the `.git/objects` directory using a hash-based naming scheme. Each object is identified by a SHA-1 hash of its content.
+
+2. `Blobs`
+  - `What They Are`: Blobs (Binary Large Objects) store the content of files. They do not store metadata like filenames or file permissions.
+  - `Performance Implications`:
+    - `Large Files`: Storing large files as blobs can increase the size of the `.git/objects` directory, leading to longer repository operations (e.g., cloning, fetching)
+    - `Compression`: Git compresses blob data using zlib compression, which can mitigate some performance impacts but may still result in large repository sizes.
+
+3. `Trees`
+  - `What They Are`: Trees represent directory structures and contain references to blobs and other trees. They map filenames to blob IDs and define the hierarchy of the project’s files and directories.  
+  - `Performance Implications`:
+    - `Complexity`: Deeply nested directory structures or a large number of files can lead to large and complex trees. This complexity affects performance when Git needs to reconstruct directory structures or resolve references during operations.
+    - `Caching`: Git uses caching to speed up tree lookups, but very large trees can still impact performance, especially during operations like `git status` or `git diff`.
+
+4. `Commits`
+  - `What They Are`: Commits are snapshots of the project at a given point in time and contain metadata (author, date, message), a tree object representing the state of the files, and references to parent commits.
+  - `Performance Implications`
+    - `Commit History`: A long commit history or a large number of commits can make certain operations (e.g., `git log`, `git blame`) slower. Each commit must be processed to reconstruct the repository state.
+    - `Graph Complexity`: Complex commit graphs with many branches and merges can impact performance, especially during operations that involve traversing commit history.
+
+**Factors Affecting Performance**
+1. `Repository Size`
+  - `Impact`: Larger repositories with many blobs, trees, and commits take more time to clone, fetch, and perform operations. The size of the `.git` directory grows, affecting disk space and operation speed.
+  - `Management`: Regular repository maintenance (e.g., pruning, garbage collection) helps manage repository size and performance.
+ 
+2. `Disk I/O and Memory Usage`
+  - `Impact`: Operations like `git status`, `git diff`, and `git log` involve reading and processing many objects, which can be I/O and memory-intensive. Large repositories require more memory and faster disk access.
+  - `Management`: Using SSDs, optimizing file system performance, and ensuring adequate memory can mitigate performance issues.
+
+3. `Indexing and Caching`
+  - `Impact`: Git uses indexing and caching to speed up operations. However, as the repository grows, maintaining and updating these indices can become slower.
+  - `Management`: Regular maintenance commands like `git gc` (garbage collection) and `git repack` can help optimize indexing and caching.
+
+4. `Repository History and Branching`
+  - `Impact`: A large number of branches or a complex history can slow down operations that need to traverse or display the commit graph.
+  - `Management`: Keeping the branch structure clean and managing commit history through techniques like rebasing can help maintain performance.
+
+**Strategies for Performance Optimization**
+1. `Use Git LFS for Large Files`
+  - Offload large binary files to Git LFS to keep the repository size manageable and improve performance.
+
+2. `Regular Maintenance`
+  - Run `git gc` to clean up unnecessary files and optimize the local repository.
+  - Use `git repack` to optimize the storage of objects in the repository.
+
+3. `Optimize History`
+  - Use git rebase instead of git merge to keep the commit history linear and reduce complexity.
+  - Periodically review and prune old branches and commits that are no longer needed.
+
+4. `Split Large Repositories`
+  - Consider splitting very large repositories into smaller, more manageable ones if the repository becomes unwieldy.
+
+5. `Use Efficient Tools`
+  - Leverage tools and configurations that optimize performance for large repositories, such as setting up Git hooks to automate certain tasks or using efficient diff tools
+
+##### Q. Can you describe a scenario where you would use `git reflog`? How does it help in recovering lost commits?
+The `git reflog` command is invaluable for recovering lost commits and understanding recent changes in your repository. By tracking all changes to `HEAD`, it allows you to identify and restore commits that might have been lost or modified due to complex operations like rebases or resets. Whether you need to create a new branch from a lost commit or reset your current branch to a previous state, `git reflog` provides a safety net for managing and recovering your Git history.
+
+**Scenario**: Suppose you accidentally drop a commit during an interactive rebase and need to recover it.
+
+**Using git reflog**:
+  1. `View Reflog`: Run `git reflog` to see a history of recent actions in your repository. This includes all changes to the `HEAD` reference.
+  ```
+  git reflog
+
+  ```
+
+  2. `Find the Commit`: Identify the commit hash of the lost commit from the reflog output.
+
+  3. `Recover the Commit`: To recover the commit, you can either create a new branch from it or reset your current branch to that commit:
+    - `Create a New Branch`:
+      ```
+      git checkout -b recovered-branch <commit-hash>
+
+      ```
+    
+    - `Reset Current Branch`:
+      ```
+      git reset --hard <commit-hash>
+
+      ```
+
+**How `git reflog` Helps:**
+  - It tracks all changes to `HEAD`, including those that might have removed commits, allowing you to find and restore lost commits.
+
+##### Q. How do you perform a `Git bisect` to find the commit that introduced a bug?
+`Git bisect` is a powerful tool for identifying the commit that introduced a bug by performing a binary search through the commit history.
+
+**Steps to Perform `Git Bisect`**
+  1. `Start Bisecting`: Begin by initiating the bisect process. Git will automatically set up the bisect environment.
+    ```
+    git bisect start
+
+    ```
+  
+  2. `Mark the Bad Commit`: Indicate the current commit as "bad" (i.e., the one with the bug).
+    ```
+    git bisect bad
+
+    ```
+  
+  3. `Mark the Good Commit`: Specify a commit where the bug was not present (a known good state). You can use a commit hash, tag, or branch name.
+    ```
+    git bisect good <good-commit>
+
+    ```
+  
+  4. `Git Bisect Automatically Checks Out Commits`: Git will now automatically check out a commit in the middle of the range. Test this commit to see if the bug is present.
+  
+  5. `Mark Each Commit as Good or Bad`: Based on your tests:
+    - If the bug is present, mark the commit as "bad":
+      ```
+      git bisect bad
+
+      ```
+    
+    - If the bug is not present, mark the commit as "good":
+      ```
+      git bisect good
+
+      ```
+    
+    Git will continue this process, narrowing down the range of commits by checking out the midpoint of the remaining range.
+
+  6. `Identify the Culprit Commit`: When `git bisect` finds the offending commit, it will display the commit that introduced the bug. You can review this commit to understand the changes that caused the issue.
+
+  7. `End Bisect Session`: After identifying the problematic commit, end the bisect session and return to your original branch.
+    ```
+    git bisect reset
+
+    ```
+
+**Summary**: 
+`git bisect` helps find the commit that introduced a bug by performing a binary search through your commit history. You mark commits as good or bad, and Git narrows down the search to pinpoint the problematic commit.
+
 ##### Q. What is the difference between git reset & git reset --hard & git reset --soft?
 **Delete the most recent commit, keeping the work you've done**
 ```
@@ -522,11 +968,12 @@ git push
 
 ##### Q. find the length of the "string" variable in shell script?
 
-${#string}
+- ${#string}
 
 ##### Q. how to convert string value in substring?
 
 ```
+
 ${string:<index>}
 string="abcdef"
 
@@ -543,15 +990,25 @@ ef
 abc
 def
 f
+
 ```
 
 ##### Q. How to set default value for a variable if user didn't provide?
 
-name=${name:- <value>}
+- name=${name:- 'value'}
 
 ##### Q. write a script to check user passed a value or not?
 
-: ${1:?" please provide variable value "
+```
+#!/bin/bash
+
+# Check if the first positional parameter is provided
+: ${1:?"Please provide a variable value"}
+
+# If the parameter is provided, proceed with the rest of the script
+echo "You provided: $1"
+
+```
 
 ##### Q. what is the output of the script we executed as below?
 
@@ -560,56 +1017,51 @@ name=${name:- <value>}
 echo ${0}
 echo ${1}
 echo ${2}
-```
 
-##### ./test.sh test 20
+./test.sh test 20
 
 output:
-
 test.sh 
 test
-
 20
 
 ```
+
+```
+
 #!/bin/bash
 echo ${1}
 echo $1
 echo $10
 echo $11
 echo ${12}
-```
 
-##### ./test.sh 1 2 3 4 5 6 7 8 9 10 101 102
+./test.sh 1 2 3 4 5 6 7 8 9 10 101 102
 
 output:
-
 1
-
 1
-
 10
-
 11
-
 102
+
+```
 
 ```
 #!/bin/bash
 echo "my name is ${1} and my age is ${2}"
-```
 
-##### ./test.sh sawan chouksey 20
+./test.sh sawan chouksey 20
 
 output:
-
 my name is sawan and my age is chouksey
 
-##### ./test.sh "sawan chouksey" 20
+./test.sh "sawan chouksey" 20
 
 output:
-
 my name is sawan chouksey and my age is 20
+
+```
 
 ```
 #!/bin/bash
@@ -621,17 +1073,15 @@ echo $@
 
 #it will return all argument value with each value as combined single string
 echo $*
-```
 
-##### ./test.sh sawan 20 21 34 45 56
+./test.sh sawan 20 21 34 45 56
 
 output:
-
 6
-
 sawan 20 21 34 45 56
-
 sawan 20 21 34 45 56  
+
+```
 
 ```
 #!/bin/bash
@@ -640,17 +1090,15 @@ pwd="sawan"
 echo ${pwd}
 echo $(pwd)
 echo `pwd`
-```
 
-##### ./test.sh
+./test.sh
 
 output:
-
 sawan
-
+/current/working/directory
 /current/working/directory
 
-/current/working/directory
+```
 
 ```
 #!/bin/bash
@@ -664,19 +1112,16 @@ readonly pwd
 
 pwd="chouksey"
 echo ${pwd}
-```
 
-##### ./test.sh
+./test.sh
 
 output:
-
 sawan
-
 test
-
 line no: pwd: readonly variable
-
 test
+
+```
 
 ##### Q. How to deny traffic from specific IP for Aks pod?
 
@@ -780,6 +1225,7 @@ List Comprehension with condition
 ----------------------------------
 l1 = ['sawan' , 'muskan', 'srajan', 'vasu' ]
 l2 = [name.upper() for name in l1 if len(name) > 5 ]
+
 ```
 
 ##### Q. Leap years condition check?
@@ -815,18 +1261,21 @@ Connected with an extremely low-latency network, they become a building block to
 ```
 /       - root directory
 /workdir- defined in dockerfile
+
 ```
 
 ##### Q. docker exec inside conatiner with other user?
 
 ```
 docker exec -it --user sawan <container_name_or_id> /bin/bash
+
 ```
 
 ##### Q. docker exec inside container with specific directory?
 
 ```
 docker exec -w /path/to/directory <container_name_or_id> /bin/bash
+
 ```
 
 ##### Q. what is workflow for 'kubectl get pod' command?
@@ -843,6 +1292,7 @@ Docker creates a virtual network called bridge by default, and connects your con
 
 ```
 docker inspect -f '{{range.NetworkSettings.Networks}}{{.IPAddress}}{{end}}' container_name_or_id
+
 ```
 
 ##### Q. What is the difference between replicaset and daemonset?
@@ -891,6 +1341,7 @@ docker inspect -f '{{range.NetworkSettings.Networks}}{{.IPAddress}}{{end}}' cont
 
 --mount: Consists of multiple key-value pairs, separated by commas and each consisting of a <key>=<value> tuple with verbose.
 --mount 'type=volume,src=<VOLUME-NAME>,dst=<CONTAINER-PATH>,volume-driver=local,volume-opt=type=nfs'
+
 ```
 
 ##### Q. How to get list of volume in docker?
@@ -899,6 +1350,7 @@ docker inspect -f '{{range.NetworkSettings.Networks}}{{.IPAddress}}{{end}}' cont
 docker volume ls
 output:
     local               my-vol
+
 ```
 
 ##### Q. Get details of attached volume?
@@ -916,6 +1368,7 @@ output:
         "Scope": "local"
     }
 ]
+
 ```
 
 ##### Q. reverse string in Python?
@@ -936,6 +1389,7 @@ def reverse(s):
 
 s = "Comapany"
 print(reverse(s))
+
 ```
 
 ##### Q. What is the default Code Coverage Percentage defined in Default SonarCloud Quality Gate?
@@ -998,6 +1452,7 @@ The **git blame** command is used to examine the contents of a file line by line
 lst = [['1', 'A', 2, 5, 7],['2', 'B', 8, 15, 65,],['3', 'C', 32, 35, 25],['4', 'D', 82, 305],['5', 'E', 39, 43, 89, 55]]
 lst = sorted(lst, key=lambda x: x[2], reverse=True)
 print(lst)
+
 ```
 
 ##### Q. Pass mutiple docker file in build docker images?
@@ -1006,6 +1461,7 @@ print(lst)
 docker build -f wildfly.Dockerfile ./wildfly
 docker build -f mysql.Dockerfile ./mysql
 docker build -f other.Dockerfile ./other
+
 ```
 
 ##### Q. How many types of Deployment Model in AKS?
@@ -1039,6 +1495,7 @@ docker build -f other.Dockerfile ./other
 
 ```
 grep -n "sawan" file.txt
+
 ```
 
 ##### Q. How to Upgrade Kubernetes Cluster Zero Downtime?
@@ -1105,6 +1562,7 @@ kubectl cordon <node-name>
 - Drain each node it will help to delete all existing pod in node and schedule in new node.
 kubectl drain node <node-name> --force 
 - Delete the old node After successfull rollout migration of all workload. 
+
 ```
 
 ##### Q. How to upgrade Azure Kubernates Services with zero downtime process?
@@ -1141,6 +1599,7 @@ Since control-plane-only argument is not specified, this will upgrade the contro
 - check the upgrade process by events
 kubectl get events
 Remark : Upgrading Control Plane alone doesn't impact anything on application level.
+
 ```
 
 ##### Q. what is PDB(Pod disruption Budget)?
@@ -1159,6 +1618,7 @@ spec:
         matchLabels:
             run: nginx
 ---
+
 ```
 
 ##### Q. Difference between PDB and Replica?
@@ -1184,6 +1644,7 @@ UD-1        |          UD-2         |         UD-3
 VM4         |          VM5          |         VM6
 UD-4        |          UD-5         |         UD-6
 --------------------------------------------------------
+
 ```
 
 ##### Q. Autoscaling in Cloud services type and what?
@@ -1276,6 +1737,7 @@ setfacl -R -m d:g:marketing:rw acl/
 -rw to read write permission
 acl/ directory name
 setfacl -R -m user:geeko:rwx,group:mascots:rwx mydir/
+
 ```
 
 ##### Q. what is ansible ad-hoc commands?
@@ -1299,6 +1761,7 @@ dynamic "security_rule"{
     destination_port_range = security_rule.value                   //22,80,8080.8081 - ValueForEachLoop
     }
 }
+
 ```
 
 ##### Q. deploy conatiner on the basis of specific label-defined or not in AKS?
@@ -1401,6 +1864,7 @@ Azure & Kubernates Policy definition Kubernetes cluster pods should use specifie
     }
   }
 }
+
 ```
 
 ##### Q. What is managed identities used in Application gateway to communicate with Azure Key Vault?
@@ -1582,6 +2046,7 @@ kubectl apply -f postgres-sc.yaml
 kubectl apply -f postgres-vol.yaml
 kubectl apply -f postgres-app.yaml
 ---------------------------------------------------------
+
 ```
 
 ##### Q. Storage account access disabled at networking level? How to access it without any chnages in storage account with contributors role?
@@ -1706,6 +2171,7 @@ resource "aws_instance" "example" {
   }
 }
 --------------------------------------------------------------------------
+
 ```
 
 ##### Q. what is jenkins?
@@ -1734,6 +2200,7 @@ terraform import aws_instance.foo i-abcd1234
 
 The example below will import an AWS instance into the aws_instance resource named bar into a module named foo:
 terraform import module.foo.aws_instance.bar i-abcd1234
+
 ```
 
 ##### Q. what is terraform state file?
@@ -1754,6 +2221,7 @@ GitLab Runner is an application that works with GitLab CI/CD to run jobs in a pi
 ```
 terraform destroy -target=resource_type.resource_name
 terraform apply -target=resource_type.resource_name
+
 ```
 
 ##### Q. How many types of docker network in docker?
@@ -1822,6 +2290,7 @@ spec:
     - protocol: TCP
       port: 5978
 --------------------------------------------------------------------------
+
 ```
 
 ##### Q. what is ingress controller in kubernates?
@@ -1874,6 +2343,7 @@ running a node monitoring daemon on every node
   RoleBinding PersistentVolumeClaim ClusterRole ConfigMap ClusterRoleBinding Namespace Job ComponentStatus CronJob
 3.Metadata
 4.Spec
+
 ```
 
 ##### Q. How many types of VM in Azure?
@@ -1906,6 +2376,7 @@ output "secret_value" {
   sensitive = true
 }
 -------------------------------------------------------------------------------
+
 ```
 
 ##### Q. what is webhook in git?
@@ -2107,6 +2578,7 @@ else
 fi
 
 done
+
 ```
 
 ##### Q. give one use case of Azure managed identities?
@@ -2167,6 +2639,7 @@ to start and stop azure kubernates cluster.
                       It is responsible for running and downloading images in node
                       Kubernates support various CRI like docker,containers.d and others
                       Docker is default CRI in Kubernates
+
 ```
 
 ##### Q. How to authenticate terraform with azure?
@@ -2196,6 +2669,7 @@ export ARM_CLIENT_CERTIFICATE_PATH="/path/to/my/client/certificate.pfx"
 export ARM_CLIENT_CERTIFICATE_PASSWORD="Pa55w0rd123"
 export ARM_SUBSCRIPTION_ID="00000000-0000-0000-0000-000000000000"
 export ARM_TENANT_ID="00000000-0000-0000-0000-000000000000"
+
 ```
 
 ##### Q. What is Kubernetes and why it is important?
@@ -2388,6 +2862,7 @@ IMAGE          CREATED         CREATED BY                                      S
 <missing>      4 minutes ago   RUN /bin/sh -c apk add --no-cache bash # bui…   2.15MB    buildkit.dockerfile.v0
 <missing>      7 weeks ago     /bin/sh -c #(nop)  CMD ["/bin/sh"]              0B
 <missing>      7 weeks ago     /bin/sh -c #(nop) ADD file:f278386b0cef68136…   5.6MB
+
 ```
 
 ##### Q. What does the following command do "docker inspect –format ‘{{ .NetworkSettings.IPAddress }}’ hfgdh67868"?
@@ -2421,7 +2896,8 @@ NO
 “null” network driver gets activated when the container is started with
 
 ```
-$ docker run –net none …
+docker run –net none …
+
 ```
 
 The “null” here simply means that no IP address would be configured for the container. Also the container will not have any access to the external network as well as to other containers. It is generally used for running local batch tyep of jobs.
@@ -2440,6 +2916,7 @@ services:
      - db
  db:
    image: postgres
+
 ```
 
 The docker-compose up command will start and run the services in the dependency order that we specify.
@@ -2456,6 +2933,7 @@ Docker control socket is owned by docker group.
 
 ```
 root@container_1:/# exit
+
 ```
 
 Container_1 goes to stop state and all its compute resources get freed. However, it remains on the system’s disk storage.
@@ -2473,6 +2951,7 @@ This statement is false. Image is the launchable and configured unit of an appli
 ```
 We can see the logs of a container in real time using –follow option of logs command. E.g.
 $ docker logs –follow <containerid>
+
 ```
 
 ##### Q. Normal user in host machine can read files mounted by docker container with root user?
@@ -2504,6 +2983,7 @@ If the state is completely destroyed, whether intentionally or accidentally, on 
 1. Git Flow - Master-->Develop-->Support[feature + Hotfix + Release]
 2. GitHub flow - Master-->development
 3. Gitlab Flow - development-->pre-production-->production
+
 ```
 
 ##### Q. Difference between git merge and git squash merge and how does the history lists out?
@@ -2532,6 +3012,7 @@ If the state is completely destroyed, whether intentionally or accidentally, on 
           }
       }
   }
+  
   ```
 
 - Global Environment Variables:
@@ -2547,6 +3028,7 @@ If the state is completely destroyed, whether intentionally or accidentally, on 
   withCredentials([string(credentialsId: 'my-secret-credential', variable: 'SECRET_KEY')]) {
       // Access SECRET_KEY in this block
   }
+  
   ```
 
 ##### Q. How will you troubleshoot if the pipelines aren't running successfully? In an automated way?
@@ -2579,6 +3061,7 @@ $cat /proc/version
 - Linux OS version
 $cat /etc/os-release
 $lsb_release -a
+
 ```
 
 ##### Q. What is Kubernetes architecture - explain it's components?
