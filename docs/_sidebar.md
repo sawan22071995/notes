@@ -16,6 +16,7 @@
   - [karpenter+aws+eks](Cloud/karpenter+aws+eks.md)
   - [Jenkins+eks+containerd+dind+agent](Cloud/Jenkins+eks+containerd+dind+agent.md)
   - [Jenkins+eks+containerd+nerdctl+agent](Cloud/Jenkins+eks+containerd+nerdctl+agent.md)
+  - [Kubectl+Command+KubeAPIServer+NginxProxy+Private+EKS](Cloud/Expose+Internally+KubeApiServer+ProxyNginx+Aws.md)
 
 - DevOps
   - [Nginx+Install+Src+Package+HttpHeaderMoreFilterModule](DevOps/nginx-install-src-v1.26.0.md)
