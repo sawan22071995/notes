@@ -1,4 +1,45 @@
 # DevOps & Cloud & Python , Shell Scripting Programming Basic Interview Qusetions & Answers
+##### Q. How do I check the status of my Kubernetes cluster?
+Use the kubectl cluster-info command to get a summary of your cluster's status. This will show you the Kubernetes master and services endpoints. For more detailed status information about nodes, use kubectl get nodes. To check the overall health, you can also use kubectl get component statuses.
+
+##### Q. What should I do if a pod is stuck in the Pending state?
+A pod may be stuck in the Pending state due to insufficient resources or scheduling constraints. Check the pod description with kubectl describe pod `<pod-name>` to see events and reasons why it's not being scheduled. You might need to review node resources, quotas, and affinity rules.
+
+##### Q. How do I troubleshoot a pod that is stuck in the CrashLoopBackOff state?
+Pods in the CrashLoopBackOff state are repeatedly crashing. Use kubectl logs `<pod-name>` to view the logs of the pod and identify errors. Additionally, kubectl describe pod `<pod-name>` will provide details about the container's state and events that might help you understand why it is failing.
+
+##### Q. How can I investigate if a service is not exposing the pod correctly?
+Verify that the service is correctly defined and targeting the right pods by using kubectl get svc to list services and kubectl describe svc `<service-name>` to check its configuration. Ensure that the service's selectors match the labels of the pods it should route traffic to. Additionally, kubectl get endpoints `<service-name>` can show if endpoints are being correctly resolved.
+
+##### Q. What steps should I take if my deployment is not rolling out as expected?
+Check the status of the deployment with kubectl rollout status deployment/`<deployment-name>`. Review the deployment configuration with kubectl describe deployment `<deployment-name>` for any issues. Look for problems in the pods' logs and events. You may also use kubectl rollout history deployment/`<deployment-name>` to inspect previous versions and see if an earlier configuration is causing issues.
+
+##### Q. How do I resolve issues related to Kubernetes network policies?
+Network policies can restrict traffic between pods. If you suspect network policies are causing issues, review the policies using kubectl get networkpolicies and kubectl describe networkpolicy `<policy-name>`. Ensure that the policies are configured correctly and that they allow the necessary traffic between pods.
+
+##### Q. How can I debug a Kubernetes node that is not accepting new pods?
+Check the node's status with kubectl get nodes and kubectl describe node `<node-name>`. Look for issues related to resource pressure, such as memory or CPU, and review the kubelet logs on the node for errors. Ensure that the no
+
+##### Q. What should I do if kubectl commands are failing with connectivity issues?
+Ensure that your kubeconfig file is correctly configured and that the Kubernetes API server is reachable. Check the API server's status and logs if you have access. Also, verify network connectivity between your client and the API server. Use commands like kubectl cluster-info and check for any errors or warnings.
+
+##### Q. Why is my Kubernetes pod experiencing high CPU or memory usage?
+High resource usage in a pod can be due to inefficient code, memory leaks, or incorrect resource requests/limits. Use kubectl top pod `<pod-name>` to check the current resource usage of the pod. Review the pod’s resource requests and limits defined in its YAML configuration to ensure they are appropriate. Additionally, examine the application logs for signs of inefficiencies or bugs.
+
+##### Q. What should I do if a Kubernetes job fails to complete?
+Check the job’s status with kubectl describe job <job-name> to see events and conditions related to the failure. Use kubectl logs `<pod-name>` to examine the logs of the job’s pods for errors. Ensure that the job’s specifications, such as backoff limit, parallelism, and completions, are correctly configured.
+
+##### Q.  How can I address issues with Kubernetes deployment rollbacks?
+If a rollback is not working as expected, check the deployment’s history with kubectl rollout history deployment/`<deployment-name>`. Use kubectl rollout status deployment/`<deployment-name>` to monitor the status of the rollback. Ensure that the previous revision being rolled back to is correct and that any potential issues with the previous configuration or resources are resolved.
+
+##### Q. How do I resolve issues with Kubernetes ingress controllers?
+If ingress rules are not being applied or routes are not working, check the status of the ingress controller pods with kubectl get pods -n `<ingress-namespace>`. Use kubectl logs `<ingress-controller-pod>` to view the logs and identify issues. Verify that the ingress resources are correctly defined with kubectl describe ingress `<ingress-name>` and ensure that the ingress controller is properly configured and has the necessary permissions.
+
+##### Q. What steps should I take if the Kubernetes API server is unresponsive?
+If the API server is unresponsive, check the control plane components’ status and logs. For managed Kubernetes services, check the service provider’s status dashboard. 
+
+##### Q. How can I troubleshoot issues with Kubernetes ConfigMaps and Secrets?
+If applications are not reading ConfigMaps or Secrets correctly, ensure that they are correctly defined and mounted. Use kubectl get configmap `<configmap-name>` and kubectl get secret `<secret-name>` to check their contents and existence.
 ##### Q. Have you ever managed an application single-handedly?
 Yes, I have managed an application single-handedly, and it was a valuable learning experience. For instance, in a previous role, I was responsible for the end-to-end management of a web application used internally by the company. Here’s a detailed overview of how I handled it:
 
@@ -3028,9 +3069,9 @@ Step 13: Verify the health of the cluster:
 #Migration With Node Pools
 - Create all required Node pool with new version and migrate all workload one by one in new node pools.
 - Cordon all old node it will prevent from scheduling new pod in old node.
-kubectl cordon <node-name>
+kubectl cordon `<node-name>`
 - Drain each node it will help to delete all existing pod in node and schedule in new node.
-kubectl drain node <node-name> --force 
+kubectl drain node `<node-name>` --force 
 - Delete the old node After successfull rollout migration of all workload. 
 
 ```
