@@ -1,4 +1,42 @@
 # DevOps & Cloud & Python , Shell Scripting Programming Basic Interview Qusetions & Answers
+
+##### Q. How would you free up disk space on a Docker host?
+Remove unused containers with: docker container prune
+Remove unused images (dangling and unreferenced): docker image prune -a
+Remove unused volumes: docker volume prune
+Clean up unused networks: docker network prune
+If you need to reclaim space from stopped containers, old images, and other objects in one go: `docker system prune -a`
+
+##### Q. How would you troubleshoot and debug a running Docker container?
+Access the container’s shell using: `docker exec -it <container_name> /bin/`
+Check container logs using: `docker logs <container_name>`
+Inspect the container’s state with: `docker inspect <container_name>`
+
+##### Q. How would you troubleshoot and resolve network connectivity issues between Docker containers?
+Verify network configuration using: `docker network inspect <network_name>`
+Check connectivity between containers using: `docker exec -it <container_name> ping <other_container_ip_or_name>`
+If DNS resolution is failing, ensure you are using the correct container names, as Docker provides built-in DNS resolution for containers on the same network.
+
+##### Q. How would you investigate and resolve a container that continuously restarts?
+Examine the logs using: `docker logs <container_name>`
+Use the docker inspect command to check the container’s restart policy: `docker inspect <container_name> | grep RestartPolicy`
+You may need to adjust the policy to avoid endless restarts: `docker run --restart=on-failure:3 <container_image>`
+
+##### Q. What steps would you take to secure a Docker container?
+Avoid running applications as root inside the container. In the Dockerfile, create a non-root user and set it: `RUN useradd -ms /bin/ myuser && USER myuser`
+Enable user namespaces to map container users to different users on the host.
+Only expose the necessary ports and limit external access with firewall rules. You can also use Docker’s bridge network mode for isolation.
+
+##### Q. How would you roll back to a previous Docker image version?
+If you tagged the previous image version properly, you can start the container with the old version: `docker run -d my_image:previous_version`
+If the old image is still present on the system, you can list all available images and their tags using: `docker images`
+Then, run the older version using its image ID: `docker run -d <image_id>`
+
+##### Q. How would you force stop a Docker container that refuses to stop?
+Attempt a graceful stop: `docker stop <container_name>`
+If the container does not stop after the default timeout, you can forcibly kill it using: `docker kill <container_name>`
+If the issue persists and the container is unresponsive, you can investigate deeper using docker inspect to see if there are resource constraints or issues with the container’s process. Additionally, check the system's logs for any low-level kernel issues that may be affecting Docker.
+
 ##### Q. How do I check the status of my Kubernetes cluster?
 Use the kubectl cluster-info command to get a summary of your cluster's status. This will show you the Kubernetes master and services endpoints. For more detailed status information about nodes, use kubectl get nodes. To check the overall health, you can also use kubectl get component statuses.
 
