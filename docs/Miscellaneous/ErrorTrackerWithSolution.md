@@ -569,9 +569,7 @@ When you switch to `enforcing` mode, SELinux may block certain actions if the po
 6. **Policy Management**: Adjust and create policies as needed to accommodate your system’s requirements.
 7. **Monitoring**: Continuously check logs and system behavior after switching to `enforcing` mode.
 
-By following these steps, you enable SELinux in enforcing mode and ensure that your system’s security policies are applied correctly.
-
-Migrating SELinux from `disabled` to `enforcing` mode brings significant security enhancements by applying mandatory access controls. However, it requires careful management of policies and configurations to ensure that all services and applications continue to function correctly. The migration process involves:
+By following these steps, you enable SELinux in enforcing mode and ensure that your system’s security policies are applied correctly. Migrating SELinux from `disabled` to `enforcing` mode brings significant security enhancements by applying mandatory access controls. However, it requires careful management of policies and configurations to ensure that all services and applications continue to function correctly. The migration process involves:
 
 
 
