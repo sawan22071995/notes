@@ -408,43 +408,43 @@ sudo grep nginx /var/log/audit/audit.log
 
 Migrating SELinux from `disabled` to `enforcing` mode introduces a set of security controls that can significantly impact how services and applications interact with the system. Here’s a detailed overview of the potential impacts and considerations:
 
-### 1. **Enforcement of Security Policies**
+1. **Enforcement of Security Policies**
 
 - **Mandatory Access Controls**: SELinux enforces mandatory access controls (MAC) that restrict how processes interact with files, directories, and other processes. Unlike discretionary access control (DAC), which is based on user permissions, MAC policies are enforced at a system level regardless of user permissions.
 
 - **Access Denials**: Any operation that doesn’t conform to the SELinux policy will be denied. This can affect file access, network communication, and process interactions.
 
-### 2. **Service and Application Behavior**
+2. **Service and Application Behavior**
 
 - **Application Failures**: Services and applications may fail to start or operate correctly if their actions are blocked by SELinux policies. For example, if a web server tries to write to a directory that isn’t allowed by the policy, it will fail.
 
 - **Increased Security**: The primary benefit is increased security. SELinux policies help to limit the impact of vulnerabilities by restricting what compromised processes can do. For instance, even if an attacker exploits a vulnerability in a web server, SELinux can prevent it from accessing sensitive files or other parts of the system.
 
-### 3. **Impact on System Operations**
+3. **Impact on System Operations**
 
 - **File and Directory Access**: SELinux policies define which files and directories can be accessed by which processes. You may need to adjust file contexts to ensure that services have the correct permissions.
 
 - **Port Access**: SELinux controls which network ports services can use. If you’re running services on non-standard ports, you’ll need to update SELinux policies to allow traffic on these ports.
 
-### 4. **Logging and Troubleshooting**
+4. **Logging and Troubleshooting**
 
 - **Audit Logs**: SELinux generates audit logs for denied operations. These logs can be found in `/var/log/audit/audit.log` and are crucial for diagnosing issues related to policy enforcement.
 
 - **Policy Management**: You may need to create or modify SELinux policies to ensure that all applications and services function correctly. Tools like `audit2allow` can help generate custom policies based on logged denials.
 
-### 5. **Configuration Adjustments**
+5. **Configuration Adjustments**
 
 - **File Contexts**: Ensure that files and directories have the correct SELinux contexts. Use `semanage fcontext` and `restorecon` to set and apply contexts.
 
 - **Policy Customization**: Depending on your system’s needs, you might need to customize SELinux policies. This involves using `semanage` to add or modify policies for ports, file contexts, and services.
 
-### 6. **Testing and Validation**
+6. **Testing and Validation**
 
 - **Testing Services**: Before migrating to `enforcing` mode, test all critical services to ensure they work as expected. Temporarily switch to `permissive` mode to identify and resolve any issues.
 
 - **Validation**: After switching to `enforcing`, continuously monitor system logs and service behavior to ensure that everything is functioning correctly and that no unintended access denials are occurring.
 
-### 7. **Steps to Migrate from Disabled to Enforcing**
+7. **Steps to Migrate from Disabled to Enforcing**
 
 1. **Review Current System State**: Check which services and applications are running and their current access patterns.
    
@@ -466,9 +466,9 @@ Migrating SELinux from `disabled` to `enforcing` mode introduces a set of securi
 
 To update SELinux from `disabled` to `enforcing`, you'll need to modify the `/etc/selinux/config` file and then reboot your system to apply the changes. Here’s a step-by-step guide:
 
-### **Step-by-Step Process**
+##### **Step-by-Step Process**
 
-#### 1. **Edit the SELinux Configuration File**
+**Edit the SELinux Configuration File**
 
 1. **Open the Configuration File**:
 
@@ -501,7 +501,7 @@ To update SELinux from `disabled` to `enforcing`, you'll need to modify the `/et
    - In `nano`, press `Ctrl+X`, then `Y`, and `Enter` to save the changes.
    - In `vim`, press `Esc`, then type `:wq`, and press `Enter`.
 
-#### 2. **Reboot the System**
+**Reboot the System**
 
 To apply the changes, reboot your system:
 
@@ -509,7 +509,7 @@ To apply the changes, reboot your system:
 sudo reboot
 ```
 
-#### 3. **Verify SELinux Status**
+3. **Verify SELinux Status**
 
 After rebooting, check the status of SELinux to confirm that it is now in enforcing mode:
 
@@ -530,7 +530,7 @@ Policy version:                 34
 Policy from config file:        targeted
 ```
 
-### **Address Potential Issues**
+##### **Address Potential Issues**
 
 When you switch to `enforcing` mode, SELinux may block certain actions if the policies are not correctly configured. Here’s how to handle potential issues:
 
@@ -559,7 +559,7 @@ When you switch to `enforcing` mode, SELinux may block certain actions if the po
 4. **Monitor Services and Applications**:
    Check that all services and applications are functioning correctly and adjust policies as necessary.
 
-### **Summary**
+##### **Summary**
 
 1. **Edit `/etc/selinux/config`** to set `SELINUX=enforcing`.
 2. **Reboot the System** to apply the change.
