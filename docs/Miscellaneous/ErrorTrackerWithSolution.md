@@ -1,6 +1,6 @@
 # Here you will get most of the Error with solution what we faced daily day to day life as a Cloud or devOps Engineer
 
-### 1. Error
+## Error
 
 *Error syncing load balancer: failed to ensure load balancer: Multiple untagged security groups found for instance
 i-0580321e00235d0f9: ensure the k88 security group is tagged*
@@ -42,7 +42,7 @@ All `secuirty group` must have tag if different `secuirty group` used in both ek
 "Key": "kubernetes.io/cluster/<Cluster-Name> ","Value": "owned"
 ```
 
-### 2. Error
+## Error
 
 Error: PythonPipBuilder:ResolveDependencies - {simplejson==3.17.2(sdist), pydantic-core==2.4.0(wheel), awslambdaric==2.0.7(wheel)}
 
@@ -99,7 +99,7 @@ Outputs:
     Value: !GetAtt axawscerebrodevknowledgebasefunction.Arn
 ```
 
-### 3. Error
+## 3. Error
 
 Error: Failed to create changeset for the stack: axaws-cerebro-dev-knowledgebase-function, ex: Waiter ChangeSetCreateComplete failed: Waiter encountered a terminal failure state: For expression "Status" we matched expected path: "FAILED" Status: FAILED. Reason: User: arn:aws:sts::516638134243:assumed-role/axaws-cerebro-jenkins-dev-crossaccount-role/xactarget is not authorized to perform: cloudformation:CreateChangeSet on resource: arn:aws:cloudformation:ap-south-1:aws:transform/Serverless-2016-10-31 because no identity-based policy allows the cloudformation:CreateChangeSet action
 
@@ -127,7 +127,7 @@ We need to add policy in IAM Role
 
 [Controlling access with AWS Identity and Access Management - AWS CloudFormation](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-iam-template.html)
 
-### 4. Error
+## Error
 
 We are facing `slightly delay` in getting `response` from API request around `120 seconds` in `Intermittent connection` specially whenever try to connect after first attempt.
 
@@ -168,7 +168,7 @@ We are using `nginx load Balancer as proxy server in ec2 instance`, `Istio servi
   
   [Troubleshoot your Network Load Balancer - Elastic Load Balancing](https://docs.aws.amazon.com/elasticloadbalancing/latest/network/load-balancer-troubleshooting.html)  
 
-### 5. Error
+## Error
 
 Error: 
 
@@ -243,7 +243,7 @@ We are using `EKS for application deployment` and `Istio for Service Mesh` for i
    Description: Allow Intercommunication between nodes 
    ```
 
-### 6. Error
+## Error
 
 cache: timed out waiting for the condition
   Warning  Failed            23m                  kubelet             Failed to pull image "artifactory.axisb.com/thanos-docker-local/istio/proxyv2:1.20.0": rpc error: code = Unknown desc = failed to pull and unpack image "artifactory.axisb.com/thanos-docker-local/istio/proxyv2:1.20.0": failed to extract layer sha256:256d88da41857db513b95b50ba9a9b28491b58c954e25477d5dad8abb465430b: failed to unmount /var/lib/containerd/tmpmounts/containerd-mount2008772348: failed to unmount target /var/lib/containerd/tmpmounts/containerd-mount2008772348: device or resource busy: unknown
@@ -286,7 +286,7 @@ systemctl disable sisipsutildaemon;
 ps -ef | grep -i sdcs;
 ```
 
-### 7. Error
+## Error
 
 docker error "error:0A000086:SSL routines:tls_post_process_server_certificate:certificate verify failed:ssl/statem/statem_clnt.c:1889" in dockerfile while downloading installing packages
 
@@ -303,7 +303,7 @@ RUN apk add --no-cache \
 RUN update-ca-certificates
 ```
 
-### 8. Error
+## Error
 
 failed to get cpu utilization: unable to get metrics for resource cpu: unable to fetch metrics from resource metrics API: the server could not find the requested resource (get pods.metrics.k8s.io)
 
@@ -371,3 +371,210 @@ This error typically occurs when the Metrics Server is not properly installed or
   kubectl get hpa -n uat-app | grep app-test
   app-test               Deployment/app-test              3%/70%, 23%/70%   1         3         1          142d
   ```
+
+## Error
+Failed to connect to the host via ssh: ssh: connect to host 10.2.3.4 port 12323: Connection refused.
+Unable to start service nginx: Job for nginx.service failed. See "systemctl status nginx.service" and "journalctl -xe" for details.
+
+##### Explaination:
+We have ec2 instance linux with `Nginx Service` AWS security group in place and also accessing server from ssh port `12323`. In secuirty fix we recently change `Selinux from Disabled to Enforce`.
+##### Solution:
+Yes, changing SELinux to enforcing mode can impact SSH operations, especially if there are specific SELinux policies that are not aligned with your SSH configuration. SELinux enforces security policies that can restrict which ports and services can be used, and it may block connections on non-standard ports if those ports are not explicitly allowed by the policy.
+
+By default, SELinux is configured to allow SSH on port 22. If you’re using a non-standard port like 12323, you need to update the SELinux policy to allow SSH traffic on that port.
+
+- To check if the port is allowed:
+
+```
+sudo semanage port -l | grep ssh
+
+```
+
+- To add a new port to the SELinux policy
+
+```
+sudo semanage port -a -t ssh_port_t -p tcp 12323
+
+```
+
+- Check logs for troubleshooting
+
+```
+sudo grep "denied" /var/log/audit/audit.log
+sudo semodule -i mynginxpolicy.pp
+sudo grep nginx /var/log/audit/audit.log
+
+```
+
+Migrating SELinux from `disabled` to `enforcing` mode introduces a set of security controls that can significantly impact how services and applications interact with the system. Here’s a detailed overview of the potential impacts and considerations:
+
+### 1. **Enforcement of Security Policies**
+
+- **Mandatory Access Controls**: SELinux enforces mandatory access controls (MAC) that restrict how processes interact with files, directories, and other processes. Unlike discretionary access control (DAC), which is based on user permissions, MAC policies are enforced at a system level regardless of user permissions.
+
+- **Access Denials**: Any operation that doesn’t conform to the SELinux policy will be denied. This can affect file access, network communication, and process interactions.
+
+### 2. **Service and Application Behavior**
+
+- **Application Failures**: Services and applications may fail to start or operate correctly if their actions are blocked by SELinux policies. For example, if a web server tries to write to a directory that isn’t allowed by the policy, it will fail.
+
+- **Increased Security**: The primary benefit is increased security. SELinux policies help to limit the impact of vulnerabilities by restricting what compromised processes can do. For instance, even if an attacker exploits a vulnerability in a web server, SELinux can prevent it from accessing sensitive files or other parts of the system.
+
+### 3. **Impact on System Operations**
+
+- **File and Directory Access**: SELinux policies define which files and directories can be accessed by which processes. You may need to adjust file contexts to ensure that services have the correct permissions.
+
+- **Port Access**: SELinux controls which network ports services can use. If you’re running services on non-standard ports, you’ll need to update SELinux policies to allow traffic on these ports.
+
+### 4. **Logging and Troubleshooting**
+
+- **Audit Logs**: SELinux generates audit logs for denied operations. These logs can be found in `/var/log/audit/audit.log` and are crucial for diagnosing issues related to policy enforcement.
+
+- **Policy Management**: You may need to create or modify SELinux policies to ensure that all applications and services function correctly. Tools like `audit2allow` can help generate custom policies based on logged denials.
+
+### 5. **Configuration Adjustments**
+
+- **File Contexts**: Ensure that files and directories have the correct SELinux contexts. Use `semanage fcontext` and `restorecon` to set and apply contexts.
+
+- **Policy Customization**: Depending on your system’s needs, you might need to customize SELinux policies. This involves using `semanage` to add or modify policies for ports, file contexts, and services.
+
+### 6. **Testing and Validation**
+
+- **Testing Services**: Before migrating to `enforcing` mode, test all critical services to ensure they work as expected. Temporarily switch to `permissive` mode to identify and resolve any issues.
+
+- **Validation**: After switching to `enforcing`, continuously monitor system logs and service behavior to ensure that everything is functioning correctly and that no unintended access denials are occurring.
+
+### 7. **Steps to Migrate from Disabled to Enforcing**
+
+1. **Review Current System State**: Check which services and applications are running and their current access patterns.
+   
+2. **Switch to Permissive Mode**: Temporarily switch SELinux to `permissive` mode to identify and address policy denials without blocking actions.
+   ```bash
+   sudo setenforce 0
+   ```
+   
+3. **Address Denials**: Review audit logs and adjust policies as needed. Use `audit2allow` to generate custom policies.
+   
+4. **Apply Policies**: Use `semanage` to add necessary rules for ports, file contexts, and other configurations.
+   
+5. **Switch to Enforcing Mode**: Once adjustments are made, switch SELinux to `enforcing` mode.
+   ```bash
+   sudo setenforce 1
+   ```
+
+6. **Monitor and Adjust**: Continuously monitor logs and system behavior, and adjust policies as necessary.
+
+To update SELinux from `disabled` to `enforcing`, you'll need to modify the `/etc/selinux/config` file and then reboot your system to apply the changes. Here’s a step-by-step guide:
+
+### **Step-by-Step Process**
+
+#### 1. **Edit the SELinux Configuration File**
+
+1. **Open the Configuration File**:
+
+   Use a text editor to open the SELinux configuration file. You can use `nano`, `vim`, or any other text editor you prefer.
+
+   ```bash
+   sudo nano /etc/selinux/config
+   ```
+
+2. **Update the SELINUX Setting**:
+
+   Locate the line that starts with `SELINUX=`. It will likely be set to `disabled` if you're currently not using SELinux. Change it to `enforcing` to enable SELinux in enforcing mode.
+
+   ```plaintext
+   SELINUX=enforcing
+   ```
+
+   The file should look something like this after the change:
+
+   ```plaintext
+   SELINUX=enforcing
+   SELINUXTYPE=default
+   ```
+
+   - `SELINUX=enforcing` enables SELinux in enforcing mode.
+   - `SELINUXTYPE=default` sets the policy type. You can leave it as `default` unless you need a different policy.
+
+3. **Save the File**:
+
+   - In `nano`, press `Ctrl+X`, then `Y`, and `Enter` to save the changes.
+   - In `vim`, press `Esc`, then type `:wq`, and press `Enter`.
+
+#### 2. **Reboot the System**
+
+To apply the changes, reboot your system:
+
+```bash
+sudo reboot
+```
+
+#### 3. **Verify SELinux Status**
+
+After rebooting, check the status of SELinux to confirm that it is now in enforcing mode:
+
+```bash
+sestatus
+```
+
+You should see something like this:
+
+```plaintext
+SELinux status:                 enabled
+SELinuxfs mount:                /selinux
+SELinux root directory:         /etc/selinux
+Loaded policy name:             targeted
+Current mode:                   enforcing
+Mode from config file:          enforcing
+Policy version:                 34
+Policy from config file:        targeted
+```
+
+### **Address Potential Issues**
+
+When you switch to `enforcing` mode, SELinux may block certain actions if the policies are not correctly configured. Here’s how to handle potential issues:
+
+1. **Review SELinux Logs**:
+   Check the audit logs for any denials or issues that arise after enabling SELinux.
+
+   ```bash
+   sudo grep "denied" /var/log/audit/audit.log
+   ```
+
+2. **Create and Apply Custom Policies**:
+   Use `audit2allow` to generate policies based on logged denials and apply them.
+
+   ```bash
+   sudo grep "denied" /var/log/audit/audit.log | audit2allow -M mycustompolicy
+   sudo semodule -i mycustompolicy.pp
+   ```
+
+3. **Verify and Adjust File Contexts**:
+   Ensure that the correct SELinux contexts are applied to files and directories. Use `restorecon` to apply default contexts.
+
+   ```bash
+   sudo restorecon -R /path/to/directory
+   ```
+
+4. **Monitor Services and Applications**:
+   Check that all services and applications are functioning correctly and adjust policies as necessary.
+
+### **Summary**
+
+1. **Edit `/etc/selinux/config`** to set `SELINUX=enforcing`.
+2. **Reboot the System** to apply the change.
+3. **Verify SELinux Status** with `sestatus`.
+4. **Address Issues** by reviewing logs, creating custom policies, and ensuring correct file contexts.
+5. **Testing**: Validate services and applications in `permissive` mode before enforcing.
+6. **Policy Management**: Adjust and create policies as needed to accommodate your system’s requirements.
+7. **Monitoring**: Continuously check logs and system behavior after switching to `enforcing` mode.
+
+By following these steps, you enable SELinux in enforcing mode and ensure that your system’s security policies are applied correctly.
+
+Migrating SELinux from `disabled` to `enforcing` mode brings significant security enhancements by applying mandatory access controls. However, it requires careful management of policies and configurations to ensure that all services and applications continue to function correctly. The migration process involves:
+
+
+
+
+
+
