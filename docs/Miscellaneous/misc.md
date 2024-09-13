@@ -1,8 +1,12 @@
+### Linux File Permissions Cheat Sheet
+
+![Linux Cheat Sheet](https://github.com/sawan22071995/notes/blob/main/docs/Miscellaneous/media.jfif?raw=true)
+
 ### Cloud Services Offering Comparing Chart
 
 ![Cloud Compare](https://github.com/sawan22071995/notes/blob/main/docs/Miscellaneous/cloudComapre.png?raw=true)
 
-## Select Database service with different cloud provider
+### Select Database service with different cloud provider
 
 ![Cloud Database](https://github.com/sawan22071995/notes/blob/main/docs/Miscellaneous/cloudDbChoose.jpg?raw=true)
 
