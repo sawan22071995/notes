@@ -2,8 +2,70 @@
 
 ## Error
 
-*Error syncing load balancer: failed to ensure load balancer: Multiple untagged security groups found for instance
-i-0580321e00235d0f9: ensure the k88 security group is tagged*
+```
+kubectl logs <karpenter controller pod> -n karpenter
+```
+
+Error conditions:
+    - lastTransitionTime: "2024-10-11T12:15:20Z"
+      message: Failed to resolve security groups
+      reason: NodeClassNotReady
+      status: "False"
+      type: Ready
+
+##### Explaination:
+We Are facing issue after implementing `Karpenter` in AWS eks. All pods are always in pending state and not scheduling. Because `karpenter` not able to increase or create new node in eks.
+
+##### Solution:
+
+1. Check `ec2NodeClass` for `karpenter` and check tags are assigned correctly or not.
+
+```
+k get ec2nodeclass default -o yaml
+```
+
+2. check `securityGroup` and `subnet` have tagged listed as mentioned in `ec2NodeClass`. check spelling etc.
+
+3. So we found there is tag mismatch in `security group` So update the tags in `ec2NodeClass` configuration and re-apply yaml file for it.
+
+```
+securityGroupSelectorTerms:
+    securityGroupSelectorTerms:
+    - tags:
+        karpenter.sh/discovery: testeksName
+    subnetSelectorTerms:
+    - tags:
+        karpenter.sh/discovery: testeksName
+```
+
+```
+kuebctl apply -f ec2NodeClass.yaml
+```
+
+4. Now please rollout restart the `karpenter` deployment.
+
+```
+kubectl rollout restart deploy karpenter -n karpenter
+```
+
+5. Check the configuration again and monitor it with scaling application
+
+```
+kubectl logs <karpenter controller pod> -n karpenter
+```
+
+```
+conditions:
+    - lastTransitionTime: "2024-10-14T06:08:10Z"
+      message: ""
+      reason: Ready
+      status: "True"
+      type: Ready
+```
+## Error
+
+Error syncing load balancer: failed to ensure load balancer: Multiple untagged security groups found for instance
+i-0580321e00235d0f9: ensure the k88 security group is tagged
 
 ##### Explaination:
 
