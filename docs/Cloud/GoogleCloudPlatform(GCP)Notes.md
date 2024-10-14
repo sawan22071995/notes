@@ -1208,6 +1208,18 @@ https://github.com/kubernetes/ingress-nginx/blob/main/docs/user-guide/nginx-conf
 kubectl logs --tail=50 <pod_name>
 ```
 
+### Logs explorere load balancer logs check query
+
+```
+resource.type="http_load_balancer"
+resource.labels.forwarding_rule_name="k8s2-fs-xvv-test-ingress-route-kx8tb"
+resource.labels.url_map_name="k8s2-um-xvv3k-test-uat-ingress-route-6u8tb"
+severity>=WARNING
+httpRequest.status=502 OR
+httpRequest.status=500 OR
+httpRequest.status=403
+```
+
 ### install telnet in alpind linux docker images
 
 ```
