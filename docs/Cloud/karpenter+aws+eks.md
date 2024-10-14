@@ -287,6 +287,84 @@ If you delete a node with kubectl, Karpenter will gracefully cordon, drain, and 
 kubectl delete node $NODE_NAME
 ```
 
+Certainly! Here's an updated documentation that includes information about using custom tags in Karpenter configurations:
+
+---
+
+### Karpenter Node Pool Configuration Documentation
+
+#### Overview
+
+Karpenter is a Kubernetes cluster autoscaler that provisions nodes based on the requirements of unschedulable pods. Node provisioning can be customized using selectors, allowing you to specify which security groups and subnets to use based on tags.
+
+#### Configuration Breakdown
+
+1. **securityGroupSelectorTerms**:
+   - Specifies the security groups used for the nodes based on tags. 
+
+2. **subnetSelectorTerms**:
+   - Defines which subnets to use for provisioning nodes, also based on tags.
+
+#### Example Node Pool Configuration
+
+```yaml
+apiVersion: karpenter.sh/v1alpha5
+kind: Provisioner
+metadata:
+  name: example-provisioner
+spec:
+  limits:
+    resources:
+      requests:
+        cpu: "1000m"   # Total CPU requested across the nodes
+      limits:
+        cpu: "2000m"    # Total CPU limit across the nodes
+  provider:
+    subnetSelectorTerms:
+      - tags:
+          karpenter.sh/discovery1: karpenter-test
+    securityGroupSelectorTerms:
+      - tags:
+          karpenter.sh/discovery1: karpenter-test
+  requirements:
+    - key: "karpenter.sh/capacity-type"
+      operator: In
+      values: ["on-demand", "spot"]
+```
+
+#### Tagging Guidelines
+
+- **Tag Format**: While the example uses a specific format (e.g., `karpenter.sh/discovery1`), it is not strictly necessary to adhere to this format. You can use custom tags that fit your organization’s naming conventions.
+  
+- **Custom Tags**: You can define your own tags for `subnetSelectorTerms` and `securityGroupSelectorTerms`. Just ensure that the tags you specify exist on your AWS resources (like subnets and security groups). For example:
+
+  ```yaml
+  subnetSelectorTerms:
+    - tags:
+        custom-tag: MyCustomValue
+  securityGroupSelectorTerms:
+    - tags:
+        custom-tag: MyCustomValue
+  ```
+
+#### Working Mechanism
+
+1. **Discovery**: Karpenter checks the specified tags to discover appropriate resources.
+2. **Provisioning**: It provisions nodes using the filtered security groups and subnets based on the defined tags.
+3. **Node Creation**: Nodes are created in the selected subnets with the corresponding security groups.
+
+#### Monitoring and Troubleshooting
+
+- **Check Events**: Use `kubectl get events` to monitor Karpenter events.
+- **Pod Status**: Check the status of unschedulable pods to determine provisioning needs.
+- **Logs**: Review Karpenter logs for detailed information:
+
+  ```bash
+  kubectl logs -l app=karpenter -n karpenter
+  ```
+
+- Karpenter provides a flexible way to manage node provisioning using both predefined and custom tags. This allows you to tailor the autoscaling capabilities to meet your specific infrastructure and application requirements.
+
 ### References
 
 [Getting Started with Karpenter | Karpenter](https://karpenter.sh/docs/getting-started/getting-started-with-karpenter/)
