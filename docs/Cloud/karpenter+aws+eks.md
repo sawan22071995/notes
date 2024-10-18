@@ -369,6 +369,8 @@ spec:
 
 [Getting Started with Karpenter | Karpenter](https://karpenter.sh/docs/getting-started/getting-started-with-karpenter/)
 
+[NodePools Configuration](https://karpenter.sh/docs/concepts/nodepools/)
+
 [Karpenter - EKS Best Practices Guides](https://aws.github.io/aws-eks-best-practices/karpenter/)
 
 https://aws.plainenglish.io/how-to-setup-karpenter-in-the-eks-cluster-3c8e285733f6
