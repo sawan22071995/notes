@@ -804,7 +804,174 @@
    - If you need to frequently modify the array (i.e., insertions, deletions), consider using Python lists or other data structures like `deque` from the `collections` module, as they offer more flexible operations compared to the `array` module.
 
 10. **Create Two Dimensional Array**
+    
+    2-D arrays are useful for organizing data in a structured way, especially when dealing with matrices or grids. Here are some key reasons why we need them:
+    
+    1. **Matrix Representation**: They are ideal for mathematical operations on matrices, which are fundamental in fields like physics, engineering, and computer graphics.
+    
+    2. **Grid Structures**: 2-D arrays can represent grid-like structures, such as game boards, maps, and pixel data in images.
+    
+    3. **Data Organization**: They allow for efficient storage and manipulation of related data. For example, you can store student grades in rows and columns, where each row represents a student and each column represents a subject.
+    
+    4. **Easy Access**: You can easily access and modify data using two indices (row and column), which can make algorithms simpler and more intuitive.
+    
+    5. **Enhanced Algorithms**: Many algorithms, such as those for sorting or searching, can be optimized when data is organized in a 2-D format.
+    
+    6. **When we create an Array,we**:
+       
+       - Assign it to a variable
+       - Define the type of Element it will store
+       - Define the size(the maximum number of elements)
 
+11. **Insertion in 2D array**
+    
+    1. **Column insertion**
+    - ![Insert Column](https://github.com/sawan22071995/notes/blob/main/docs/DS&AlgoPython/insertionCloumn2dArray.png?raw=true)
+    2. **Row insertion**
+    - ![Insert Column](https://github.com/sawan22071995/notes/blob/main/docs/DS&AlgoPython/insertionRow2dArray.png?raw=true)
+    3. ```python
+       #axis=0 for insertion in Row at 1st row where `1` is row index
+       newTwoDArray = np.append(twoDArray, 1, [[1,2,3,4]], axis=0) 
+       #axis=0 for insertion in column 2nd column where `2` is column index
+       newTwoDArray = np.append(twoDArray, 2, [[5,4,6,7]], axis=1) 
+       ```
+
+12. **Accessing Element in 2D array**
+    
+    - ![Access Element in 2D array](https://github.com/sawan22071995/notes/blob/main/docs/DS&AlgoPython/accessElement2dArray.png?raw=true)
+    1. **Column length**
+    - ```
+      len(array)
+      ```
+    2. **Row length**
+    - ```
+      len(array[0])
+      ```
+    3. ```python
+       # 2d array row and column length
+       if rowIndex >= len(array) and colIndex >= len(array[0]): 
+        print('Incorrect Index')
+       else:
+        print(array[rowIndex][colIndex])
+       ```
+
+13. **Traversing Element in 2D Array**
+    
+    - ```python
+      for i in range(len(array)): #for rows
+        for j in range(len(array[0])): #for coloumn
+            print(array[i][j])
+      ```
+
+14. **Searching Element in 2D Array**
+    
+    - ```python
+      for i in range(len(array)):
+        for j in range(len(array[0])):
+            if array[i][j] == value:
+                return 'The value is located index '+str(i)+" "+str(j)
+      return 'The element no found'
+      ```
+
+15. **Deletion Element in 2D Array**
+    
+    - ```python
+      #for coloumn deletion
+      newTDArray = np.delete(twoDArray, 1, axis=1) 
+      #for row deletion
+      newTDArray = np.delete(twoDArray, 0, axis=0)
+      ```
+
+16. **Time and Space Complexity of 2D Array**
+    
+    - ![Complexity in 2D array](https://github.com/sawan22071995/notes/blob/main/docs/DS&AlgoPython/timeSpace2dArray.png?raw=true)
+
+17. **When to use/avoid Array**
+
+Using arrays can be beneficial, but there are specific scenarios where they're most appropriate and others where you might want to avoid them.
+
+- **When to Use Arrays:**
+  
+  1. **Fixed Size Data**: When you know the number of elements in advance and it won't change.
+  2. **Performance**: Arrays offer fast access (O(1) time complexity) for reading and writing elements.
+  3. **Simple Data Structures**: When working with simple, homogeneous data types (e.g., a list of integers).
+  4. **Multidimensional Data**: For matrices or grids, arrays can efficiently represent data in multiple dimensions.
+
+- **When to Avoid Arrays:**
+  
+  1. **Dynamic Size**: If the number of elements can change frequently, consider using lists or other dynamic data structures.
+  2. **Heterogeneous Data**: If you need to store different data types, consider using objects, dictionaries, or other collections.
+  3. **Complex Operations**: If you require frequent insertions or deletions, especially in the middle of the array, linked lists or other data structures may be more efficient.
+  4. **Memory Overhead**: In languages with fixed-size arrays, large unused spaces can lead to wasted memory.
+18. **A brief comparison between lists and arrays**:
+    
+    - **Arrays**:
+    
+    - **Fixed Size**: Typically have a fixed size that is determined at creation.
+    
+    - **Homogeneous Data**: Usually store elements of the same data type.
+    
+    - **Memory Efficiency**: Allocate contiguous memory, which can lead to better performance.
+    
+    - **Language Dependency**: Behavior varies by programming language (e.g., C arrays vs. Python lists).
+    
+    - **Lists**:
+    
+    - **Dynamic Size**: Can grow or shrink in size as needed.
+    
+    - **Heterogeneous Data**: Can store elements of different data types (in languages like Python).
+    
+    - **More Features**: Often come with built-in methods for operations like appending, inserting, or removing elements.
+    
+    - **Performance**: Accessing elements may be slightly slower than arrays due to additional overhead.
+
+19. **Time and Space Complexity of Lists**
+    
+    - ![Complexity in 2D array](https://github.com/sawan22071995/notes/blob/main/docs/DS&AlgoPython/timeSpaceComplexityList.png?raw=true)
+
+20. **List Comprehension & Conditional List Comprehensions**
+    
+    1. **List Comprehension**
+    - List comprehension is a concise way to create lists in Python. It allows you to generate a new list by applying an expression to each item in an iterable (like a list or range) and can also include optional conditions.
+      
+      **Basic Syntax:**
+      
+      ```python
+      new_list = [expression for item in iterable]
+      ```
+      
+      **Example:**
+      
+      ```python
+      squared_numbers = [x**2 for x in range(10)]
+      # Output: [0, 1, 4, 9, 16, 25, 36, 49, 64, 81]
+      ```
+    2. **Conditional List Comprehension**
+    - Conditional list comprehension adds a condition to filter items from the iterable. Only items that meet the condition will be included in the new list.
+      
+      **Syntax:**
+      
+      ```python
+      new_list = [expression for item in iterable if condition]
+      ```
+      
+      **Example:**
+      
+      ```python
+      even_squared_numbers = [x**2 for x in range(10) if x % 2 == 0]
+      # Output: [0, 4, 16, 36, 64]
+      ```
+    
+    - **Summary**
+    
+    - **List Comprehension**: A compact way to create lists.
+    
+    - **Conditional List Comprehension**: Adds filtering based on a condition to include only specific items.
+
+### Summary:
+
+- Use **arrays** for fixed-size, homogeneous data where performance is critical.
+- Use **lists** for dynamic, flexible data storage with more built-in functionalities.
 
 ### Support Me
 
