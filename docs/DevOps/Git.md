@@ -206,6 +206,24 @@ git config --global user.email "1820387@tcs.com"
 git config --global http.sslVerify true
 ```
 
+### Git Large File storage(lfs) use
+
+```
+git clone "repoUrl"
+
+git lfs install
+
+git lfs track *.exe(large file format)
+
+git lfs push --all origin push
+
+git add .
+
+git commit -m "upload large files"
+
+git push -u origin push
+```
+
 ### Git Branching Strategy
 
 ![Example Git Branching Diagram](https://user-images.githubusercontent.com/1256329/117236177-33599100-adf6-11eb-967c-5ef7898b55dc.png)
